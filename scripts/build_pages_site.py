@@ -33,6 +33,12 @@ def clean_output_dir(output_dir: Path) -> None:
             file_path.unlink()
 
 
+def pick_latest_file(files: list[Path], file_type: str, output_dir: Path) -> Path:
+    if not files:
+        raise RuntimeError(f"Expected at least 1 {file_type} in {output_dir}, found 0")
+    return max(files, key=lambda file_path: (file_path.stat().st_mtime, file_path.name))
+
+
 def build_template(template_path: Path) -> dict[str, str]:
     language = template_path.parent.name
     template_name = template_path.stem
@@ -47,17 +53,15 @@ def build_template(template_path: Path) -> dict[str, str]:
 
     html_files = sorted(output_dir.glob("*.html"))
     pdf_files = sorted(output_dir.glob("*.pdf"))
-    if len(html_files) != 1 or len(pdf_files) != 1:
-        raise RuntimeError(
-            f"Expected exactly 1 HTML and 1 PDF in {output_dir}, found {len(html_files)} HTML and {len(pdf_files)} PDF"
-        )
+    html_file = pick_latest_file(html_files, "HTML", output_dir)
+    pdf_file = pick_latest_file(pdf_files, "PDF", output_dir)
 
     target_dir = SITE_DIR / language / template_name
     target_dir.mkdir(parents=True, exist_ok=True)
     target_pdf_name = f"CV_{language}_{template_name}.pdf"
 
-    shutil.copy2(html_files[0], target_dir / "index.html")
-    shutil.copy2(pdf_files[0], target_dir / target_pdf_name)
+    shutil.copy2(html_file, target_dir / "index.html")
+    shutil.copy2(pdf_file, target_dir / target_pdf_name)
 
     return {
         "language": language,

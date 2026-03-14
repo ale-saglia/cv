@@ -53,13 +53,20 @@ jobs:
             echo "Render sanitized preview: $yaml_file"
             python scripts/injector.py --dry-run render "$yaml_file"
 
-            mapfile -t generated_pdfs < <(find "$out_dir" -maxdepth 1 -type f -name "*.pdf" | sort)
-            if [ ${#generated_pdfs[@]} -ne 1 ]; then
-              echo "Expected 1 PDF in $out_dir, found ${#generated_pdfs[@]}"
+            shopt -s nullglob
+            generated_pdfs=("$out_dir"/*.pdf)
+            shopt -u nullglob
+
+            if [ ${#generated_pdfs[@]} -eq 0 ]; then
+              echo "Expected at least 1 PDF in $out_dir, found 0"
               exit 1
             fi
 
-            latest_pdf="${generated_pdfs[0]}"
+            latest_pdf="$(ls -1t "${generated_pdfs[@]}" | head -n 1)"
+            if [ ${#generated_pdfs[@]} -gt 1 ]; then
+              echo "Multiple PDFs found in $out_dir (${#generated_pdfs[@]}). Using most recent: $latest_pdf"
+            fi
+
             target_pdf="$out_dir/CV_${lang}_${cv_type}.pdf"
 
             mv "$latest_pdf" "$target_pdf"
