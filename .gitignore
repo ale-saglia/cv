@@ -1,19 +1,52 @@
-# Secrets
+# ---------------------------
+# Secrets / sensitive material
+# ---------------------------
+# Plaintext secrets (never commit)
 src/secret.yaml
+src/secret.yml
+
+# Encrypted secrets (kept local by design in this repo)
 src/secret.enc.yaml
-**/*.enc.yaml
-**/*.enc.yml
+src/secret.enc.yml
+
+# sops temporary / backup files
 **/*.decrypted~*
+**/*.encrypted~*
+**/.sops.*
+**/*.sops
 
+# ---------------------------
 # Injector temporary files
+# ---------------------------
+**/*.injected.tmp.yaml
+**/*.injected.tmp.yml
 **/*.tmp.yaml
+**/*.tmp.yml
 
-# RenderCV output
+# ---------------------------
+# RenderCV output (generated)
+# ---------------------------
 **/rendercv_output/
+site/
 
-# Python environment
+# ---------------------------
+# Python
+# ---------------------------
 .venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+dist/
+build/
+*.egg-info/
 
-# macOS
-**/.DS_Store
-**/.vscode/
+# ---------------------------
+# OS / editors
+# ---------------------------
+.DS_Store
+.vscode/
+.idea/
