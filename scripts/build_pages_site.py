@@ -92,10 +92,11 @@ def write_index(entries: list[dict[str, str]]) -> None:
       body {{
         margin: 0;
         font-family: Georgia, 'Times New Roman', serif;
-        background: linear-gradient(180deg, #f5f1ea 0%, #ffffff 100%);
+                line-height: 1.5;
+                background-color: #f8f7f4;
         color: #1d1d1d;
       }}
-      main {{ max-width: 760px; margin: 0 auto; padding: 48px 24px 64px; }}
+            main {{ max-width: 760px; min-height: 100vh; box-sizing: border-box; margin: 0 auto; padding: 48px 24px 64px; }}
       h1 {{ margin: 0 0 12px; font-size: 2.2rem; }}
       p {{ line-height: 1.6; color: #444; }}
       ul {{ padding-left: 20px; line-height: 1.9; }}
