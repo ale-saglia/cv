@@ -3,3 +3,6 @@ rendercv[full]==2.7
 
 # YAML handling for injector.py
 pyyaml==6.0.3
+
+# Linting tool used by CI and local checks
+ruff==0.13.2

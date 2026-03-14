@@ -5,17 +5,18 @@ This repository contains the source files for my professional curriculum vitae, 
 ## 🛠️ Tech Stack
 *   **Framework:** [RenderCV](https://github.com/sinaatalay/rendercv) — transforms YAML data into professional documents (PDF, HTML, Markdown, Typst).
 *   **Data Format:** YAML (structured professional data with anchor/alias support).
+*   **Code Quality:** [ruff](https://github.com/astral-sh/ruff) for Python linting (local + CI).
 *   **Secrets Management:** [sops](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age) encryption.
 *   **Output Formats:** PDF, Markdown, HTML, Typst.
 *   **Version Control:** Git.
 
-Repository note: documentation is written in English and repository comments/configuration are kept in English for consistency.
+Repository note: all documentation, comments, and configuration are kept in English for consistency.
 
 ## 🏛️ Rationale
-As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, I believe that even a resume should reflect "Systems Awareness". Managing my CV as code allows for:
+As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, I believe that even a resume should reflect *systems awareness*. Managing my CV as code enables:
 *   **Technical Consistency:** Precise management of technical milestones and career evolution.
 *   **Career Versioning:** Tracking the evolution of my roles, from **Legal Enforcement** in local government to **Healthcare Digital Governance** at a regional level.
-*   **Privacy by Design:** Sensitive personal data (eg. birthplace and date, phone, email...) is encrypted at rest with sops and injected at render time only.
+*   **Privacy by Design:** Sensitive personal data (e.g., birthplace, date of birth, phone, email) is encrypted at rest with sops and injected only at render time.
 
 ## 📂 Repository Structure
 
@@ -79,7 +80,7 @@ Do not commit `src/secret.yaml` or `src/secret.enc.yaml`.
 # English CV
 python scripts/injector.py render src/en/master.yaml
 
-# Another English variant (example)
+# Another English variant (if present)
 python scripts/injector.py render src/en/one-page.yaml
 ```
 
@@ -107,7 +108,6 @@ Output is generated in `src/<lang>/rendercv_output/`.
 The `Render Preview` workflow runs `injector.py --dry-run`, renders all CV YAML files under `src/<lang>/` (excluding locale/config overlays), and uploads sanitized public artifacts as:
 
 - `CV_en_master.pdf`
-- `CV_it_master.pdf`
 - `CV_<lang>_<template>.pdf` (generic pattern)
 
 This workflow does not require local/remote secret files.
@@ -130,10 +130,12 @@ sops --encrypt src/secret.yaml > src/secret.enc.yaml
 
 | Component | Version |
 |-----------|--------|
-| Python | 3.13 |
+| Python | 3.13 (CI baseline) |
 | rendercv | 2.7 |
 | PyYAML | 6.0.3 |
-| ruff (CI) | latest |
+| ruff | 0.13.2 |
+
+The repository is tested in CI with Python 3.13. Newer local versions may work, but 3.13 is the reference runtime for reproducible checks.
 
 ## 📄 License
 

@@ -36,7 +36,7 @@ jobs:
             ! -path "*/rendercv_output/*" | sort)
 
           if [ ${#yaml_files[@]} -eq 0 ]; then
-            echo "Nessun file YAML trovato sotto src/."
+            echo "No YAML files found under src/."
             exit 1
           fi
 
@@ -55,7 +55,7 @@ jobs:
 
             mapfile -t generated_pdfs < <(find "$out_dir" -maxdepth 1 -type f -name "*.pdf" | sort)
             if [ ${#generated_pdfs[@]} -ne 1 ]; then
-              echo "Atteso 1 PDF in $out_dir, trovati ${#generated_pdfs[@]}"
+              echo "Expected 1 PDF in $out_dir, found ${#generated_pdfs[@]}"
               exit 1
             fi
 
@@ -63,7 +63,7 @@ jobs:
             target_pdf="$out_dir/CV_${lang}_${cv_type}.pdf"
 
             mv "$latest_pdf" "$target_pdf"
-            echo "Creato: $target_pdf"
+            echo "Created: $target_pdf"
           done
 
       - name: Upload PDF artifact
