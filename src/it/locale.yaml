@@ -1,2 +1,36 @@
 locale:
   language: italian
+  last_updated: "Aggiornato a "
+  month: mese
+  months: mesi
+  year: anno
+  years: anni
+  present: in corso
+  phrases:
+    degree_with_area: DEGREE in AREA
+  month_abbreviations:
+    - Gen
+    - Feb
+    - Mar
+    - Apr
+    - Mag
+    - Giu
+    - Lugl
+    - Ago
+    - Set
+    - Ott
+    - Nov
+    - Dic
+  month_names:
+    - Gennaio
+    - Febbraio
+    - Marzo
+    - Aprile
+    - Maggio
+    - Giugno
+    - Luglio
+    - Agosto
+    - Settembre
+    - Ottobre
+    - Novembre
+    - Dicembre
