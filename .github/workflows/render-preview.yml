@@ -1,10 +1,7 @@
 name: Render Preview
 
 on:
-  push:
-    branches: ["**"]
   pull_request:
-    branches: ["**"]
   workflow_dispatch:
 
 env:
@@ -12,7 +9,7 @@ env:
 
 jobs:
   render:
-    name: Render (no secrets)
+    name: Render sanitized preview
     runs-on: ubuntu-latest
     env:
       NODE_OPTIONS: --no-deprecation
@@ -29,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install "rendercv[full]==2.7" pyyaml==6.0.3 --quiet
 
-      - name: Render all CV YAMLs (dry-run)
+      - name: Render all CV YAMLs (sanitized)
         run: |
           set -euo pipefail
 
@@ -53,7 +50,7 @@ jobs:
             mkdir -p "$out_dir"
             rm -f "$out_dir"/*.pdf "$out_dir"/*.png "$out_dir"/*.md "$out_dir"/*.html "$out_dir"/*.typ || true
 
-            echo "Render dry-run: $yaml_file"
+            echo "Render sanitized preview: $yaml_file"
             python scripts/injector.py --dry-run render "$yaml_file"
 
             mapfile -t generated_pdfs < <(find "$out_dir" -maxdepth 1 -type f -name "*.pdf" | sort)

@@ -55,7 +55,7 @@ brew install sops age
 
 You also need your age private key available in the default location (`~/.config/sops/age/keys.txt`) or exported as `SOPS_AGE_KEY`.
 
-Note: the value in `.sops.yaml` is an age **public recipient key** (safe to commit). The private key is never committed.
+Note: the value in `.sops.yaml` is an age **public recipient key** (safe to commit), not a private key. The private key is never committed.
 
 ### Local secrets setup
 
@@ -102,9 +102,9 @@ The injected render template may contain secret values temporarily and is always
 
 Output is generated in `src/<lang>/rendercv_output/`.
 
-### Render preview without secrets (CI)
+### Render sanitized preview (CI)
 
-The `Render Preview` workflow runs `injector.py --dry-run`, renders all CV YAML files under `src/<lang>/` (excluding locale/config overlays), and uploads artifacts as:
+The `Render Preview` workflow runs `injector.py --dry-run`, renders all CV YAML files under `src/<lang>/` (excluding locale/config overlays), and uploads sanitized public artifacts as:
 
 - `CV_en_master.pdf`
 - `CV_it_master.pdf`
@@ -114,7 +114,7 @@ This workflow does not require local/remote secret files.
 
 ### One-click preview
 
-The repository publishes all available public CV variants through GitHub Pages on pushes to `main`.
+The repository publishes all available sanitized public CV variants through GitHub Pages on pushes to `main`.
 Pages generates a dynamic index and exposes, for each available template under `src/<lang>/`, both:
 
 - an HTML preview
@@ -133,6 +133,7 @@ sops --encrypt src/secret.yaml > src/secret.enc.yaml
 | Python | 3.13 |
 | rendercv | 2.7 |
 | PyYAML | 6.0.3 |
+| ruff (CI) | latest |
 
 ## 📄 License
 

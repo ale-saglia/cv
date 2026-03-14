@@ -1,10 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: ["**"]
-  pull_request:
-    branches: ["**"]
+on: [push, pull_request]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
@@ -38,12 +34,20 @@ jobs:
           from pathlib import Path
           import yaml
 
-          files = list(Path("src").rglob("*.yaml")) + list(Path("src").rglob("*.yml"))
+          files = []
+          files.extend(Path("src").rglob("*.yaml"))
+          files.extend(Path("src").rglob("*.yml"))
+          files.extend(Path(".github/workflows").glob("*.yml"))
+
+          sops_config = Path(".sops.yaml")
+          if sops_config.exists():
+            files.append(sops_config)
+
           # Exclude encrypted files (not valid plain YAML)
-          files = [f for f in files if ".enc." not in f.name]
+          files = sorted({f for f in files if ".enc." not in f.name})
 
           errors = []
-          for path in sorted(files):
+          for path in files:
               try:
                   with path.open(encoding="utf-8") as fh:
                       yaml.safe_load(fh)

@@ -18,10 +18,8 @@ src/secret.enc.yml
 # ---------------------------
 # Injector temporary files
 # ---------------------------
-**/*.injected.tmp.yaml
-**/*.injected.tmp.yml
-**/*.tmp.yaml
-**/*.tmp.yml
+**/*.injected.*.yaml
+**/*.injected.*.yml
 
 # ---------------------------
 # RenderCV output (generated)

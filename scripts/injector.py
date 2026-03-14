@@ -11,7 +11,7 @@ Flow:
 Notes:
 - Secrets are never written to a dedicated decrypted file on disk.
 - The temporary injected YAML may contain secrets briefly, but it is always removed at the end.
-- In --dry-run mode, placeholders are stripped (replaced with empty YAML scalars) without decrypting secrets.
+- In --dry-run mode, YAML lines containing `${SECRET_*}` placeholders are removed without decrypting secrets.
 """
 
 from __future__ import annotations
@@ -280,7 +280,7 @@ def safe_remove(path: Path) -> None:
 
 
 def strip_placeholders(template_path: Path) -> Path:
-    """Dry-run mode: remove YAML lines that contain `${SECRET_*}` placeholders.
+    """Dry-run mode: remove YAML lines containing `${SECRET_*}` placeholders.
 
     This keeps the original file untouched and generates a temporary sanitized YAML
     without secret-bound fields.
@@ -311,7 +311,7 @@ def main() -> None:
     """Entry point: decrypt -> inject -> render -> cleanup.
 
     Flags:
-      --dry-run   Replace placeholders without decrypting secrets.
+            --dry-run   Remove secret-placeholder lines without decrypting secrets.
     """
     args = sys.argv[1:]
     dry_run = "--dry-run" in args

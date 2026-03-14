@@ -1,4 +1,5 @@
 # sops configuration for Alessandro Saglia CV
+# The age value below is a public recipient key, not a private key.
 creation_rules:
   # Apply these rules to all files ending with .enc.yaml
   - path_regex: .*\.enc\.yaml$
