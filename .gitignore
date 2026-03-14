@@ -1,0 +1,19 @@
+# Secrets
+src/secret.yaml
+src/secret.enc.yaml
+**/*.enc.yaml
+**/*.enc.yml
+**/*.decrypted~*
+
+# Injector temporary files
+**/*.tmp.yaml
+
+# RenderCV output
+**/rendercv_output/
+
+# Python environment
+.venv/
+
+# macOS
+**/.DS_Store
+**/.vscode/

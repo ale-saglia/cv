@@ -1,0 +1,247 @@
+cv:
+  name: Alessandro Saglia
+  headline:
+  location: ${SECRET_ADDRESS}
+  email: ${SECRET_EMAIL}
+  photo:
+  phone: ${SECRET_PHONE}
+  website:
+  social_networks:
+    - network: LinkedIn
+      username: asaglia
+    - network: GitHub
+      username: ale-saglia
+  custom_connections:
+  sections:
+    summary:
+      - Public sector professional working on digital governance initiatives in
+        regional healthcare systems, including AI experimentation in primary
+        care, telemedicine infrastructure and healthcare data interoperability.
+        Interested in digital public services, data governance and European
+        digital policy.
+    experience:
+      - company: Regional Government of Piedmont
+        position: Digital Governance - Healthcare Systems
+        date:
+        start_date: 2025-12
+        end_date: present
+        location: Turin, Italy
+        summary: Supporting regional digital health transformation through AI
+          governance, data interoperability, and institutional coordination.
+        highlights:
+          - "**Digital health governance**: Support the governance of regional
+            digital health initiatives, including telemedicine infrastructure,
+            AI experimentation in primary care, and broader healthcare digital
+            transformation programmes."
+          - "**Inter-institutional coordination**: Participate in working groups
+            and coordination activities involving regional authorities,
+            healthcare organisations and national agencies on digital health
+            systems and data interoperability."
+          - "**Project monitoring**: Monitor the implementation of digital
+            health projects, identifying potential operational, organisational
+            and policy risks related to complex healthcare digital systems."
+          - "**Technical and regulatory analysis**: Analyse technical
+            documentation, project deliverables, and regulatory frameworks
+            related to healthcare digital infrastructure and data systems."
+          - "**Stakeholder coordination**: Facilitate coordination between
+            public administration, healthcare providers, and technology partners
+            involved in regional digital health initiatives."
+          - "**Policy implementation**: Support the implementation of regional
+            digital transformation policies in the healthcare sector through
+            monitoring activities and administrative coordination."
+          - "**Systems awareness**: Develop situational awareness of regional
+            digital health infrastructure, ongoing transformation initiatives
+            and emerging governance challenges."
+          - "**Digital health initiatives**: Contribute to governance and
+            monitoring activities related to AI in healthcare, telemedicine
+            platforms, and healthcare data interoperability initiatives."
+      - company: Municipality of Santa Vittoria d'Alba
+        position: Digital Transformation & Legal Enforcement Officer
+        start_date: 2021-08
+        end_date: 2025-11
+        location: Italy
+        summary: Led PNRR-funded digital projects and API integrations while exercising
+          judicial and administrative legal authority.
+        highlights:
+          - "**Administrative enforcement**: Conduct regulatory inspections and
+            administrative enforcement activities related to municipal
+            regulations and public safety provisions."
+          - "**Legal & Institutional Accountability**: Represented the
+            municipality in court (Justice of the Peace) and at formal events;
+            drafted and interpreted municipal acts and local regulatory
+            frameworks"
+          - "**Emergency & Public Safety Management**: Coordinated police
+            operations and Civil Protection responses during local emergencies,
+            ensuring public safety and strict procedural compliance"
+          - "**Conflict Mediation & Public Relations**: Managed complex
+            interactions with citizens and stakeholders in high-pressure or
+            conflictual scenarios, ensuring regulatory compliance through
+            effective communication."
+          - "**Digital Transformation (PNRR)**: Directed PNRR-funded projects
+            (SEND, PDND/SUE API), serving as the primary technical liaison
+            between the administration and external technology vendors"
+          - "**Process Scaling & Automation**: Digitized the traffic fine
+            workflow via SEND and Cloud integration, successfully scaling volume
+            to 200+ units/year with zero headcount growth"
+          - "**Cross-Departmental ICT Support**: Provided internal technical
+            support and spearheaded the digitalization of administrative
+            workflows and internal processes across various municipal offices"
+      - company: Sicurtea s.r.l.
+        position: Compliance & Digital Transformation Development
+        start_date: 2019-08
+        end_date: 2021-07
+        location: Piobesi d'Alba
+        summary: Developed open-source compliance management tools and supported
+          regulatory audits for public and private clients.
+        date:
+        highlights:
+          - "**Full-stack Development**: Designed and developed **DESU**, an
+            open-source Java and Python tool to automate the tracking of
+            regulatory compliance deadlines."
+          - "**Regulatory Compliance**: Conducted technical inspections and
+            measurements to support risk assessments and workplace safety audits
+            in **highly regulated sectors**."
+      - company: Lentalanga
+        position: Operations & Digital Management
+        start_date: "2012"
+        end_date: 2019-11
+        location: Diano d'Alba
+        summary: Managed administrative operations and digital adoption for a
+          hospitality business, focusing on process sustainability.
+        highlights:
+          - "**Business Administration**: Oversaw organizational processes,
+            budgeting, and financial planning in a non-structured environment."
+          - "**Digital Adoption**: Implemented digital communication and
+            promotion initiatives to drive business growth and stakeholder
+            engagement."
+          - "**Stakeholder Management**: Coordinated relationships with national
+            and international stakeholders and managed facility maintenance
+            workflows."
+      - company: Sicurtea s.r.l.
+        position: Safety Compliance Intern
+        start_date:
+        end_date:
+        location: Piobesi d'Alba, Italy
+        date: Summer 2011
+        summary: Supported regulatory compliance and technical documentation for
+          occupational health and safety.
+        highlights:
+          - "**Audit Support**: Assisted in the drafting of Risk Assessment
+            Documents (DVR) and participated in regulatory safety audits."
+          - "**Data Management**: Performed structured data collection and
+            prepared technical documentation for compliance processes in
+            regulated environments."
+    education:
+      - institution: University of Turin
+        area: "Digital Public Administration and Law "
+        degree: Bachelor’s degree
+        date:
+        start_date: 2022-09
+        end_date: present
+        location:
+        summary: Focusing on administrative law, public sector digitalization, and the
+          legal framework of data governance.
+        highlights:
+          - "Thesis: Data in the Digital Transformation of Public Administration​"
+          - "Academic Minor: Diploma in Digital Innovation (DID) awarded by the
+            Department of Law, University of Turin. Advanced training focused on
+            digital innovation in public administration, data governance and
+            emerging technologies."
+      - institution: Guglielmo Marconi University
+        area: Computer Engineering – Artificial Intelligence curriculum
+        degree: Bachelor’s degree
+        start_date: 2026-03
+        end_date: present
+        location:
+        summary: Focusing on AI systems, data architecture, and technical implementation
+          of intelligent solutions.
+        highlights:
+          - Current studies centered on machine learning, neural networks, and
+            the architectural requirements for scalable AI systems.
+      - institution: I.I.S. G. Vallauri
+        area: STEM
+        degree: High School Diploma
+        start_date: 2009-09
+        end_date: 2014-07
+        summary: Early exposure to STEM disciplines and computer programming.
+        highlights:
+          - Coursework included Visual Basic, SQL, and foundations of software
+            logic.
+        location: Fossano, Italy
+    volunteering:
+      - company: Google Developer Group Torino
+        position: Community Team Leader
+        start_date: 2016-09
+        end_date: 2019-10
+        location: Turin, Italy
+        summary: Led a tech community focusing on developer engagement, technical
+          content, and cloud technology ecosystems.
+        highlights:
+          - "**Strategic Leadership**: Directed the communication team and
+            orchestrated content strategy, planning, and community engagement."
+          - "**Event Coordination**: Organized technical workshops and
+            large-scale events centered on Flutter, Google Cloud, and emerging
+            software engineering trends."
+          - "**Partnership Management**: Served as the primary liaison between
+            the community, Google, and various technology partners."
+      - company: Reply S.p.A.
+        position: Student Brand Ambassador
+        start_date: 2016-01
+        end_date: 2019-12
+        location: Italy
+        summary: Facilitated digital education initiatives and supported technical
+          communication activities.
+        highlights:
+          - '**Digital Education**: Delivered "Code for Kids" workshops to
+            schools, promoting digital literacy and early exposure to
+            programming'
+          - "**Technical Content**: Created technical articles and provided
+            social media coverage and organizational support for major corporate
+            tech events."
+      - company: ""
+        position: Open Source / Technical Contributions
+        start_date:
+        end_date:
+        location:
+        highlights:
+          - "**Void Linux packaging**: Contribute to package maintenance and
+            development within the Void Linux open-source distribution."
+          - "**Open source localisation**: Provide translation and localisation
+            contributions to open-source software projects."
+          - "**Technical community participation**: Engage with open-source
+            communities, contributing to documentation and collaborative
+            development processes."
+    certification:
+      - label: ISC2 Certified in Cybersecurity (CC)
+        details: Candidate (Exam expected April 2026)
+      - label: DigComp 2.1 - European Digital Competence Framework
+        details: Advanced Digital Skills - Level 6/6 in all areas (Information and data
+          literacy, Communication and collaboration, Content creation, Safety,
+          Problem solving)
+      - label: "ICDL Profile (Standard Certificate) "
+        details: "Modules completed: Online & Computer Essentials, Word Processing,
+          Spreadsheets, Presentations, Using Databases"
+      - label: "English: Level B2 (CEFR)"
+        details: Certified by University Language Centre (CLA-UniTO)
+    selected_honors:
+      - bullet: "**Winner - B-Innovative Challenge (2019)**: Developed a digitalization
+          strategy for traditional Piedmontese industrial players (e.g., Guido
+          Gobino, Galup)."
+      - bullet: '**Winner - E.B.E.C. Torino Case Study (2017)**: Designed a
+          biometric-based cardless payment system, presented at the "Salone dei
+          Pagamenti".'
+      - bullet: '**Winner - Serious Game Design (2016)**: Co-designed "Poleaf", an
+          augmented reality serious game to promote circular economy on
+          university campuses.'
+    skills:
+      - label: Legal & Governance
+        details: Public Administration, Policy Implementation, Regulatory Analysis,
+          Inter-institutional Coordination, Administrative Law, Digital
+          Governance
+      - label: Tech & Data
+        details: Digital Systems & Infrastructure Governance, Data Governance, Data
+          Interoperability, AI Governance, Cybersecurity Fundamentals, Digital
+          Infrastructure Concepts
+      - label: Soft Skills
+        details: Policy Analysis, Stakeholder Coordination, Strategic Thinking,
+          Cross-disciplinary Communication, Systems Thinking

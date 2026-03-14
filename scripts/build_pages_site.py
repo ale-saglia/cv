@@ -1,0 +1,135 @@
+import html
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+SRC_DIR = ROOT_DIR / "src"
+SITE_DIR = ROOT_DIR / "site"
+
+
+def discover_templates() -> list[Path]:
+    templates = []
+    for path in sorted(SRC_DIR.glob("*/*")):
+        if path.suffix not in {".yaml", ".yml"}:
+            continue
+        if path.name == "locale.yaml":
+            continue
+        if ".enc." in path.name:
+            continue
+        if "rendercv_output" in path.parts:
+            continue
+        templates.append(path)
+    return templates
+
+
+def clean_output_dir(output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for pattern in ("*.pdf", "*.png", "*.md", "*.html", "*.typ"):
+        for file_path in output_dir.glob(pattern):
+            file_path.unlink()
+
+
+def build_template(template_path: Path) -> dict[str, str]:
+    language = template_path.parent.name
+    template_name = template_path.stem
+    output_dir = template_path.parent / "rendercv_output"
+    clean_output_dir(output_dir)
+
+    subprocess.run(
+        [sys.executable, str(ROOT_DIR / "scripts" / "injector.py"), "--dry-run", "render", str(template_path)],
+        cwd=ROOT_DIR,
+        check=True,
+    )
+
+    html_files = sorted(output_dir.glob("*.html"))
+    pdf_files = sorted(output_dir.glob("*.pdf"))
+    if len(html_files) != 1 or len(pdf_files) != 1:
+        raise RuntimeError(
+            f"Expected exactly 1 HTML and 1 PDF in {output_dir}, found {len(html_files)} HTML and {len(pdf_files)} PDF"
+        )
+
+    target_dir = SITE_DIR / language / template_name
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target_pdf_name = f"CV_{language}_{template_name}.pdf"
+
+    shutil.copy2(html_files[0], target_dir / "index.html")
+    shutil.copy2(pdf_files[0], target_dir / target_pdf_name)
+
+    return {
+        "language": language,
+        "template": template_name,
+        "html": f"{language}/{template_name}/",
+        "pdf": f"{language}/{template_name}/{target_pdf_name}",
+    }
+
+
+def write_index(entries: list[dict[str, str]]) -> None:
+    entries.sort(key=lambda entry: (entry["language"], entry["template"]))
+    items = []
+    for entry in entries:
+        language = html.escape(entry["language"])
+        template_name = html.escape(entry["template"])
+        html_path = html.escape(entry["html"])
+        pdf_path = html.escape(entry["pdf"])
+        items.append(
+            f"<li><strong>{language}/{template_name}</strong> "
+            f"<a href=\"{html_path}\">HTML</a> "
+            f"<a href=\"{pdf_path}\">PDF</a></li>"
+        )
+
+    index = f"""<!doctype html>
+<html lang=\"en\">
+  <head>
+    <meta charset=\"utf-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+    <title>Alessandro Saglia | CV Index</title>
+    <style>
+      :root {{ color-scheme: light; }}
+      body {{
+        margin: 0;
+        font-family: Georgia, 'Times New Roman', serif;
+        background: linear-gradient(180deg, #f5f1ea 0%, #ffffff 100%);
+        color: #1d1d1d;
+      }}
+      main {{ max-width: 760px; margin: 0 auto; padding: 48px 24px 64px; }}
+      h1 {{ margin: 0 0 12px; font-size: 2.2rem; }}
+      p {{ line-height: 1.6; color: #444; }}
+      ul {{ padding-left: 20px; line-height: 1.9; }}
+      a {{ color: #0b57d0; text-decoration: none; }}
+      a:hover {{ text-decoration: underline; }}
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Curriculum Vitae</h1>
+      <p>Available public previews generated automatically from the RenderCV sources.</p>
+      <ul>
+        {''.join(items)}
+      </ul>
+    </main>
+  </body>
+</html>
+"""
+    (SITE_DIR / "index.html").write_text(index, encoding="utf-8")
+
+
+def main() -> None:
+    templates = discover_templates()
+    if not templates:
+        raise RuntimeError("No CV templates found under src/<lang>/.")
+
+    if SITE_DIR.exists():
+        shutil.rmtree(SITE_DIR)
+    SITE_DIR.mkdir(parents=True, exist_ok=True)
+
+    entries = [build_template(template_path) for template_path in templates]
+    write_index(entries)
+    print(json.dumps(entries, indent=2))
+
+
+if __name__ == "__main__":
+    main()
