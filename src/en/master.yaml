@@ -95,9 +95,9 @@ cv:
           regulatory audits for public and private clients.
         date:
         highlights:
-          - "**Full-stack Development**: Designed and developed **DESU**, an
-            open-source Java and Python tool to automate the tracking of
-            regulatory compliance deadlines."
+          - "**Process digitalisation**: Built DESU, an open-source tool to track 
+            regulatory deadlines and support audit readiness; 
+            integrated a PostgreSQL-backed data model and a desktop UI."
           - "**Regulatory Compliance**: Conducted technical inspections and
             measurements to support risk assessments and workplace safety audits
             in **highly regulated sectors**."
