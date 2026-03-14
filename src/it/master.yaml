@@ -1,0 +1,225 @@
+cv:
+  name: Alessandro Saglia
+  headline:
+  location: Torino, Italia
+  email:
+  photo:
+  phone:
+  website:
+  social_networks:
+    - network: LinkedIn
+      username: asaglia
+    - network: GitHub
+      username: ale-saglia
+  custom_connections:
+  sections:
+    In breve:
+      - Professionista del settore pubblico impegnato in iniziative di
+        trasformazione digitale, governance dei dati e sviluppo dei sistemi
+        informativi nel sistema sanitario regionale. Attualmente coinvolto in
+        attività di coordinamento istituzionale, monitoraggio di progetti
+        digitali complessi e analisi tecnico-normativa relative a sanità
+        digitale, interoperabilità dei dati sanitari e sperimentazione di
+        sistemi di intelligenza artificiale in ambito sanitario.
+    Esperienza lavorativa:
+      - company: Regione Piemonte
+        position: Istruttore addetto ai servizi digitali - Sanità Digitale
+        date:
+        start_date: 2025-12
+        end_date: present
+        location: Torino
+        summary: Supporto alla trasformazione digitale e alla governance dei sistemi
+          informativi sanitari regionali, con attività di coordinamento
+          istituzionale, monitoraggio di progetti e analisi tecnico-normativa.
+        highlights:
+          - supporto alla governance di iniziative di sanità digitale
+          - monitoraggio dell’implementazione di sistemi informativi sanitari
+          - analisi di documentazione tecnica e normativa relativa a
+            interoperabilità dei dati sanitari
+          - supporto alla sperimentazione di soluzioni di intelligenza
+            artificiale in ambito sanitario
+          - coordinamento tra strutture regionali, aziende sanitarie e fornitori
+            tecnologici
+      - company: Comune di Santa Vittoria d'Alba
+        position: Agente di Polizia Locale e Staff Transizione Digitale
+        start_date: 2021-08
+        end_date: 2025-11
+        location:
+        summary: Attività svolta in un ente locale di piccole dimensioni, caratterizzato
+          da strutture organizzative snelle e da una forte trasversalità
+          operativa. Il ruolo ha combinato funzioni di polizia amministrativa e
+          giudiziaria con responsabilità nella gestione di progetti di
+          digitalizzazione e innovazione amministrativa.
+        highlights:
+          - svolgimento di attività di polizia amministrativa, polizia stradale
+            e polizia giudiziaria, con gestione dei procedimenti sanzionatori e
+            applicazione della normativa locale
+          - rappresentanza dell’amministrazione comunale nei procedimenti
+            relativi alle sanzioni amministrative e gestione dei rapporti con
+            cittadini e operatori economici
+          - supporto operativo in attività di protezione civile e gestione delle
+            emergenze locali
+          - coordinamento di progetti di trasformazione digitale finanziati dal
+            PNRR, operando come punto di raccordo tra amministrazione e
+            fornitori tecnologici
+          - attivazione dei servizi di notifica digitale tramite piattaforma
+            SEND e digitalizzazione del processo di gestione dei verbali del
+            Codice della Strada
+          - integrazione con la Piattaforma Digitale Nazionale Dati (PDND) per
+            l’esposizione di API relative ai dati del Sportello Unico per
+            l’Edilizia (SUE)
+          - supporto ICT interno agli uffici comunali e digitalizzazione dei
+            flussi amministrativi
+      - company: Sicurtea s.r.l.
+        position: Compliance e Processi Digitali
+        start_date: 2019-08
+        end_date: 2021-07
+        location: Piobesi d'Alba
+        summary: Collaborazione su attività di compliance normativa e sicurezza sul
+          lavoro per clienti pubblici e privati, con integrazione di strumenti
+          digitali a supporto dei processi di monitoraggio e gestione delle
+          scadenze regolatorie.
+        date:
+        highlights:
+          - supporto tecnico a sopralluoghi e attività di valutazione dei rischi
+            in materia di salute e sicurezza sul lavoro
+          - raccolta e analisi di dati tecnici a supporto della documentazione
+            di conformità normativa
+          - sviluppo del software gestionale open source DESU (Java) per il
+            monitoraggio delle scadenze normative
+          - supporto ai processi di audit e verifica documentale in contesti
+            regolati
+      - company: Lentalanga
+        position: Gestore attività turistico-ricettiva
+        start_date: "2012"
+        end_date: 2019-11
+        location: Diano d'Alba
+        summary: Gestione operativa e amministrativa di un’attività ricettiva in
+          contesto imprenditoriale familiare, con responsabilità su
+          organizzazione, sostenibilità economica e introduzione di strumenti
+          digitali.
+        highlights:
+          - gestione amministrativa e pianificazione finanziaria dell’attività
+          - coordinamento delle attività operative e di manutenzione della
+            struttura
+          - sviluppo di iniziative di promozione e comunicazione digitale
+          - gestione delle relazioni con clienti e stakeholder nazionali e
+            internazionali
+      - company: Sicurtea s.r.l.
+        position: Tirocinio – Sicurezza sul lavoro
+        start_date:
+        end_date:
+        location: Piobesi d'Alba
+        date: Estate 2011
+        summary: Esperienza di tirocinio formativo in attività di supporto ai processi
+          di sicurezza sul lavoro e gestione della documentazione tecnica.
+        highlights:
+          - supporto alla redazione della documentazione relativa alla
+            valutazione dei rischi (DVR)
+          - partecipazione ad attività di audit e verifica della conformità
+            normativa
+          - raccolta e organizzazione dei dati tecnici necessari ai processi di
+            sicurezza
+    formazione:
+      - institution: Università di Torino
+        area: Scienze dell'Amministrazione Digitale
+        degree: Laurea Triennale
+        date:
+        start_date: 2022-09
+        end_date: present
+        location:
+        summary: >-
+          Percorso di studi incentrato su diritto pubblico e amministrativo,
+          organizzazione della pubblica amministrazione, governance dei processi
+          e trasformazione digitale.
+
+
+          Approfondimento delle tematiche legate a digitalizzazione dei
+          procedimenti, gestione dei dati pubblici, innovazione amministrativa e
+          regolazione dei sistemi digitali, con particolare attenzione ai
+          contesti pubblici e regolati.
+        highlights:
+          - "Tesi: Dati nella trasformazione digitale della pubblica
+            amministrazione"
+          - "Academic Minor: Diploma in Innovazione Digitale (DID). Percorso di
+            approfondimento su innovazione digitale nella PA, governance dei
+            dati e tecnologie emergenti."
+      - institution: Università Guglielmo Marconi
+        area: Ingegneria Informatica - Curriculum Intelligenza Artificiale
+        degree: Laurea Triennale
+        start_date: 2026-03
+        end_date: present
+        location:
+        summary: Percorso di studi orientato ai fondamenti dell’informatica,
+          dell’intelligenza artificiale e delle architetture dei sistemi
+          digitali, con particolare interesse per l’applicazione delle
+          tecnologie AI in contesti pubblici e regolati.
+        highlights: []
+      - institution: I.I.S. G. Vallauri
+        area: Liceo Scientifico Tecnologico
+        degree: Diploma
+        start_date: 2009-09
+        end_date: 2014-07
+        summary: Percorso di istruzione secondaria con forte orientamento scientifico e
+          tecnologico, caratterizzato da un’introduzione alla programmazione
+          informatica (Visual Basic, SQL) e a discipline STEM, con minore enfasi
+          sulle materie umanistiche tradizionali.
+        highlights: []
+        location: Fossano
+    volontariato:
+      - company: Google Developer Group Torino
+        position: Community Team Leader
+        start_date: 2016-09
+        end_date: 2019-10
+        location: Turin, Italy
+        summary: Coordinamento delle attività di comunicazione della community, inclusa
+          la pianificazione dei contenuti, la gestione dei canali social e
+          l’organizzazione di eventi tecnici, curando il coinvolgimento della
+          community e i rapporti con partner tecnologici e stakeholder
+          all’interno di una rete internazionale.
+        highlights: []
+      - company: Reply S.p.A.
+        position: Student Brand Ambassador
+        start_date: 2016-01
+        end_date: 2019-12
+        location: Italy
+        summary: Supporto alle attività di comunicazione e divulgazione tecnologica di
+          Reply, attraverso l’organizzazione di iniziative di educazione
+          digitale, la realizzazione di contenuti tecnici e la partecipazione
+          all’organizzazione di eventi dedicati all’innovazione e allo sviluppo
+          software.
+        highlights: []
+      - company: ""
+        position: Contributi open source
+        start_date:
+        end_date:
+        location:
+        highlights:
+          - manutenzione di pacchetti nella distribuzione Linux Void Linux
+          - attività di traduzione e localizzazione di software open source
+          - partecipazione a comunità di sviluppo e documentazione tecnica
+        date:
+    certificati:
+      - label: ISC2 Certified in Cybersecurity (CC)
+        details: candidato (esame previsto aprile 2026)
+      - label: DigComp 2.1 - European Digital Competence Framework
+        details: Livello avanzato (6/6) in tutte le aree di competenza digitale
+      - label: ICDL
+        details: profilo standard
+      - label: Inglese B2 CEFR
+        details: CLA Università di Torino
+    riconoscimenti:
+      - bullet: Team vincitore B-Innovative Challenge (2019)
+      - bullet: Team vincitore EBEC Torino – Case Study (2017)
+      - bullet: Team vincitore Serious Game Design – Politecnico di Torino (2016)
+    competenze:
+      - label: Governance e diritto pubblico
+        details: Pubblica amministrazione, diritto amministrativo, policy digitali,
+          attuazione politiche pubbliche, coordinamento istituzionale
+      - label: Tecnologie e dati
+        details: Data governance, interoperabilità dei dati pubblici, infrastrutture
+          digitali della PA, intelligenza artificiale nel settore pubblico,
+          fondamenti di cybersecurity
+      - label: Competenze trasversali
+        details: Analisi di policy pubbliche, coordinamento di stakeholder,
+          comunicazione interdisciplinare, pensiero strategico, systems thinking
