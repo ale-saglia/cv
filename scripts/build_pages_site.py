@@ -26,8 +26,7 @@ def discover_templates() -> list[Path]:
             continue
         if path.name == "locale.yaml":
             continue
-        if ".enc." in path.name:
-            continue
+
         if "rendercv_output" in path.parts:
             continue
         templates.append(path)
