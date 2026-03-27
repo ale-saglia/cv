@@ -1,5 +1,13 @@
+"""Build a static GitHub Pages site from sanitized CV previews.
+
+Flow:
+1) Discover all CV YAML templates under src/<lang>/ (excluding locale/config overlays).
+2) Render each template via injector.py --dry-run (no secrets).
+3) Copy the generated HTML and PDF into site/<lang>/<template>/.
+4) Write a root index.html linking all available previews.
+"""
+
 import html
-import json
 import shutil
 import subprocess
 import sys
@@ -96,11 +104,11 @@ def write_index(entries: list[dict[str, str]]) -> None:
       body {{
         margin: 0;
         font-family: Georgia, 'Times New Roman', serif;
-                line-height: 1.5;
-                background-color: #f8f7f4;
+        line-height: 1.5;
+        background-color: #f8f7f4;
         color: #1d1d1d;
       }}
-            main {{ max-width: 760px; min-height: 100vh; box-sizing: border-box; margin: 0 auto; padding: 48px 24px 64px; }}
+      main {{ max-width: 760px; min-height: 100vh; box-sizing: border-box; margin: 0 auto; padding: 48px 24px 64px; }}
       h1 {{ margin: 0 0 12px; font-size: 2.2rem; }}
       p {{ line-height: 1.6; color: #444; }}
       ul {{ padding-left: 20px; line-height: 1.9; }}
@@ -133,7 +141,6 @@ def main() -> None:
 
     entries = [build_template(template_path) for template_path in templates]
     write_index(entries)
-    print(json.dumps(entries, indent=2))
 
 
 if __name__ == "__main__":
