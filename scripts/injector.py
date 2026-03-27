@@ -3,15 +3,16 @@
 This script enables a "CV-as-code" workflow with optional secret injection:
 
 Flow:
-1) Decrypt secrets with sops (in-memory).
+1) Load local plaintext secrets from src/secret.yaml when available.
 2) Inject secrets into the YAML template (placeholder substitution + fallback for empty cv fields).
 3) Run RenderCV using a temporary injected YAML file.
 4) Always clean up temporary files.
 
 Notes:
-- Secrets are never written to a dedicated decrypted file on disk.
+- The plaintext secret file is never committed and is ignored by git.
 - The temporary injected YAML may contain secrets briefly, but it is always removed at the end.
-- In --dry-run mode, YAML lines containing `${SECRET_*}` placeholders are removed without decrypting secrets.
+- In --dry-run mode, YAML lines containing `${SECRET_*}` placeholders are removed.
+- If src/secret.yaml is missing, the script automatically falls back to dry-run behavior.
 """
 
 from __future__ import annotations
@@ -29,14 +30,11 @@ import yaml
 ROOT_DIR = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT_DIR / "src"
 
-ENCRYPTED_SECRETS_PATH = SRC_DIR / "secret.enc.yaml"
+PLAINTEXT_SECRETS_PATH = SRC_DIR / "secret.yaml"
 
 GLOBAL_DESIGN_PATH = SRC_DIR / "design.yaml"
 GLOBAL_SETTINGS_PATH = SRC_DIR / "settings.yaml"
 LOCALE_FILE_NAME = "locale.yaml"
-
-SECRETS_ENV_VAR = "SOPS_AGE_KEY"
-
 
 def yaml_scalar(value: Any) -> str:
     """Serialize a Python value as an inline YAML scalar.
@@ -53,29 +51,14 @@ def yaml_scalar(value: Any) -> str:
     return dumped.splitlines()[0] if dumped else "''"
 
 
-def decrypt_secrets(encrypted_path: Path) -> dict[str, Any]:
-    """Decrypt the secrets file with sops and return the data in-memory."""
-    if not encrypted_path.exists():
-        raise FileNotFoundError(f"Encrypted secrets file not found: {encrypted_path}")
+def read_secrets(secrets_path: Path) -> dict[str, Any]:
+    """Read plaintext secrets from YAML and return a mapping."""
+    if not secrets_path.exists():
+        return {}
 
-    # Not strictly required (sops may use ~/.config/sops/age/keys.txt),
-    # but the note helps users understand why decryption might fail.
-    if SECRETS_ENV_VAR not in os.environ:
-        print(
-            f"Note: {SECRETS_ENV_VAR} is not set. sops will use the default key location if available.",
-            file=sys.stderr,
-        )
-
-    result = subprocess.run(
-        ["sops", "--decrypt", str(encrypted_path)],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-
-    data = yaml.safe_load(result.stdout) or {}
+    data = yaml.safe_load(secrets_path.read_text(encoding="utf-8")) or {}
     if not isinstance(data, dict):
-        raise ValueError("Decrypted secrets file does not contain a valid YAML mapping (dict).")
+        raise ValueError("Secrets file does not contain a valid YAML mapping (dict).")
     return data
 
 
@@ -279,7 +262,7 @@ def safe_remove(path: Path) -> None:
         print(f"Could not remove {path}: {error}", file=sys.stderr)
 
 
-def strip_placeholders(template_path: Path) -> Path:
+def strip_placeholders(template_path: Path, announce: bool = True) -> Path:
     """Dry-run mode: remove YAML lines containing `${SECRET_*}` placeholders.
 
     This keeps the original file untouched and generates a temporary sanitized YAML
@@ -303,15 +286,16 @@ def strip_placeholders(template_path: Path) -> Path:
         sanitized_content += "\n"
 
     temp_path = _write_temp_injected_yaml(sanitized_content, template_path)
-    print(f"Dry-run: removed {removed_count} YAML line(s) containing secret placeholders.")
+    if announce:
+        print(f"Dry-run: removed {removed_count} YAML line(s) containing secret placeholders.")
     return temp_path
 
 
 def main() -> None:
-    """Entry point: decrypt -> inject -> render -> cleanup.
+    """Entry point: load/inject -> render -> cleanup.
 
     Flags:
-            --dry-run   Remove secret-placeholder lines without decrypting secrets.
+        --dry-run   Remove secret-placeholder lines.
     """
     args = sys.argv[1:]
     dry_run = "--dry-run" in args
@@ -331,8 +315,11 @@ def main() -> None:
         if dry_run:
             temp_template_path = strip_placeholders(template_path)
         else:
-            secrets = decrypt_secrets(ENCRYPTED_SECRETS_PATH)
-            temp_template_path = inject_secrets_in_cv(template_path, secrets)
+            secrets = read_secrets(PLAINTEXT_SECRETS_PATH)
+            if secrets:
+                temp_template_path = inject_secrets_in_cv(template_path, secrets)
+            else:
+                temp_template_path = strip_placeholders(template_path, announce=False)
 
         exit_code = run_rendercv(render_args, template_arg_index, template_path, temp_template_path)
         if exit_code != 0:
@@ -341,14 +328,6 @@ def main() -> None:
     except KeyboardInterrupt:
         print("\nInterrupted by user.", file=sys.stderr)
         sys.exit(130)
-
-    except subprocess.CalledProcessError as error:
-        # Covers sops --decrypt errors (check=True) and similar cases.
-        if error.stdout:
-            print(error.stdout)
-        if error.stderr:
-            print(error.stderr, file=sys.stderr)
-        sys.exit(error.returncode)
 
     except Exception as error:
         print(f"Error: {error}", file=sys.stderr)

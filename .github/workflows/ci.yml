@@ -39,10 +39,6 @@ jobs:
           files.extend(Path("src").rglob("*.yml"))
           files.extend(Path(".github/workflows").glob("*.yml"))
 
-          sops_config = Path(".sops.yaml")
-          if sops_config.exists():
-            files.append(sops_config)
-
           # Exclude encrypted files (not valid plain YAML)
           files = sorted({f for f in files if ".enc." not in f.name})
 
