@@ -145,6 +145,8 @@ def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
     fallback_injected_keys: list[str] = []
 
     # Match simple `  field: value` entries at the first level inside `cv:`.
+    # NOTE: This parser handles only simple key: value patterns with two-space indentation.
+    # Inline comments, tab indentation, and multi-line values (| or >) are not supported.
     cv_line_pattern = re.compile(r"^(\s{2})([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$")
 
     for idx, line in enumerate(lines):
@@ -182,7 +184,7 @@ def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
         fallback_injected_keys.append(field_name)
 
     final_content = "\n".join(lines)
-    if template_path.read_text(encoding="utf-8").endswith("\n"):
+    if template_content.endswith("\n"):
         final_content += "\n"
 
     temp_path = _write_temp_injected_yaml(final_content, template_path)
@@ -257,9 +259,8 @@ def safe_remove(path: Path) -> None:
     try:
         if path.exists():
             path.unlink()
-            print(f"Removed temporary file: {path}")
     except Exception as error:
-        print(f"Could not remove {path}: {error}", file=sys.stderr)
+        print(f"Could not remove temporary file: {error}", file=sys.stderr)
 
 
 def strip_placeholders(template_path: Path, announce: bool = True) -> Path:

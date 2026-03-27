@@ -131,6 +131,8 @@ Only professional information necessary for networking and recruitment is includ
 
 Sensitive identifiers (phone, email, address) are represented in templates using `${SECRET_*}` placeholders. Real values are stored only in the local plaintext file `src/secret.yaml`, which is excluded by `.gitignore` and never committed. Local at-rest protection relies on OS-level full-disk encryption.
 
+An earlier design used `sops` + `age` to store an encrypted secrets file in the repository. This approach was reconsidered before any secrets were committed: keeping personal data in the repository — even encrypted — conflicts with privacy by default, as the data would be permanently embedded in the git history. No encrypted secrets are present in this repository's commit history. Given the minimal scope of injected fields (three contact identifiers), a local plaintext file excluded from version control is the proportionate and privacy-preserving solution.
+
 -----------------------------------------------------------------------------
 
 **Maintained by Alessandro Saglia**
