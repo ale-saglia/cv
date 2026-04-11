@@ -211,10 +211,6 @@ cv:
     certification:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: Candidate (Exam expected April 2026)
-      - label: DigComp 2.1 - European Digital Competence Framework
-        details: Advanced Digital Skills - Level 6/6 in all areas (Information and data
-          literacy, Communication and collaboration, Content creation, Safety,
-          Problem solving)
       - label: "ICDL Profile (Standard Certificate) "
         details: "Modules completed: Online & Computer Essentials, Word Processing,
           Spreadsheets, Presentations, Using Databases"

@@ -207,8 +207,6 @@ cv:
     certificati:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: candidato (esame previsto aprile 2026)
-      - label: DigComp 2.1 - European Digital Competence Framework
-        details: Livello avanzato (6/6) in tutte le aree di competenza digitale
       - label: ICDL
         details: profilo standard
       - label: Inglese B2 CEFR
