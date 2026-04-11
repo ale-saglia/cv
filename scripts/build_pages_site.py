@@ -72,7 +72,6 @@ def build_template(template_path: Path) -> None:
     )
 
     # Find generated files
-    html_files = sorted(output_dir.glob("*.html"))
     pdf_files = sorted(output_dir.glob("*.pdf"))
     md_files = sorted(output_dir.glob("*.md"))
     

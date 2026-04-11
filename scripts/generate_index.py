@@ -319,9 +319,6 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
 def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     """Generate complete HTML file."""
     
-    # Get current year for footer
-    year = datetime.now().year
-    
     html = '''<!doctype html>
 <html lang="it">
 <head>
@@ -753,7 +750,7 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
   </div>'''
     
     # Add back-to-top and scripting
-    html += f'''
+    html += '''
   <a href="#top" class="back-to-top" id="back-to-top">↑ Top</a>
 
   <script>
@@ -766,20 +763,20 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     const footerIt = document.getElementById("footer-it");
     const footerEn = document.getElementById("footer-en");
 
-    function getLanguage() {{
+    function getLanguage() {
       return localStorage.getItem("cv-lang") || "it";
-    }}
+    }
 
-    function setLanguage(lang) {{
+    function setLanguage(lang) {
       localStorage.setItem("cv-lang", lang);
       
       // Update CV display
       cvSections.forEach(section => section.classList.remove("active"));
-      document.getElementById(`cv-${{lang}}`).classList.add("active");
+      document.getElementById(`cv-${lang}`).classList.add("active");
       
       // Update language buttons
       langButtons.forEach(btn => btn.classList.remove("active"));
-      document.getElementById(`lang-${{lang}}`).classList.add("active");
+      document.getElementById(`lang-${lang}`).classList.add("active");
       
       // Update download links
       updateDownloadLinks(lang);
@@ -787,36 +784,36 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       // Update footer
       footerIt.classList.toggle("hidden", lang !== "it");
       footerEn.classList.toggle("hidden", lang !== "en");
-    }}
+    }
 
-    function updateDownloadLinks(lang) {{
+    function updateDownloadLinks(lang) {
       const langPath = lang === "it" ? "it/master" : "en/master";
-      downloadPdf.href = `${{langPath}}/CV_${{lang}}_master.pdf`;
-      downloadMd.href = `${{langPath}}/CV_${{lang}}_master.md`;
-    }}
+      downloadPdf.href = `${langPath}/CV_${lang}_master.pdf`;
+      downloadMd.href = `${langPath}/CV_${lang}_master.md`;
+    }
 
     // Language switching
-    langButtons.forEach(btn => {{
-      btn.addEventListener("click", () => {{
+    langButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
         setLanguage(btn.id.replace("lang-", ""));
         dropdownMenu.classList.remove("active");
-      }});
-    }});
+      });
+    });
 
     // Dropdown toggle
-    dropdownTrigger.addEventListener("click", () => {{
+    dropdownTrigger.addEventListener("click", () => {
       dropdownMenu.classList.toggle("active");
-    }});
+    });
 
     // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {{
-      if (!e.target.closest(".dropdown")) {{
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".dropdown")) {
         dropdownMenu.classList.remove("active");
-      }}
-    }});
+      }
+    });
 
     // Initialize with browser language detection
-    function getInitialLanguage() {{
+    function getInitialLanguage() {
       // Check if user has previously set a language preference
       const saved = localStorage.getItem("cv-lang");
       if (saved) return saved;
@@ -824,20 +821,20 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       // Detect browser language
       const browserLang = (navigator.language || navigator.userLanguage || "en").substring(0, 2);
       return browserLang === "it" ? "it" : "en";
-    }}
+    }
     
     const initialLang = getInitialLanguage();
     setLanguage(initialLang);
 
     // Back to top
     const backToTop = document.getElementById("back-to-top");
-    window.addEventListener("scroll", () => {{
-      if (window.scrollY > 300) {{
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
         backToTop.classList.add("visible");
-      }} else {{
+      } else {
         backToTop.classList.remove("visible");
-      }}
-    }});
+      }
+    });
   </script>
 </body>
 </html>
