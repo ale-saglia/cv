@@ -60,73 +60,35 @@ def build_template(template_path: Path) -> dict[str, str]:
 
     html_files = sorted(output_dir.glob("*.html"))
     pdf_files = sorted(output_dir.glob("*.pdf"))
+    md_files = sorted(output_dir.glob("*.md"))
     html_file = pick_latest_file(html_files, "HTML", output_dir)
     pdf_file = pick_latest_file(pdf_files, "PDF", output_dir)
+    md_file = pick_latest_file(md_files, "Markdown", output_dir) if md_files else None
 
     target_dir = SITE_DIR / language / template_name
     target_dir.mkdir(parents=True, exist_ok=True)
     target_pdf_name = f"CV_{language}_{template_name}.pdf"
+    target_md_name = f"CV_{language}_{template_name}.md"
 
     shutil.copy2(html_file, target_dir / "index.html")
     shutil.copy2(pdf_file, target_dir / target_pdf_name)
+    if md_file:
+        shutil.copy2(md_file, target_dir / target_md_name)
 
     return {
         "language": language,
         "template": template_name,
         "html": f"{language}/{template_name}/",
         "pdf": f"{language}/{template_name}/{target_pdf_name}",
+        "md": f"{language}/{template_name}/{target_md_name}" if md_file else None,
     }
 
 
 def write_index(entries: list[dict[str, str]]) -> None:
-    entries.sort(key=lambda entry: (entry["language"], entry["template"]))
-    items = []
-    for entry in entries:
-        language = html.escape(entry["language"])
-        template_name = html.escape(entry["template"])
-        html_path = html.escape(entry["html"])
-        pdf_path = html.escape(entry["pdf"])
-        items.append(
-            f"<li><strong>{language}/{template_name}</strong> "
-            f"<a href=\"{html_path}\">HTML</a> "
-            f"<a href=\"{pdf_path}\">PDF</a></li>"
-        )
-
-    index = f"""<!doctype html>
-<html lang=\"en\">
-  <head>
-    <meta charset=\"utf-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-    <title>Alessandro Saglia | CV Index</title>
-    <style>
-      :root {{ color-scheme: light; }}
-      body {{
-        margin: 0;
-        font-family: Georgia, 'Times New Roman', serif;
-        line-height: 1.5;
-        background-color: #f8f7f4;
-        color: #1d1d1d;
-      }}
-      main {{ max-width: 760px; min-height: 100vh; box-sizing: border-box; margin: 0 auto; padding: 48px 24px 64px; }}
-      h1 {{ margin: 0 0 12px; font-size: 2.2rem; }}
-      p {{ line-height: 1.6; color: #444; }}
-      ul {{ padding-left: 20px; line-height: 1.9; }}
-      a {{ color: #0b57d0; text-decoration: none; }}
-      a:hover {{ text-decoration: underline; }}
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Curriculum Vitae</h1>
-      <p>Available public previews generated automatically from the RenderCV sources.</p>
-      <ul>
-        {''.join(items)}
-      </ul>
-    </main>
-  </body>
-</html>
-"""
-    (SITE_DIR / "index.html").write_text(index, encoding="utf-8")
+    # Note: index.html is now manually maintained to include the integrated CV site.
+    # This function is kept for backward compatibility but does not overwrite index.html.
+    # The index.html file in site/ contains the main CV display with language switcher and downloads.
+    pass
 
 
 def main() -> None:

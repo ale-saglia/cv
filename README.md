@@ -101,13 +101,25 @@ The `Render Preview` workflow runs `injector.py --dry-run`, renders all CV YAML 
 
 This workflow does not require local/remote secret files.
 
-### One-click preview
+### One-click preview & website
 
-The repository publishes all available sanitized public CV variants through GitHub Pages on pushes to `main`.
-Pages generates a dynamic index and exposes, for each available template under `src/<lang>/`, both:
+The repository publishes the CV through GitHub Pages on pushes to `main` at [cv.ale-saglia.com](https://cv.ale-saglia.com).
 
-- an HTML preview
-- a PDF download named `CV_<lang>_<template>.pdf`
+The main website (`site/index.html`) features:
+- **Integrated CV display**: The full CV is embedded directly in the website (no iframe or separate page)
+- **Language switcher**: Buttons to toggle between Italian and English
+- **Download dropdown**: Options to download the CV in PDF or Markdown in both languages
+- **Consistent design**: Matches [ale-saglia.com](https://ale-saglia.com) and [insight.ale-saglia.com](https://insight.ale-saglia.com) (Georgia font, color palette, and responsive layout)
+- **Dark mode support**: Automatically adapts to system preferences
+- **Language preference persistence**: LocalStorage remembers the user's language choice
+
+The build process (`build_pages_site.py`):
+1. Discovers all CV templates under `src/<lang>/`
+2. Renders each template via `injector.py --dry-run`
+3. Copies generated files (PDF, HTML, Markdown) to `site/<lang>/<template>/`
+4. Preserves the main `site/index.html` (not auto-generated) to maintain the integrated CV website design
+
+For documentation on the website structure, see [site/README.md](site/README.md).
 
 ## 🧪 Compatibility
 

@@ -54,6 +54,7 @@ jobs:
 
             shopt -s nullglob
             generated_pdfs=("$out_dir"/*.pdf)
+            generated_mds=("$out_dir"/*.md)
             shopt -u nullglob
 
             if [ ${#generated_pdfs[@]} -eq 0 ]; then
@@ -67,9 +68,16 @@ jobs:
             fi
 
             target_pdf="$out_dir/CV_${lang}_${cv_type}.pdf"
-
             mv "$latest_pdf" "$target_pdf"
             echo "Created: $target_pdf"
+
+            # Rename markdown if it exists
+            if [ ${#generated_mds[@]} -gt 0 ]; then
+              latest_md="$(ls -1t "${generated_mds[@]}" | head -n 1)"
+              target_md="$out_dir/CV_${lang}_${cv_type}.md"
+              mv "$latest_md" "$target_md"
+              echo "Created: $target_md"
+            fi
           done
 
       - name: Upload PDF artifact
