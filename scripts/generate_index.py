@@ -8,6 +8,14 @@ SRC_DIR = ROOT_DIR / "src"
 SITE_DIR = ROOT_DIR / "site"
 
 
+def load_locale(lang: str) -> dict:
+    """Load locale data for month names."""
+    locale_path = SRC_DIR / lang / "locale.yaml"
+    with open(locale_path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data.get("locale", {})
+
+
 def load_cv_data(lang: str) -> dict:
     """Load CV data from master.yaml.
     
@@ -28,17 +36,45 @@ def load_cv_data(lang: str) -> dict:
     return cv
 
 
-def format_date_range(start_date, end_date, lang="it"):
-    """Format date range for display."""
-    if isinstance(start_date, str):
-        start = start_date
-    else:
-        start = ""
+def format_date_range(start_date, end_date, lang="it", month_abbrs=None):
+    """Format date range for display with localized month names.
+    
+    Converts dates from YYYY-MM format to "Mon YYYY" format (e.g., "Sept 2016").
+    """
+    if month_abbrs is None:
+        month_abbrs = []
+    
+    def parse_date(date_str):
+        """Parse YYYY-MM or YYYY-MM-DD format date string."""
+        if not isinstance(date_str, str) or not date_str:
+            return date_str
+        
+        parts = date_str.split("-")
+        if len(parts) >= 2:
+            try:
+                year = parts[0]
+                month_num = int(parts[1]) - 1  # 0-indexed for month_abbrs
+                if 0 <= month_num < len(month_abbrs):
+                    month = month_abbrs[month_num]
+                    return f"{month} {year}"
+            except (ValueError, IndexError):
+                pass
+        elif len(parts) == 1:
+            # Only year provided, use first month as default
+            try:
+                year = parts[0]
+                if int(year) > 0 and len(month_abbrs) > 0:
+                    return f"{month_abbrs[0]} {year}"
+            except (ValueError, IndexError):
+                pass
+        return date_str
+    
+    start = parse_date(start_date) if isinstance(start_date, str) else ""
     
     if end_date == "present" or end_date is None:
         end = "in corso" if lang == "it" else "ongoing"
     elif isinstance(end_date, str):
-        end = end_date
+        end = parse_date(end_date)
     else:
         end = str(end_date.year) if hasattr(end_date, 'year') else str(end_date)
     
@@ -89,9 +125,13 @@ def find_section_key(sections: dict, *possible_keys) -> str | None:
     return None
 
 
-def generate_cv_html(lang: str, cv_data: dict) -> str:
+def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> str:
     """Generate HTML section for CV in given language."""
     
+    if locale is None:
+        locale = {}
+    
+    month_abbrs = locale.get("month_abbreviations", [])
     cv_id = f"cv-{lang}"
     cv_class = "cv-content active" if lang == "it" else "cv-content"
     
@@ -210,7 +250,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
                 if date_field and not start and not end:
                     date_str = date_field
                 else:
-                    date_str = format_date_range(start, end, lang)
+                    date_str = format_date_range(start, end, lang, month_abbrs)
                 comp_str = f'<strong>{escape_html(company)}</strong>'
                 if location:
                     comp_str += f', {escape_html(location)}'
@@ -258,7 +298,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             
             # Institution and dates
             if institution or start or end:
-                date_str = format_date_range(start, end, lang) if (start or end) else ""
+                date_str = format_date_range(start, end, lang, month_abbrs) if (start or end) else ""
                 inst_str = f'<strong>{escape_html(institution)}</strong>'
                 html += f'        <div class="cv-meta">\n          <div>{inst_str}</div>\n'
                 if date_str:
@@ -304,7 +344,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
                 if date_field and not start and not end:
                     date_str = date_field
                 else:
-                    date_str = format_date_range(start, end, lang)
+                    date_str = format_date_range(start, end, lang, month_abbrs)
                 comp_str = f'<strong>{escape_html(company)}</strong>'
                 html += f'        <div class="cv-meta">\n          <div>{comp_str}</div>\n'
                 if date_str:
@@ -371,7 +411,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     return html
 
 
-def generate_full_html(cv_it: dict, cv_en: dict) -> str:
+def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, locale_en: dict | None = None) -> str:
     """Generate complete HTML file."""
     
     html = '''<!doctype html>
@@ -815,10 +855,10 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
 '''
     
     # Add Italian CV
-    html += generate_cv_html("it", cv_it)
+    html += generate_cv_html("it", cv_it, locale_it)
     
     # Add English CV
-    html += generate_cv_html("en", cv_en)
+    html += generate_cv_html("en", cv_en, locale_en)
     
     # Close main and wrap, add full-width footer
     html += '''
@@ -938,9 +978,11 @@ def main():
     print("Loading CV data from YAML...")
     cv_it = load_cv_data("it")
     cv_en = load_cv_data("en")
+    locale_it = load_locale("it")
+    locale_en = load_locale("en")
     
     print("Generating HTML...")
-    html = generate_full_html(cv_it, cv_en)
+    html = generate_full_html(cv_it, cv_en, locale_it, locale_en)
     
     output_path = SITE_DIR / "index.html"
     output_path.parent.mkdir(parents=True, exist_ok=True)
