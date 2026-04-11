@@ -1,13 +1,11 @@
-"""Build a static GitHub Pages site from sanitized CV previews.
+"""Build static GitHub Pages site.
 
 Flow:
-1) Discover all CV YAML templates under src/<lang>/ (excluding locale/config overlays).
-2) Render each template via injector.py --dry-run (no secrets).
-3) Copy the generated HTML and PDF into site/<lang>/<template>/.
-4) Write a root index.html linking all available previews.
+1) Generate the main integrated CV site (site/index.html) via generate_index.py
+2) Render all CV templates via injector.py --dry-run to generate PDFs/Markdown for downloads
+3) Place generated files in site/<lang>/<template>/ for download links
 """
 
-import html
 import shutil
 import subprocess
 import sys
@@ -20,13 +18,13 @@ SITE_DIR = ROOT_DIR / "site"
 
 
 def discover_templates() -> list[Path]:
+    """Find all CV template YAML files (excluding locale/config)."""
     templates = []
     for path in sorted(SRC_DIR.glob("*/*")):
         if path.suffix not in {".yaml", ".yml"}:
             continue
         if path.name == "locale.yaml":
             continue
-
         if "rendercv_output" in path.parts:
             continue
         templates.append(path)
@@ -34,6 +32,7 @@ def discover_templates() -> list[Path]:
 
 
 def clean_output_dir(output_dir: Path) -> None:
+    """Clean generated files from output directory."""
     output_dir.mkdir(parents=True, exist_ok=True)
     for pattern in ("*.pdf", "*.png", "*.md", "*.html", "*.typ"):
         for file_path in output_dir.glob(pattern):
@@ -41,15 +40,29 @@ def clean_output_dir(output_dir: Path) -> None:
 
 
 def pick_latest_file(files: list[Path], file_type: str, output_dir: Path) -> Path:
+    """Pick the most recently modified file of a given type."""
     if not files:
         raise RuntimeError(f"Expected at least 1 {file_type} in {output_dir}, found 0")
     return max(files, key=lambda file_path: (file_path.stat().st_mtime, file_path.name))
 
 
-def build_template(template_path: Path) -> dict[str, str]:
+def generate_main_site() -> None:
+    """Generate the main integrated CV site/index.html via generate_index.py"""
+    print("Generating main CV site (site/index.html)...")
+    subprocess.run(
+        [sys.executable, str(ROOT_DIR / "scripts" / "generate_index.py")],
+        cwd=ROOT_DIR,
+        check=True,
+    )
+
+
+def build_template(template_path: Path) -> None:
+    """Build a single CV template (render to PDF/Markdown)."""
     language = template_path.parent.name
     template_name = template_path.stem
     output_dir = template_path.parent / "rendercv_output"
+    
+    print(f"Building {language}/{template_name}...")
     clean_output_dir(output_dir)
 
     subprocess.run(
@@ -58,37 +71,23 @@ def build_template(template_path: Path) -> dict[str, str]:
         check=True,
     )
 
+    # Find generated files
     html_files = sorted(output_dir.glob("*.html"))
     pdf_files = sorted(output_dir.glob("*.pdf"))
     md_files = sorted(output_dir.glob("*.md"))
-    html_file = pick_latest_file(html_files, "HTML", output_dir)
+    
     pdf_file = pick_latest_file(pdf_files, "PDF", output_dir)
     md_file = pick_latest_file(md_files, "Markdown", output_dir) if md_files else None
 
+    # Copy to site/<lang>/<template>/
     target_dir = SITE_DIR / language / template_name
     target_dir.mkdir(parents=True, exist_ok=True)
     target_pdf_name = f"CV_{language}_{template_name}.pdf"
     target_md_name = f"CV_{language}_{template_name}.md"
 
-    shutil.copy2(html_file, target_dir / "index.html")
     shutil.copy2(pdf_file, target_dir / target_pdf_name)
     if md_file:
         shutil.copy2(md_file, target_dir / target_md_name)
-
-    return {
-        "language": language,
-        "template": template_name,
-        "html": f"{language}/{template_name}/",
-        "pdf": f"{language}/{template_name}/{target_pdf_name}",
-        "md": f"{language}/{template_name}/{target_md_name}" if md_file else None,
-    }
-
-
-def write_index(entries: list[dict[str, str]]) -> None:
-    # Note: index.html is now manually maintained to include the integrated CV site.
-    # This function is kept for backward compatibility but does not overwrite index.html.
-    # The index.html file in site/ contains the main CV display with language switcher and downloads.
-    pass
 
 
 def main() -> None:
@@ -96,12 +95,17 @@ def main() -> None:
     if not templates:
         raise RuntimeError("No CV templates found under src/<lang>/.")
 
-    if SITE_DIR.exists():
-        shutil.rmtree(SITE_DIR)
+    # Ensure site dir exists
     SITE_DIR.mkdir(parents=True, exist_ok=True)
 
-    entries = [build_template(template_path) for template_path in templates]
-    write_index(entries)
+    # Generate main integrated CV site
+    generate_main_site()
+
+    # Build individual templates for downloads
+    for template_path in templates:
+        build_template(template_path)
+
+    print("✓ Build complete")
 
 
 if __name__ == "__main__":
