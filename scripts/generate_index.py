@@ -2,7 +2,6 @@
 
 import yaml
 from pathlib import Path
-from datetime import datetime
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT_DIR / "src"
@@ -29,7 +28,7 @@ def load_cv_data(lang: str) -> dict:
     return cv
 
 
-def format_date_range(start_date, end_date):
+def format_date_range(start_date, end_date, lang="it"):
     """Format date range for display."""
     if isinstance(start_date, str):
         start = start_date
@@ -37,13 +36,13 @@ def format_date_range(start_date, end_date):
         start = ""
     
     if end_date == "present" or end_date is None:
-        end = "in corso" if isinstance(start_date, str) else "in progress"
+        end = "in corso" if lang == "it" else "ongoing"
     elif isinstance(end_date, str):
         end = end_date
     else:
         end = str(end_date.year) if hasattr(end_date, 'year') else str(end_date)
     
-    return f"{start} – {end}" if start and end else f"{start}{end}".strip()
+    return f"{start} - {end}" if start and end else f"{start}{end}".strip()
 
 
 def escape_html(text):
@@ -69,6 +68,17 @@ def md_to_html(text):
     text = re.sub(r'\*([^*]+)\*', r'<em>\1</em>', text)
     
     return text
+
+
+def safe_list(value, filter_empty=True):
+    """Convert value to list safely. Remove None/empty values if filter_empty=True."""
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        return [value] if value else []
+    if filter_empty:
+        return [item for item in value if item]
+    return value
 
 
 def find_section_key(sections: dict, *possible_keys) -> str:
@@ -112,7 +122,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if summary_key:
         section_title = "Summary" if lang == "en" else "In breve"
         html += f'        <h1>{section_title}</h1>\n'
-        for item in sections[summary_key]:
+        for item in safe_list(sections[summary_key]):
             if isinstance(item, str):
                 html += f'        <p>{md_to_html(escape_html(item))}</p>\n'
         html += '\n'
@@ -152,6 +162,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             location = exp.get("location", "")
             start = exp.get("start_date", "")
             end = exp.get("end_date", "")
+            date_field = exp.get("date", "")
             summary = exp.get("summary", "")
             highlights = exp.get("highlights", [])
             
@@ -159,8 +170,11 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             html += f'        <h2><strong>{escape_html(position)}</strong></h2>\n'
             
             # Company and dates
-            if company or start or end:
-                date_str = format_date_range(start, end)
+            if company or start or end or date_field:
+                if date_field and not start and not end:
+                    date_str = date_field
+                else:
+                    date_str = format_date_range(start, end, lang)
                 comp_str = f'<strong>{escape_html(company)}</strong>'
                 if location:
                     comp_str += f', {escape_html(location)}'
@@ -176,7 +190,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             # Highlights (bullet points)
             if highlights:
                 html += '        <ul>\n'
-                for highlight in highlights:
+                for highlight in safe_list(highlights):
                     html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
                 html += '        </ul>\n'
             
@@ -208,7 +222,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             
             # Institution and dates
             if institution or start or end:
-                date_str = format_date_range(start, end) if (start or end) else ""
+                date_str = format_date_range(start, end, lang) if (start or end) else ""
                 inst_str = f'<strong>{escape_html(institution)}</strong>'
                 html += f'        <div class="cv-meta">\n          <div>{inst_str}</div>\n'
                 if date_str:
@@ -222,9 +236,8 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             # Highlights
             if highlights:
                 html += '        <ul>\n'
-                for highlight in highlights:
-                    if highlight:  # Skip empty highlights
-                        html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
+                for highlight in safe_list(highlights):
+                    html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
                 html += '        </ul>\n'
             
             html += '        </div>\n\n'
@@ -242,6 +255,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             company = vol.get("company", "")
             start = vol.get("start_date", "")
             end = vol.get("end_date", "")
+            date_field = vol.get("date", "")
             summary = vol.get("summary", "")
             highlights = vol.get("highlights", [])
             
@@ -249,16 +263,17 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             if position:
                 html += f'        <h2><strong>{escape_html(position)}</strong></h2>\n'
             
-            # Company and dates
-            if company or start or end:
-                parts = []
-                if company:
-                    parts.append(f'<strong>{escape_html(company)}</strong>')
-                if start or end:
-                    date_str = format_date_range(start, end)
-                    parts.append(f'<em>{date_str}</em>')
-                if parts:
-                    html += f'        <p>{" | ".join(parts)}</p>\n'
+            # Company and dates (same as experience)
+            if company or start or end or date_field:
+                if date_field and not start and not end:
+                    date_str = date_field
+                else:
+                    date_str = format_date_range(start, end, lang)
+                comp_str = f'<strong>{escape_html(company)}</strong>'
+                html += f'        <div class="cv-meta">\n          <div>{comp_str}</div>\n'
+                if date_str:
+                    html += f'          <div class="cv-date"><em>{date_str}</em></div>\n'
+                html += '        </div>\n'
             
             # Summary
             if summary:
@@ -267,9 +282,8 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
             # Highlights
             if highlights:
                 html += '        <ul>\n'
-                for highlight in highlights:
-                    if highlight:
-                        html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
+                for highlight in safe_list(highlights):
+                    html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
                 html += '        </ul>\n'
             
             html += '        </div>\n\n'
