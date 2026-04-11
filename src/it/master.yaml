@@ -172,12 +172,17 @@ cv:
         start_date: 2016-09
         end_date: 2019-10
         location: Turin, Italy
-        summary: Coordinamento delle attività di comunicazione della community, inclusa
-          la pianificazione dei contenuti, la gestione dei canali social e
-          l’organizzazione di eventi tecnici, curando il coinvolgimento della
-          community e i rapporti con partner tecnologici e stakeholder
-          all’interno di una rete internazionale.
-        highlights: []
+        summary: Responsabile del team di comunicazione della community, con coordinamento di 5–10 
+          volontari su strategia dei contenuti, canali social e organizzazione di eventi tecnici.
+        highlights:
+          - "**Coordinamento team**: Gestione dei volontari per la pianificazione ed esecuzione di workshop tecnici ed eventi, 
+            inclusi eventi di grande scala con oltre 200 partecipanti (es. Sognando la Realtà)."
+          - "**Indirizzo strategico**: Partecipazione attiva alle riunioni di direzione per definire il focus degli eventi, 
+            la selezione dei relatori e le priorità della community."
+          - "**Collaborazione inter-community**: Coordinamento con altre associazioni e team GDG per la co-organizzazione di 
+            Dev Fest Torino e iniziative congiunte."
+          - "**Gestione partnership**: Punto di raccordo tra la community, Google e partner 
+            tecnologici per eventi co-branded e contenuti."
       - company: Reply S.p.A.
         position: Student Brand Ambassador
         start_date: 2016-01
