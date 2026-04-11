@@ -81,7 +81,7 @@ def safe_list(value, filter_empty=True):
     return value
 
 
-def find_section_key(sections: dict, *possible_keys) -> str:
+def find_section_key(sections: dict, *possible_keys) -> str | None:
     """Find which key exists in sections dict from list of possibilities."""
     for key in possible_keys:
         if key in sections:
@@ -157,7 +157,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     summary_key = find_section_key(sections, "summary", "In breve")
     if summary_key:
         section_title = "Summary" if lang == "en" else "In breve"
-        html += f'        <h1>{section_title}</h1>\n'
+        html += f'        <p class="cv-summary-title"><strong>{section_title}</strong></p>\n'
         for item in safe_list(sections[summary_key]):
             if isinstance(item, str):
                 html += f'        <p>{md_to_html(escape_html(item))}</p>\n'
@@ -189,7 +189,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if exp_key:
         section_title = "Experience" if lang == "en" else "Esperienza lavorativa"
         section_id = "experience" if lang == "en" else "esperienza-lavorativa"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for exp in sections[exp_key]:
             html += '        <div class="cv-entry">\n'
             
@@ -237,7 +237,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if edu_key:
         section_title = "Education" if lang == "en" else "Formazione"
         section_id = "education" if lang == "en" else "formazione"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for edu in sections[edu_key]:
             html += '        <div class="cv-entry">\n'
             
@@ -283,7 +283,7 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if vol_key:
         section_title = "Volunteering" if lang == "en" else "Volontariato"
         section_id = "volunteering" if lang == "en" else "volontariato"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for vol in sections[vol_key]:
             html += '        <div class="cv-entry">\n'
             
@@ -329,12 +329,14 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if cert_key:
         section_title = "Certifications" if lang == "en" else "Certificati"
         section_id = "certifications" if lang == "en" else "certificati"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for cert in sections[cert_key]:
             label = cert.get("label", "")
             details = cert.get("details", "")
             if label:
+                html += '        <div class="cv-entry cv-entry-minimal">\n'
                 html += f'        <p><strong>{escape_html(label)}:</strong> {escape_html(details)}</p>\n'
+                html += '        </div>\n'
         html += '\n'
     
     # Awards
@@ -342,25 +344,28 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     if awards_key:
         section_title = "Awards & Recognition" if lang == "en" else "Riconoscimenti"
         section_id = "awards-and-recognition" if lang == "en" else "riconoscimenti"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n'
-        html += '        <ul>\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for award in sections[awards_key]:
             bullet = award.get("bullet", "")
             if bullet:
-                html += f'          <li>{md_to_html(escape_html(bullet))}</li>\n'
-        html += '        </ul>\n\n'
+                html += '        <div class="cv-entry cv-entry-minimal">\n'
+                html += f'          <p>{md_to_html(escape_html(bullet))}</p>\n'
+                html += '        </div>\n'
+        html += '\n'
     
     # Skills
     skills_key = find_section_key(sections, "skills", "competenze")
     if skills_key:
         section_title = "Skills" if lang == "en" else "Competenze"
         section_id = "skills" if lang == "en" else "competenze"
-        html += f'        <h1 id="{section_id}">{section_title}</h1>\n'
+        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for skill in sections[skills_key]:
             label = skill.get("label", "")
             details = skill.get("details", "")
             if label:
+                html += '        <div class="cv-entry cv-entry-minimal">\n'
                 html += f'        <p><strong>{escape_html(label)}:</strong> {escape_html(details)}</p>\n'
+                html += '        </div>\n'
     
     html += '      </section>\n\n'
     return html
@@ -571,6 +576,17 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       font-weight: 600;
     }
 
+    .cv-content h2[id] {
+      margin: 2.5rem 0 1.5rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .cv-content h2[id]:first-of-type {
+      margin-top: 1.5rem;
+    }
+
     .cv-entry {
       margin-bottom: 1rem;
       border-bottom: 1px solid var(--line);
@@ -579,6 +595,14 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     .cv-entry:last-child {
       margin-bottom: 0;
       border-bottom: none;
+    }
+
+    .cv-entry-minimal {
+      border-bottom: none;
+    }
+
+    .cv-entry-minimal:last-child {
+      border-bottom: 1px solid var(--line);
     }
 
     /* Date alignment */
@@ -733,6 +757,8 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     }
 
     /* Responsive */
+    @media (max-width: 768px) {
+      .site-nav {
         flex-wrap: wrap;
         gap: 1rem;
       }
@@ -769,7 +795,7 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
 <body id="top">
   <div class="wrap">
     <nav class="site-nav" aria-label="Primary">
-      <h1 class="nav-title"><a href="#top">Alessandro Saglia</a></h1>
+      <h1 class="nav-title"><a href="#top">Alessandro Saglia - Curriculum Vitae</a></h1>
       <div class="nav-controls">
         <div class="lang-switcher">
           <button class="lang-btn active" id="lang-it" aria-label="Seleziona italiano">IT</button>
@@ -829,6 +855,7 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
 
     function setLanguage(lang) {
       localStorage.setItem("cv-lang", lang);
+      document.documentElement.lang = lang;
       
       // Update CV display
       cvSections.forEach(section => section.classList.remove("active"));
@@ -840,6 +867,9 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       
       // Update download links
       updateDownloadLinks(lang);
+      
+      // Update dropdown aria-label
+      dropdownTrigger.setAttribute("aria-label", `Download CV in ${lang.toUpperCase()}`);
       
       // Update footer
       footerIt.classList.toggle("hidden", lang !== "it");
@@ -879,7 +909,7 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       if (saved) return saved;
       
       // Detect browser language
-      const browserLang = (navigator.language || navigator.userLanguage || "en").substring(0, 2);
+      const browserLang = (navigator.language || "en").substring(0, 2);
       return browserLang === "it" ? "it" : "en";
     }
     
