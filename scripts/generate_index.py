@@ -370,8 +370,9 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     /* Navigation Bar */
     .site-nav {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.8rem;
       padding: 1.2rem 0;
       border-bottom: 1px solid var(--line);
       margin-bottom: 0.7rem;
@@ -379,9 +380,14 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
 
     .nav-title {
       margin: 0;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 600;
       letter-spacing: -0.5px;
+      order: 2;
+      width: 100%;
+      text-align: center;
+      margin-top: 0.6rem;
+      white-space: normal;
     }
 
     .nav-title a {
@@ -395,6 +401,9 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
 
     .nav-controls {
       display: flex;
+      order: 1;
+      width: 100%;
+      justify-content: space-between;
       gap: 1.5rem;
       align-items: center;
     }
@@ -430,6 +439,7 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     /* Dropdown */
     .dropdown {
       position: relative;
+      margin-left: auto;
     }
 
     .dropdown-trigger {
@@ -687,8 +697,6 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
     }
 
     /* Responsive */
-    @media (max-width: 600px) {
-      .site-nav {
         flex-wrap: wrap;
         gap: 1rem;
       }
@@ -718,6 +726,8 @@ def generate_full_html(cv_it: dict, cv_en: dict) -> str:
       outline-offset: 2px;
       border-radius: 2px;
     }
+
+
   </style>
 </head>
 <body id="top">
