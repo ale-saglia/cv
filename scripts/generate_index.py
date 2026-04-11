@@ -103,14 +103,50 @@ def generate_cv_html(lang: str, cv_data: dict) -> str:
     html += '        <div class="cv-links">\n'
     html += f'          <span>📍 {escape_html(location)}</span>\n'
     
-    # Social networks
-    for network in cv_data.get("social_networks", []):
-        if network["network"].lower() == "linkedin":
-            username = network["username"]
-            html += f'          <a href="https://linkedin.com/in/{username}" target="_blank" rel="noopener">🔗 LinkedIn</a>\n'
-        elif network["network"].lower() == "github":
-            username = network["username"]
-            html += f'          <a href="https://github.com/{username}" target="_blank" rel="noopener">💻 GitHub</a>\n'
+    # Custom links - fetch website from YAML, insight is hardcoded
+    website_url = cv_data.get("website", "")
+    custom_links = []
+    
+    if website_url:
+        custom_links.append({
+            "name": "website",
+            "url": website_url,
+            "label_it": "Sito Web",
+            "label_en": "Website",
+            "emoji": "🌐",
+        })
+    
+    custom_links.append({
+        "name": "insight",
+        "url": "https://insight.ale-saglia.com",
+        "label_it": "Insight",
+        "label_en": "Insight",
+        "emoji": "📝",
+    })
+    
+    for custom in custom_links:
+        label = custom["label_it"] if lang == "it" else custom["label_en"]
+        url = custom["url"]
+        emoji = custom["emoji"]
+        html += f'          <a href="{url}" target="_blank" rel="noopener">{emoji} {label}</a>\n'
+    
+    # Social networks from YAML
+    network_order = ["linkedin", "github"]
+    networks_dict = {n["network"].lower(): n for n in cv_data.get("social_networks", [])}
+    
+    for net_name in network_order:
+        if net_name not in networks_dict:
+            continue
+        network = networks_dict[net_name]
+        
+        if net_name == "linkedin":
+            username = network.get("username", "")
+            if username:
+                html += f'          <a href="https://linkedin.com/in/{username}" target="_blank" rel="noopener">🔗 LinkedIn</a>\n'
+        elif net_name == "github":
+            username = network.get("username", "")
+            if username:
+                html += f'          <a href="https://github.com/{username}" target="_blank" rel="noopener">💻 GitHub</a>\n'
     
     html += '        </div>\n\n'
     
