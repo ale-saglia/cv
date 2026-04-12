@@ -14,22 +14,26 @@ Repository note: all documentation, comments, and configuration are kept in Engl
 
 ## 🏛️ Rationale
 
-As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, this project reflects a systems-oriented approach to professional data management. It is organized around three core principles:
+This project applies a systems-oriented approach to professional data management.
+It is built around three core principles:
 
 ### No Proprietary Lock-in
-The journey started with a simple goal: generate my CV without depending on proprietary tools. Every word, every date, every link should belong to me and be under my control - not trapped in someone else's platform.
+The CV is generated without relying on proprietary platforms.  
+All data: roles, dates, links remains under direct control and ownership.
 
-### Single Source of Truth, Version Controlled
-With data in YAML and managed through Git, my professional history becomes versionable. Every career move, skill update, or role change is tracked. I can see when I added something, revisit past versions, and maintain absolute clarity on how my narrative has evolved.
+### Single Source of Truth
+Professional data is stored in YAML and versioned through Git.  
+Changes are tracked over time, making career evolution explicit and reproducible.
 
 ### Data Reusability
-Why store professional data in one place for one output? This CV source powers multiple formats - PDF, Markdown, HTML - and now also fuels an interactive web presence. A single, carefully structured dataset generates the resume you download *and* the site you're browsing.
+A single structured dataset generates multiple outputs (HTML, PDF, Markdown).  
+The same source powers both the downloadable CV and the web representation.
 
 ### In practice, this enables:
-*   **Technical Consistency:** Precise management of technical milestones and career evolution.
-*   **Career Versioning:** Tracking how my career evolved from **Legal Enforcement** in local government to **Healthcare Digital Governance** at a regional level.
-*   **Privacy by Design:** Sensitive personal data (e.g., phone, email, address) is managed through local placeholders and injected only at render time.
-*   **Multi-channel presence:** One data source powers downloads, web presence, and future integrations.
+- Career versioning through Git  
+- Multi-format generation from a single dataset  
+- Separation between data and presentation  
+- Privacy handled at render time (sensitive data injected locally)
 
 ## 📂 Repository Structure
 

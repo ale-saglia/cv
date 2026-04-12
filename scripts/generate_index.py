@@ -17,54 +17,15 @@ def load_cv_as_code_philosophy() -> str:
         with open(readme_path, "r", encoding="utf-8") as f:
             content = f.read()
         
-        # Extract intro text before the three principles
-        # Use flexible regex that works with or without emoji
-        intro_match = re.search(r"##.*?Rationale.*?\n\n(.*?)\n### No Proprietary", content, re.DOTALL)
-        if not intro_match:
-            return ""
+        # Extract everything from Rationale section to the next ## heading
+        rationale_match = re.search(r"##\s+.*?Rationale.*?\n\n(.*?)(?=\n##\s|\Z)", content, re.DOTALL)
+        if not rationale_match:
+            return "<p>This curriculum is built with code, not proprietary tools.</p>"
         
-        intro = intro_match.group(1).strip()
-        intro = md_to_html(escape_html(intro))
+        rationale_text = rationale_match.group(1).strip()
         
-        # Extract the three principles
-        principles_matches = [
-            re.search(r"### No Proprietary Lock-in\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
-            re.search(r"### Single Source of Truth, Version Controlled\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
-            re.search(r"### Data Reusability\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
-        ]
-        
-        principles = [
-            ("No Proprietary Lock-in", principles_matches[0] if principles_matches[0] else None),
-            ("Single Source of Truth, Version Controlled", principles_matches[1] if principles_matches[1] else None),
-            ("Data Reusability", principles_matches[2] if principles_matches[2] else None),
-        ]
-        
-        # Extract "In practice" section with bullet points
-        practice_match = re.search(r"### In practice, this enables:\n(.*?)(?=\n##|\Z)", content, re.DOTALL)
-        
-        # Build HTML
-        html = f"<p>{intro}</p>"
-        
-        for title, match in principles:
-            if match:
-                text = match.group(1).strip()
-                text = md_to_html(escape_html(text))
-                html += f"<h3>{escape_html(title)}</h3>"
-                html += f"<p>{text}</p>"
-        
-        # Add "In practice" section with bullet list
-        if practice_match:
-            practice_text = practice_match.group(1).strip()
-            html += "<p><strong>In practice, this enables:</strong></p><ul>"
-            
-            # Extract bullet points
-            bullets = re.findall(r"\*\s+\*\*([^:]+):\*\*\s*(.+?)(?=\n\*|\Z)", practice_text, re.DOTALL)
-            for bullet_title, bullet_text in bullets:
-                bullet_title = escape_html(bullet_title.strip())
-                bullet_text = md_to_html(escape_html(bullet_text.strip()))
-                html += f"<li><strong>{bullet_title}:</strong> {bullet_text}</li>"
-            
-            html += "</ul>"
+        # Convert markdown to HTML
+        html = md_to_html(rationale_text)
         
         return html
     except Exception as e:
@@ -141,9 +102,75 @@ def escape_html(text):
 
 
 def md_to_html(text):
-    """Convert simple markdown formatting to HTML."""
+    """Convert markdown formatting to HTML."""
     if not isinstance(text, str):
         return str(text)
+    
+    lines = text.split('\n')
+    html_lines = []
+    in_list = False
+    
+    for line in lines:
+        stripped = line.strip()
+        
+        # Handle headings (###, ##, #)
+        if stripped.startswith('###'):
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            heading_text = stripped.lstrip('#').strip()
+            heading_text = md_to_html_inline(heading_text)
+            html_lines.append(f'<h3>{heading_text}</h3>')
+        elif stripped.startswith('##'):
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            heading_text = stripped.lstrip('#').strip()
+            heading_text = md_to_html_inline(heading_text)
+            html_lines.append(f'<h2>{heading_text}</h2>')
+        elif stripped.startswith('#'):
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            heading_text = stripped.lstrip('#').strip()
+            heading_text = md_to_html_inline(heading_text)
+            html_lines.append(f'<h1>{heading_text}</h1>')
+        # Handle bullet points
+        elif stripped.startswith('-'):
+            if not in_list:
+                html_lines.append('<ul>')
+                in_list = True
+            item_text = stripped.lstrip('-').strip()
+            item_text = md_to_html_inline(item_text)
+            html_lines.append(f'<li>{item_text}</li>')
+        # Handle paragraph breaks and content
+        elif stripped:
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            # Process inline markdown
+            paragraph_text = md_to_html_inline(stripped)
+            html_lines.append(f'<p>{paragraph_text}</p>')
+        elif in_list:
+            # Empty line while in list - close list
+            html_lines.append('</ul>')
+            in_list = False
+    
+    # Close any open list
+    if in_list:
+        html_lines.append('</ul>')
+    
+    return '\n'.join(html_lines)
+
+
+def md_to_html_inline(text):
+    """Convert inline markdown formatting to HTML."""
+    if not isinstance(text, str):
+        return str(text)
+    
+    # Escape HTML first
+    text = escape_html(text)
+    
     # Handle **bold**
     text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
     # Handle *italic*
@@ -1094,14 +1121,14 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
 
     .cv-as-code-philosophy {
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.4;
       padding: 0 2rem;
       overflow-y: auto;
       flex: 1;
     }
 
     .cv-as-code-philosophy p {
-      margin: 1rem 0 0.2rem 0;
+      margin: 0.4rem 0 0.1rem 0;
     }
 
     .cv-as-code-philosophy p:first-child {
@@ -1111,13 +1138,17 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     .cv-as-code-philosophy h3 {
       font-size: 1.1rem;
       font-weight: 600;
-      margin: 1.5rem 0 0.3rem 0;
+      margin: 0.8rem 0 0 0;
       color: var(--text);
     }
 
     .cv-as-code-philosophy h3 + p {
-      margin-top: 0.2rem;
-      margin-bottom: 0.2rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .cv-as-code-philosophy h3 + ul {
+      margin-top: 0;
     }
 
     .cv-as-code-philosophy p + ul {
@@ -1125,12 +1156,12 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     }
 
     .cv-as-code-philosophy ul {
-      margin: 1rem 0;
+      margin: 0.3rem 0;
       padding-left: 1.5rem;
     }
 
     .cv-as-code-philosophy li {
-      margin: 0.5rem 0;
+      margin: 0.2rem 0;
     }
 
     .cv-as-code-modal-footer {
