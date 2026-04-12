@@ -11,7 +11,6 @@ cv:
       username: asaglia
     - network: GitHub
       username: ale-saglia
-  custom_connections:
   sections:
     In breve:
       - Professionista del settore pubblico impegnato in iniziative di
@@ -91,7 +90,7 @@ cv:
             regolati
       - company: Lentalanga
         position: Gestore attività turistico-ricettiva
-        start_date: "2012"
+        start_date: 2012-01
         end_date: 2019-11
         location: Diano d'Alba
         summary: Gestione operativa e amministrativa di un’attività ricettiva in

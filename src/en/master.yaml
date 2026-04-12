@@ -1,7 +1,7 @@
 cv:
   name: Alessandro Saglia
   headline:
-  location: ${SECRET_ADDRESS}
+  location: Turin, Italy
   email: ${SECRET_EMAIL}
   photo:
   phone: ${SECRET_PHONE}
@@ -11,7 +11,6 @@ cv:
       username: asaglia
     - network: GitHub
       username: ale-saglia
-  custom_connections:
   sections:
     summary:
       - Public sector professional working on digital governance initiatives in
@@ -129,7 +128,7 @@ cv:
             regulated environments."
     education:
       - institution: University of Turin
-        area: "Digital Public Administration and Law "
+        area: Digital Public Administration and Law
         degree: Bachelor’s degree
         date:
         start_date: 2022-09
@@ -177,7 +176,7 @@ cv:
             including large-scale events with 200+ attendees (e.g., Sognando la Realtà)."
           - "**Strategic input**: Participated actively in direction meetings to define 
             event focus, speaker selection, and community priorities."
-          - "**Cross-community collaboration**:Coordinated with other associations 
+          - "**Cross-community collaboration**: Coordinated with other associations 
             and GDG teams to co-organise Dev Fest Torino and joint initiatives."
           - "**Partnership management**: Served as liaison between the community, Google, 
             and technology partners for co-branded events and content."
@@ -211,7 +210,7 @@ cv:
     certification:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: Candidate (Exam expected April 2026)
-      - label: "ICDL Profile (Standard Certificate) "
+      - label: ICDL Profile (Standard Certificate)
         details: "Modules completed: Online & Computer Essentials, Word Processing,
           Spreadsheets, Presentations, Using Databases"
       - label: "English: Level B2 (CEFR)"
