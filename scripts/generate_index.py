@@ -106,6 +106,88 @@ def find_section_key(sections: dict, *possible_keys) -> str | None:
     return None
 
 
+def render_text(text: str) -> str:
+    """Render text with HTML escaping and markdown conversion."""
+    return md_to_html(escape_html(text))
+
+
+def slugify(text: str) -> str:
+    """Convert text to URL-safe slug for anchor IDs."""
+    import re
+    # Convert to lowercase and remove accents
+    text = text.lower()
+    # Replace spaces and special chars with hyphens
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[\s_]+', '-', text)
+    text = re.sub(r'-+', '-', text).strip('-')
+    return text
+
+
+def render_entry_block(entry: dict, field_map: dict, lang: str, month_abbrs: list) -> str:
+    """Render a single entry block (experience, volunteering, education).
+    
+    field_map: dict with keys:
+        - 'title_main': main title field name (e.g., 'position', 'degree')
+        - 'title_secondary': optional subtitle/details field (e.g., 'area', '')
+        - 'org': organization field name (e.g., 'company', 'institution')
+        - 'include_location': whether to append location to org (True for experience/volunteering)
+    """
+    html = '        <div class="cv-entry">\n'
+    
+    # Main title
+    title_main_key = field_map.get('title_main', '')
+    title_secondary_key = field_map.get('title_secondary', '')
+    
+    title_main = entry.get(title_main_key, '')
+    title_secondary = entry.get(title_secondary_key, '')
+    
+    if title_main:
+        html += f'        <h2><strong>{escape_html(title_main)}</strong>'
+        if title_secondary:
+            html += f' in {escape_html(title_secondary)}'
+        html += '</h2>\n'
+    
+    # Organization/company and dates
+    org_key = field_map.get('org', '')
+    org = entry.get(org_key, '')
+    location = entry.get('location', '')
+    start = entry.get('start_date', '')
+    end = entry.get('end_date', '')
+    date_field = entry.get('date', '')
+    include_location = field_map.get('include_location', False)
+    
+    if org or start or end or date_field:
+        if date_field and not start and not end:
+            date_str = date_field
+        else:
+            date_str = format_date_range(start, end, lang, month_abbrs)
+        
+        org_str = f'<strong>{escape_html(org)}</strong>'
+        if location and include_location:
+            org_str += f', {escape_html(location)}'
+        
+        html += f'        <div class="cv-meta">\n          <div>{org_str}</div>\n'
+        if date_str:
+            html += f'          <div class="cv-date"><em>{date_str}</em></div>\n'
+        html += '        </div>\n'
+    
+    # Summary
+    summary = entry.get('summary', '')
+    if summary:
+        html += f'        <p>{render_text(summary)}</p>\n'
+    
+    # Highlights (bullet points)
+    highlights = entry.get('highlights', [])
+    if highlights:
+        html += '        <ul>\n'
+        for highlight in safe_list(highlights):
+            html += f'          <li>{render_text(highlight)}</li>\n'
+        html += '        </ul>\n'
+    
+    html += '        </div>\n\n'
+    return html
+
+
 def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> str:
     """Generate HTML section for CV in given language."""
     
@@ -206,23 +288,25 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         html += f'        <p class="cv-summary-title"><strong>{section_title}</strong></p>\n'
         for item in safe_list(sections[summary_key]):
             if isinstance(item, str):
-                html += f'        <p>{md_to_html(escape_html(item))}</p>\n'
+                html += f'        <p>{render_text(item)}</p>\n'
         html += '\n'
     
-    # Generate table of contents
+    # Generate table of contents with auto-generated slugs from titles
     toc_items = []
-    if find_section_key(sections, "experience", "Esperienza lavorativa"):
-        toc_items.append(("Experience" if lang == "en" else "Esperienza lavorativa", "experience" if lang == "en" else "esperienza-lavorativa"))
-    if find_section_key(sections, "education", "formazione"):
-        toc_items.append(("Education" if lang == "en" else "Formazione", "education" if lang == "en" else "formazione"))
-    if find_section_key(sections, "volunteering", "volontariato"):
-        toc_items.append(("Volunteering" if lang == "en" else "Volontariato", "volunteering" if lang == "en" else "volontariato"))
-    if find_section_key(sections, "certification", "certificati"):
-        toc_items.append(("Certifications" if lang == "en" else "Certificati", "certifications" if lang == "en" else "certificati"))
-    if find_section_key(sections, "selected_honors", "riconoscimenti"):
-        toc_items.append(("Awards & Recognition" if lang == "en" else "Riconoscimenti", "awards-and-recognition" if lang == "en" else "riconoscimenti"))
-    if find_section_key(sections, "skills", "competenze"):
-        toc_items.append(("Skills" if lang == "en" else "Competenze", "skills" if lang == "en" else "competenze"))
+    section_checks = [
+        ("experience", "Esperienza lavorativa", "Experience", "Esperienza lavorativa"),
+        ("education", "formazione", "Education", "Formazione"),
+        ("volunteering", "volontariato", "Volunteering", "Volontariato"),
+        ("certification", "certificati", "Certifications", "Certificati"),
+        ("selected_honors", "riconoscimenti", "Awards & Recognition", "Riconoscimenti"),
+        ("skills", "competenze", "Skills", "Competenze"),
+    ]
+    
+    for section_key, section_key_it, title_en, title_it in section_checks:
+        if find_section_key(sections, section_key, section_key_it):
+            title = title_en if lang == "en" else title_it
+            anchor_id = slugify(title)
+            toc_items.append((title, anchor_id))
     
     if toc_items:
         html += '        <nav class="cv-toc">\n'
@@ -234,147 +318,52 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     exp_key = find_section_key(sections, "experience", "Esperienza lavorativa")
     if exp_key:
         section_title = "Experience" if lang == "en" else "Esperienza lavorativa"
-        section_id = "experience" if lang == "en" else "esperienza-lavorativa"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for exp in sections[exp_key]:
-            html += '        <div class="cv-entry">\n'
-            
-            position = exp.get("position", "")
-            company = exp.get("company", "")
-            location = exp.get("location", "")
-            start = exp.get("start_date", "")
-            end = exp.get("end_date", "")
-            date_field = exp.get("date", "")
-            summary = exp.get("summary", "")
-            highlights = exp.get("highlights", [])
-            
-            # Position title
-            html += f'        <h2><strong>{escape_html(position)}</strong></h2>\n'
-            
-            # Company and dates
-            if company or start or end or date_field:
-                if date_field and not start and not end:
-                    date_str = date_field
-                else:
-                    date_str = format_date_range(start, end, lang, month_abbrs)
-                comp_str = f'<strong>{escape_html(company)}</strong>'
-                if location:
-                    comp_str += f', {escape_html(location)}'
-                html += f'        <div class="cv-meta">\n          <div>{comp_str}</div>\n'
-                if date_str:
-                    html += f'          <div class="cv-date"><em>{date_str}</em></div>\n'
-                html += '        </div>\n'
-            
-            # Summary
-            if summary:
-                html += f'        <p>{md_to_html(escape_html(summary))}</p>\n'
-            
-            # Highlights (bullet points)
-            if highlights:
-                html += '        <ul>\n'
-                for highlight in safe_list(highlights):
-                    html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
-                html += '        </ul>\n'
-            
-            html += '        </div>\n\n'
+            html += render_entry_block(
+                exp,
+                {'title_main': 'position', 'title_secondary': '', 'org': 'company', 'include_location': True},
+                lang,
+                month_abbrs
+            )
+
     
     # Education
     edu_key = find_section_key(sections, "education", "formazione")
     if edu_key:
         section_title = "Education" if lang == "en" else "Formazione"
-        section_id = "education" if lang == "en" else "formazione"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for edu in sections[edu_key]:
-            html += '        <div class="cv-entry">\n'
-            
-            institution = edu.get("institution", "")
-            degree = edu.get("degree", "")
-            area = edu.get("area", "")
-            start = edu.get("start_date", "")
-            end = edu.get("end_date", "")
-            summary = edu.get("summary", "")
-            highlights = edu.get("highlights", [])
-            
-            # Title: Degree type + Area
-            title = f'<strong>{escape_html(degree)}'
-            if area:
-                title += f' in {escape_html(area)}'
-            title += '</strong>'
-            html += f'        <h2>{title}</h2>\n'
-            
-            # Institution and dates
-            if institution or start or end:
-                date_str = format_date_range(start, end, lang, month_abbrs) if (start or end) else ""
-                inst_str = f'<strong>{escape_html(institution)}</strong>'
-                html += f'        <div class="cv-meta">\n          <div>{inst_str}</div>\n'
-                if date_str:
-                    html += f'          <div class="cv-date"><em>{date_str}</em></div>\n'
-                html += '        </div>\n'
-            
-            # Summary
-            if summary:
-                html += f'        <p>{md_to_html(escape_html(summary))}</p>\n'
-            
-            # Highlights
-            if highlights:
-                html += '        <ul>\n'
-                for highlight in safe_list(highlights):
-                    html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
-                html += '        </ul>\n'
-            
-            html += '        </div>\n\n'
+            html += render_entry_block(
+                edu,
+                {'title_main': 'degree', 'title_secondary': 'area', 'org': 'institution', 'date_field': 'date'},
+                lang,
+                month_abbrs
+            )
+
     
     # Volunteering
     vol_key = find_section_key(sections, "volunteering", "volontariato")
     if vol_key:
         section_title = "Volunteering" if lang == "en" else "Volontariato"
-        section_id = "volunteering" if lang == "en" else "volontariato"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for vol in sections[vol_key]:
-            html += '        <div class="cv-entry">\n'
-            
-            position = vol.get("position", "")
-            company = vol.get("company", "")
-            start = vol.get("start_date", "")
-            end = vol.get("end_date", "")
-            date_field = vol.get("date", "")
-            summary = vol.get("summary", "")
-            highlights = vol.get("highlights", [])
-            
-            # Position title
-            if position:
-                html += f'        <h2><strong>{escape_html(position)}</strong></h2>\n'
-            
-            # Company and dates (same as experience)
-            if company or start or end or date_field:
-                if date_field and not start and not end:
-                    date_str = date_field
-                else:
-                    date_str = format_date_range(start, end, lang, month_abbrs)
-                comp_str = f'<strong>{escape_html(company)}</strong>'
-                html += f'        <div class="cv-meta">\n          <div>{comp_str}</div>\n'
-                if date_str:
-                    html += f'          <div class="cv-date"><em>{date_str}</em></div>\n'
-                html += '        </div>\n'
-            
-            # Summary
-            if summary:
-                html += f'        <p>{md_to_html(escape_html(summary))}</p>\n'
-            
-            # Highlights
-            if highlights:
-                html += '        <ul>\n'
-                for highlight in safe_list(highlights):
-                    html += f'          <li>{md_to_html(escape_html(highlight))}</li>\n'
-                html += '        </ul>\n'
-            
-            html += '        </div>\n\n'
+            html += render_entry_block(
+                vol,
+                {'title_main': 'position', 'title_secondary': '', 'org': 'company', 'include_location': True},
+                lang,
+                month_abbrs
+            )
+
     
     # Certifications
     cert_key = find_section_key(sections, "certification", "certificati")
     if cert_key:
         section_title = "Certifications" if lang == "en" else "Certificati"
-        section_id = "certifications" if lang == "en" else "certificati"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for cert in sections[cert_key]:
             label = cert.get("label", "")
@@ -389,13 +378,13 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     awards_key = find_section_key(sections, "selected_honors", "riconoscimenti")
     if awards_key:
         section_title = "Awards & Recognition" if lang == "en" else "Riconoscimenti"
-        section_id = "awards-and-recognition" if lang == "en" else "riconoscimenti"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for award in sections[awards_key]:
             bullet = award.get("bullet", "")
             if bullet:
                 html += '        <div class="cv-entry cv-entry-minimal">\n'
-                html += f'          <p>{md_to_html(escape_html(bullet))}</p>\n'
+                html += f'          <p>{render_text(bullet)}</p>\n'
                 html += '        </div>\n'
         html += '\n'
     
@@ -403,7 +392,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     skills_key = find_section_key(sections, "skills", "competenze")
     if skills_key:
         section_title = "Skills" if lang == "en" else "Competenze"
-        section_id = "skills" if lang == "en" else "competenze"
+        section_id = slugify(section_title)
         html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
         for skill in sections[skills_key]:
             label = skill.get("label", "")
