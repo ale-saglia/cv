@@ -335,7 +335,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 month_abbrs
             )
 
-
     # Education
     edu_key = find_section_key(sections, "education", "formazione")
     if edu_key:
@@ -350,7 +349,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 month_abbrs
             )
 
-    
     # Volunteering
     vol_key = find_section_key(sections, "volunteering", "volontariato")
     if vol_key:
@@ -364,7 +362,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 lang,
                 month_abbrs
             )
-
 
     # Certifications
     cert_key = find_section_key(sections, "certification", "certificati")
@@ -409,7 +406,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 html += f'        <p><strong>{escape_html(label)}:</strong> {escape_html(details)}</p>\n'
                 html += '        </div>\n'
     
-    html += '      </section>\n\n'
+    html += '      </section>\n'
     return html
 
 
