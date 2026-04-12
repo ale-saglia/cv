@@ -78,7 +78,6 @@ def md_to_html(text):
     """Convert simple markdown formatting to HTML."""
     if not isinstance(text, str):
         return str(text)
-    import re
     # Handle **bold**
     text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
     # Handle *italic*
@@ -113,7 +112,6 @@ def render_text(text: str) -> str:
 
 def slugify(text: str) -> str:
     """Convert text to URL-safe slug for anchor IDs."""
-    import re
     text = text.lower()
     # Replace spaces and special chars with hyphens
     text = re.sub(r'[^\w\s-]', '', text)
