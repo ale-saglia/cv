@@ -1,5 +1,6 @@
 """Generate integrated site/index.html from YAML source files."""
 
+import re
 import yaml
 from pathlib import Path
 
@@ -77,7 +78,6 @@ def md_to_html(text):
     """Convert simple markdown formatting to HTML."""
     if not isinstance(text, str):
         return str(text)
-    
     import re
     # Handle **bold**
     text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
@@ -114,7 +114,6 @@ def render_text(text: str) -> str:
 def slugify(text: str) -> str:
     """Convert text to URL-safe slug for anchor IDs."""
     import re
-    # Convert to lowercase and remove accents
     text = text.lower()
     # Replace spaces and special chars with hyphens
     text = re.sub(r'[^\w\s-]', '', text)
@@ -850,28 +849,6 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       border-radius: 0 0 3px 3px;
     }
 
-    /* CV Links (legacy) */
-    .cv-links {
-      display: flex;
-      gap: 1rem;
-      margin: 0.2rem 0 1.5rem;
-      font-size: 0.95rem;
-      padding: 0;
-      list-style: none;
-    }
-
-    .cv-links span {
-      margin: 0;
-      padding: 0;
-    }
-
-    .cv-links a {
-      color: var(--link);
-      text-decoration: none;
-      margin: 0;
-      padding: 0;
-    }
-
     .cv-toc {
       display: flex;
       flex-wrap: wrap;
@@ -1084,7 +1061,7 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
           const gapCount = (location ? 1 : 0) + links.length;
           totalWidth += gapCount * 16; // 1rem gap
 
-          // Add padding buffer
+          // Add padding buffer (container padding, margins, and overflow safety)
           totalWidth += 40;
 
           requiredWidth = totalWidth;
@@ -1206,6 +1183,9 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       // Update footer
       footerIt.classList.toggle("hidden", lang !== "it");
       footerEn.classList.toggle("hidden", lang !== "en");
+      
+      // Trigger resize to recalculate responsive dropdown layout
+      window.dispatchEvent(new Event("resize"));
     }
 
     function updateDownloadLinks(lang) {
