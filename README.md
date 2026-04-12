@@ -156,7 +156,7 @@ For documentation on the website structure, see [site/README.md](site/README.md)
 | Component | Version |
 |-----------|--------|
 | Python | 3.13 (CI baseline) |
-| rendercv | 2.7 |
+| rendercv | 2.8 |
 | PyYAML | 6.0.3 |
 | ruff | 0.13.2 |
 
