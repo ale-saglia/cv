@@ -14,8 +14,7 @@ Repository note: all documentation, comments, and configuration are kept in Engl
 
 ## 🏛️ Rationale
 
-This project applies a systems-oriented approach to professional data management.
-It is built around three core principles:
+CV data is stored in version-controlled YAML and rendered into multiple formats. The approach is organized around three core principles:
 
 ### No Proprietary Lock-in
 The CV is generated without relying on proprietary platforms.  
@@ -150,23 +149,23 @@ brew install act
 
 ### One-click preview & website
 
-The repository publishes the CV through GitHub Pages on pushes to `main` at [cv.ale-saglia.com](https://cv.ale-saglia.com).
+The repository publishes the CV to GitHub Pages via [cv.ale-saglia.com](https://cv.ale-saglia.com) on pushes to `main`.
 
-The main website (`site/index.html`) features:
-- **Integrated CV display**: The full CV is embedded directly in the website (no iframe or separate page)
-- **Language switcher**: Buttons to toggle between Italian and English
-- **Download dropdown**: Options to download the CV in PDF or Markdown in both languages
-- **Consistent design**: Matches [ale-saglia.com](https://ale-saglia.com) and [insight.ale-saglia.com](https://insight.ale-saglia.com) (Georgia font, color palette, and responsive layout)
-- **Dark mode support**: Automatically adapts to system preferences
-- **Language preference persistence**: LocalStorage remembers the user's language choice
+The main website (`site/index.html`) includes:
+- **Integrated CV display**: Full CV embedded directly (no iframe)
+- **Language switcher**: Italian and English selection
+- **Download options**: PDF and Markdown in both languages
+- **Design**: Consistent with [ale-saglia.com](https://ale-saglia.com) and [insight.ale-saglia.com](https://insight.ale-saglia.com) (Georgia, color palette, responsive)
+- **Dark mode**: Automatic per system preference
+- **Language persistence**: LocalStorage caching
 
 The build process (`build_pages_site.py`):
-1. Discovers all CV templates under `src/<lang>/`
-2. Renders each template via `injector.py --dry-run`
-3. Copies generated files (PDF, HTML, Markdown) to `site/<lang>/<template>/`
-4. Preserves the main `site/index.html` (not auto-generated) to maintain the integrated CV website design
+1. Discovers CV templates under `src/<lang>/`
+2. Renders templates via `injector.py --dry-run`
+3. Copies outputs (PDF, HTML, Markdown) to `site/<lang>/<template>/`  
+4. Preserves `site/index.html` (manually maintained)
 
-For documentation on the website structure, see [site/README.md](site/README.md).
+See [site/README.md](site/README.md) for website structure details.
 
 ## 🧪 Compatibility
 
@@ -185,12 +184,14 @@ This repository is distributed under the terms described in [LICENSE](LICENSE).
 The CV content and generated documents remain proprietary to the author.
 
 ## ⚖️ Privacy & Data Protection
-Consistent with my academic specialization in GDPR and the legal framework of data governance, this repository adheres to the principle of data minimization.
-Only professional information necessary for networking and recruitment is included in the public source files.
 
-Sensitive identifiers (phone, email, address) are represented in templates using `${SECRET_*}` placeholders. Real values are stored only in the local plaintext file `src/secret.yaml`, which is excluded by `.gitignore` and never committed. Local at-rest protection relies on OS-level full-disk encryption.
+This repository implements data minimization: only professional information necessary for networking is included in source files.
 
-An earlier design used `sops` + `age` to store an encrypted secrets file in the repository. This approach was reconsidered before any secrets were committed: keeping personal data in the repository - even encrypted - conflicts with privacy by default, as the data would be permanently embedded in the git history. No encrypted secrets are present in this repository's commit history. Given the minimal scope of injected fields (three contact identifiers), a local plaintext file excluded from version control is the proportionate and privacy-preserving solution.
+**Sensitive fields** (phone, email, address) are represented as `${SECRET_*}` placeholders in templates. Actual values are stored in the local file `src/secret.yaml` (excluded via `.gitignore`, not committed). At-rest protection uses OS-level full-disk encryption.
+
+**No encrypted secrets are stored in the repository** — keeping personal data in version control creates permanent history records. A local plaintext file excluded from version control is the appropriate approach for a minimal set of three contact identifiers.
+
+*Note: Earlier iterations explored `sops` + `age` for encrypted secrets storage. This was reconsidered: a local plaintext file provides proportionate protection without repository history constraints.*
 
 **Maintained by Alessandro Saglia**
 *Digital Governance Specialist | IT Engineering Student | Open Source Contributor*
