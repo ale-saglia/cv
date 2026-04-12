@@ -1173,6 +1173,9 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
         cvLayoutEn.recalculateLayout();
       }
       
+      // Update download links to point to the selected language
+      updateDownloadLinks(lang);
+
       // Update dropdown aria-label
       dropdownTrigger.setAttribute("aria-label", `Download CV in ${lang.toUpperCase()}`);
       
