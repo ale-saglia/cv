@@ -18,7 +18,7 @@ CV data is stored in version-controlled YAML and rendered into multiple formats.
 
 ### No Proprietary Lock-in
 The CV is generated without relying on proprietary platforms.  
-All data: roles, dates, links remains under direct control and ownership.
+All data (roles, dates, links) remains under direct control and ownership.
 
 ### Single Source of Truth
 Professional data is stored in YAML and versioned through Git.  
@@ -28,7 +28,7 @@ Changes are tracked over time, making career evolution explicit and reproducible
 A single structured dataset generates multiple outputs (HTML, PDF, Markdown).  
 The same source powers both the downloadable CV and the web representation.
 
-### In practice, this enables:
+### In practice:
 - Career versioning through Git  
 - Multi-format generation from a single dataset  
 - Separation between data and presentation  
