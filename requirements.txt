@@ -1,5 +1,5 @@
 # Main framework for CV generation
-rendercv[full]==2.7
+rendercv[full]==2.8
 
 # YAML handling for injector.py
 pyyaml==6.0.3
