@@ -18,6 +18,11 @@ src/secret.yml
 site/
 
 # ---------------------------
+# Build / generated files
+# ---------------------------
+src/en/master-anon.yaml
+
+# ---------------------------
 # Python
 # ---------------------------
 .venv/
@@ -39,4 +44,4 @@ build/
 .vscode/
 .idea/
 .claude/
-src/en/master-anon.yaml
+.instructions.md
