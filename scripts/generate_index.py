@@ -10,6 +10,71 @@ SRC_DIR = ROOT_DIR / "src"
 SITE_DIR = ROOT_DIR / "site"
 
 
+def load_cv_as_code_philosophy() -> str:
+    """Extract CV-as-Code philosophy description from README.md and format as HTML."""
+    readme_path = ROOT_DIR / "README.md"
+    try:
+        with open(readme_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # Extract intro text before the three principles
+        # Use flexible regex that works with or without emoji
+        intro_match = re.search(r"##.*?Rationale.*?\n\n(.*?)\n### No Proprietary", content, re.DOTALL)
+        if not intro_match:
+            return ""
+        
+        intro = intro_match.group(1).strip()
+        intro = md_to_html(escape_html(intro))
+        
+        # Extract the three principles
+        principles_matches = [
+            re.search(r"### No Proprietary Lock-in\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
+            re.search(r"### Single Source of Truth, Version Controlled\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
+            re.search(r"### Data Reusability\n(.*?)(?=\n###|\n\*\*In practice)", content, re.DOTALL),
+        ]
+        
+        principles = [
+            ("No Proprietary Lock-in", principles_matches[0] if principles_matches[0] else None),
+            ("Single Source of Truth, Version Controlled", principles_matches[1] if principles_matches[1] else None),
+            ("Data Reusability", principles_matches[2] if principles_matches[2] else None),
+        ]
+        
+        # Extract "In practice" section with bullet points
+        practice_match = re.search(r"\*\*In practice, this enables:\*\*\n(.*?)(?=\n##|\Z)", content, re.DOTALL)
+        
+        # Build HTML
+        html = f"<p>{intro}</p>"
+        
+        for title, match in principles:
+            if match:
+                text = match.group(1).strip()
+                text = md_to_html(escape_html(text))
+                html += f"<h3>{escape_html(title)}</h3>"
+                html += f"<p>{text}</p>"
+        
+        # Add "In practice" section with bullet list
+        if practice_match:
+            practice_text = practice_match.group(1).strip()
+            html += "<p><strong>In practice, this enables:</strong></p><ul>"
+            
+            # Extract bullet points
+            bullets = re.findall(r"\*\s+\*\*([^:]+):\*\*\s*(.+?)(?=\n\*|\Z)", practice_text, re.DOTALL)
+            for bullet_title, bullet_text in bullets:
+                bullet_title = escape_html(bullet_title.strip())
+                bullet_text = md_to_html(escape_html(bullet_text.strip()))
+                html += f"<li><strong>{bullet_title}:</strong> {bullet_text}</li>"
+            
+            html += "</ul>"
+        
+        return html
+    except Exception as e:
+        print(f"Error loading philosophy: {e}")
+        pass
+    
+    # Fallback text
+    return "<p>This curriculum is built with code, not proprietary tools.</p>"
+
+
 def load_locale(lang: str) -> dict:
     """Load locale data for month names."""
     locale_path = SRC_DIR / lang / "locale.yaml"
@@ -411,7 +476,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     return html
 
 
-def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, locale_en: dict | None = None) -> str:
+def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, locale_en: dict | None = None, philosophy: str = "") -> str:
     """Generate complete HTML file."""
     
     html = '''<!doctype html>
@@ -454,24 +519,24 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     /* Navigation Bar */
     .site-nav {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: flex-start;
-      gap: 0.8rem;
+      gap: 1.5rem;
       padding: 1.2rem 0;
       border-bottom: 1px solid var(--line);
       margin-bottom: 0.7rem;
+      align-items: center;
     }
 
     .nav-title {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 2.4rem;
       font-weight: 600;
       letter-spacing: -0.5px;
-      order: 2;
-      width: 100%;
-      text-align: center;
-      margin-top: 0.6rem;
+      flex: 1;
+      text-align: left;
       white-space: normal;
+      min-width: 0;
     }
 
     .nav-title a {
@@ -485,11 +550,13 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
 
     .nav-controls {
       display: flex;
-      order: 1;
-      width: 100%;
-      justify-content: space-between;
-      gap: 1.5rem;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+      gap: 1rem;
       align-items: center;
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .lang-switcher {
@@ -918,16 +985,210 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     @media (max-width: 768px) {
       .site-nav {
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 0.8rem;
       }
 
       .nav-title {
-        font-size: 1rem;
+        font-size: 1.2rem;
+        order: 2;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.6rem;
+        flex: auto;
       }
 
       .nav-controls {
+        order: 1;
         width: 100%;
         justify-content: flex-start;
+        flex-wrap: nowrap;
+      }
+    }
+
+    /* CV-as-code button */
+    .cv-as-code-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--link);
+      transition: all 0.2s;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .cv-as-code-btn:hover {
+      border-bottom-color: var(--link);
+    }
+
+    .cv-as-code-btn:focus {
+      outline: none;
+    }
+
+    /* Modal Styles */
+    .cv-as-code-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.2s ease-in;
+    }
+
+    .cv-as-code-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cv-as-code-modal-content {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90vw;
+      max-height: 70vh;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease-out;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cv-as-code-modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text);
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .cv-as-code-modal-close:hover {
+      color: var(--link);
+    }
+
+    .cv-as-code-modal h2 {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 1.5rem;
+      color: var(--text);
+      padding: 2rem 2rem 1rem 2rem;
+      flex-shrink: 0;
+    }
+
+    .cv-as-code-philosophy {
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .cv-as-code-philosophy p {
+      margin: 1rem 0 0.2rem 0;
+    }
+
+    .cv-as-code-philosophy p:first-child {
+      margin-top: 0;
+    }
+
+    .cv-as-code-philosophy h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.3rem 0;
+      color: var(--text);
+    }
+
+    .cv-as-code-philosophy h3 + p {
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .cv-as-code-philosophy p + ul {
+      margin-top: 0;
+    }
+
+    .cv-as-code-philosophy ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+
+    .cv-as-code-philosophy li {
+      margin: 0.5rem 0;
+    }
+
+    .cv-as-code-modal-footer {
+      display: flex;
+      gap: 1rem;
+      padding: 1.5rem 2rem 2rem 2rem;
+      justify-content: flex-end;
+      flex-shrink: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .cv-as-code-modal-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cv-as-code-modal-btn.primary {
+      background: var(--link);
+      color: white;
+      border-color: var(--link);
+    }
+
+    .cv-as-code-modal-btn.primary:hover {
+      opacity: 0.9;
+    }
+
+    .cv-as-code-modal-btn.secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .cv-as-code-modal-btn.secondary:hover {
+      border-color: var(--link);
+      color: var(--link);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
     }
 
@@ -954,8 +1215,9 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
 <body id="top">
   <div class="wrap">
     <nav class="site-nav" aria-label="Primary">
-      <h1 class="nav-title"><a href="#top">Alessandro Saglia - Curriculum Vitae</a></h1>
+      <h1 class="nav-title"><a href="#top">Alessandro Saglia</a></h1>
       <div class="nav-controls">
+        <button class="cv-as-code-btn" id="cv-as-code-btn" title="Learn about CV-as-code philosophy">CV-as-code</button>
         <div class="lang-switcher">
           <button class="lang-btn active" id="lang-it" aria-label="Seleziona italiano">IT</button>
           <button class="lang-btn" id="lang-en" aria-label="Select English">EN</button>
@@ -995,8 +1257,24 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
   </div>'''
     
     # Add back-to-top and scripting
+    philosophy_text = philosophy if philosophy else "<p>This curriculum is built with code, not proprietary tools.</p>"
     html += '''
   <a href="#top" class="back-to-top" id="back-to-top">↑ Top</a>
+
+  <!-- CV-as-code Modal -->
+  <div class="cv-as-code-modal" id="cv-as-code-modal">
+    <div class="cv-as-code-modal-content">
+      <button class="cv-as-code-modal-close" id="cv-as-code-modal-close">&times;</button>
+      <h2>CV-as-code Rationale</h2>
+      <div class="cv-as-code-philosophy">'''
+    html += philosophy_text
+    html += '''</div>
+      <div class="cv-as-code-modal-footer">
+        <button class="cv-as-code-modal-btn secondary" id="cv-as-code-modal-close-btn">Close</button>
+        <a href="https://github.com/ale-saglia/cv" target="_blank" rel="noopener" class="cv-as-code-modal-btn primary">Learn More →</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Responsive CV links dropdown logic
@@ -1223,6 +1501,37 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     const initialLang = getInitialLanguage();
     setLanguage(initialLang);
 
+    // CV-as-code modal
+    const cvAsCodeBtn = document.getElementById("cv-as-code-btn");
+    const cvAsCodeModal = document.getElementById("cv-as-code-modal");
+    const cvAsCodeModalClose = document.getElementById("cv-as-code-modal-close");
+    const cvAsCodeModalCloseBtn = document.getElementById("cv-as-code-modal-close-btn");
+
+    cvAsCodeBtn.addEventListener("click", () => {
+      cvAsCodeModal.classList.add("active");
+    });
+
+    function closeModal() {
+      cvAsCodeModal.classList.remove("active");
+    }
+
+    cvAsCodeModalClose.addEventListener("click", closeModal);
+    cvAsCodeModalCloseBtn.addEventListener("click", closeModal);
+
+    // Close modal when clicking outside the content
+    cvAsCodeModal.addEventListener("click", (e) => {
+      if (e.target === cvAsCodeModal) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && cvAsCodeModal.classList.contains("active")) {
+        closeModal();
+      }
+    });
+
     // Back to top
     const backToTop = document.getElementById("back-to-top");
     window.addEventListener("scroll", () => {
@@ -1247,9 +1556,10 @@ def main():
     cv_en = load_cv_data("en")
     locale_it = load_locale("it")
     locale_en = load_locale("en")
+    philosophy = load_cv_as_code_philosophy()
     
     print("Generating HTML...")
-    html = generate_full_html(cv_it, cv_en, locale_it, locale_en)
+    html = generate_full_html(cv_it, cv_en, locale_it, locale_en, philosophy)
     
     output_path = SITE_DIR / "index.html"
     output_path.parent.mkdir(parents=True, exist_ok=True)

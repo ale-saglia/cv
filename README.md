@@ -13,10 +13,23 @@ This repository contains the source files for my professional curriculum vitae, 
 Repository note: all documentation, comments, and configuration are kept in English for consistency.
 
 ## 🏛️ Rationale
-As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, I believe that even a resume should reflect *systems awareness*. Managing my CV as code enables:
+
+As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, I believe that even a resume should reflect *systems awareness*. This project evolved through three key principles:
+
+### No Proprietary Lock-in
+The journey started with a simple goal: generate my CV without depending on proprietary tools. Every word, every date, every link should belong to me and be under my control - not trapped in someone else's platform.
+
+### Single Source of Truth, Version Controlled
+With data in YAML and managed through Git, my professional history becomes versionable. Every career move, skill update, or role change is tracked. I can see when I added something, revisit past versions, and maintain absolute clarity on how my narrative has evolved.
+
+### Data Reusability
+Why store professional data in one place for one output? This CV source powers multiple formats - PDF, Markdown, HTML - and now also fuels an interactive web presence. A single, carefully structured dataset generates the resume you download *and* the site you're browsing.
+
+**In practice, this enables:**
 *   **Technical Consistency:** Precise management of technical milestones and career evolution.
-*   **Career Versioning:** Tracking the evolution of my roles, from **Legal Enforcement** in local government to **Healthcare Digital Governance** at a regional level.
+*   **Career Versioning:** Tracking how my career evolved from **Legal Enforcement** in local government to **Healthcare Digital Governance** at a regional level.
 *   **Privacy by Design:** Sensitive personal data (e.g., phone, email, address) is managed through local placeholders and injected only at render time.
+*   **Multi-channel presence:** One data source powers downloads, web presence, and future integrations.
 
 ## 📂 Repository Structure
 
@@ -173,9 +186,7 @@ Only professional information necessary for networking and recruitment is includ
 
 Sensitive identifiers (phone, email, address) are represented in templates using `${SECRET_*}` placeholders. Real values are stored only in the local plaintext file `src/secret.yaml`, which is excluded by `.gitignore` and never committed. Local at-rest protection relies on OS-level full-disk encryption.
 
-An earlier design used `sops` + `age` to store an encrypted secrets file in the repository. This approach was reconsidered before any secrets were committed: keeping personal data in the repository — even encrypted — conflicts with privacy by default, as the data would be permanently embedded in the git history. No encrypted secrets are present in this repository's commit history. Given the minimal scope of injected fields (three contact identifiers), a local plaintext file excluded from version control is the proportionate and privacy-preserving solution.
-
------------------------------------------------------------------------------
+An earlier design used `sops` + `age` to store an encrypted secrets file in the repository. This approach was reconsidered before any secrets were committed: keeping personal data in the repository - even encrypted - conflicts with privacy by default, as the data would be permanently embedded in the git history. No encrypted secrets are present in this repository's commit history. Given the minimal scope of injected fields (three contact identifiers), a local plaintext file excluded from version control is the proportionate and privacy-preserving solution.
 
 **Maintained by Alessandro Saglia**
 *Digital Governance Specialist | IT Engineering Student | Open Source Contributor*
