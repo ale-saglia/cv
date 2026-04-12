@@ -147,6 +147,35 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         emoji = custom["emoji"]
         html += f'          <a href="{url}" target="_blank" rel="noopener">{emoji} {label}</a>\n'
     
+    # Load custom connections (e.g., insight notes with fontawesome icons)
+    fontawesome_to_emoji = {
+        "magnifying-glass-chart": "📊",
+        "chart": "📈",
+        "chart-line": "📉",
+        "graph": "📊",
+        "note": "📝",
+        "notes": "📝",
+        "book": "📖",
+    }
+    
+    # Mappings for friendly labels on the website (separate from CV placeholder)
+    placeholder_to_label = {
+        "insight.ale-saglia.com": {
+            "it": "Insight Notes",
+            "en": "Insight Notes",
+        }
+    }
+    
+    for custom_conn in safe_list(cv_data.get("custom_connections", [])):
+        placeholder = custom_conn.get("placeholder", "")
+        url = custom_conn.get("url", "")
+        icon = custom_conn.get("fontawesome_icon", "")
+        emoji = fontawesome_to_emoji.get(icon, "🔗")
+        # Use friendly label if available for this placeholder, otherwise use placeholder
+        label = placeholder_to_label.get(placeholder, {}).get(lang, placeholder)
+        if url and placeholder:
+            html += f'          <a href="{url}" target="_blank" rel="noopener">{emoji} {escape_html(label)}</a>\n'
+    
     # Social networks from YAML
     network_order = ["linkedin", "github"]
     networks_dict = {n["network"].lower(): n for n in cv_data.get("social_networks", [])}
