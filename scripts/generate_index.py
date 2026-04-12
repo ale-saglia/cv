@@ -125,7 +125,7 @@ def render_entry_block(entry: dict, field_map: dict, lang: str, month_abbrs: lis
     
     field_map: dict with keys:
         - 'title_main': main title field name (e.g., 'position', 'degree')
-        - 'title_secondary': optional subtitle/details field (e.g., 'area', '')
+        - 'title_secondary': optional subtitle/details field (e.g., 'area'), or None if unused
         - 'org': organization field name (e.g., 'company', 'institution')
         - 'include_location': whether to append location to org (True for experience/volunteering)
     """
@@ -133,10 +133,10 @@ def render_entry_block(entry: dict, field_map: dict, lang: str, month_abbrs: lis
     
     # Main title
     title_main_key = field_map.get('title_main', '')
-    title_secondary_key = field_map.get('title_secondary', '')
-    
+    title_secondary_key = field_map.get('title_secondary')
+
     title_main = entry.get(title_main_key, '')
-    title_secondary = entry.get(title_secondary_key, '')
+    title_secondary = entry.get(title_secondary_key, '') if title_secondary_key else ''
     
     if title_main:
         html += f'        <h2><strong>{escape_html(title_main)}</strong>'
@@ -334,12 +334,12 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         for exp in sections[exp_key]:
             html += render_entry_block(
                 exp,
-                {'title_main': 'position', 'title_secondary': '', 'org': 'company', 'include_location': True},
+                {'title_main': 'position', 'title_secondary': None, 'org': 'company', 'include_location': True},
                 lang,
                 month_abbrs
             )
 
-    
+
     # Education
     edu_key = find_section_key(sections, "education", "formazione")
     if edu_key:
@@ -349,7 +349,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         for edu in sections[edu_key]:
             html += render_entry_block(
                 edu,
-                {'title_main': 'degree', 'title_secondary': 'area', 'org': 'institution', 'date_field': 'date'},
+                {'title_main': 'degree', 'title_secondary': 'area', 'org': 'institution'},
                 lang,
                 month_abbrs
             )
@@ -364,12 +364,12 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         for vol in sections[vol_key]:
             html += render_entry_block(
                 vol,
-                {'title_main': 'position', 'title_secondary': '', 'org': 'company', 'include_location': True},
+                {'title_main': 'position', 'title_secondary': None, 'org': 'company', 'include_location': True},
                 lang,
                 month_abbrs
             )
 
-    
+
     # Certifications
     cert_key = find_section_key(sections, "certification", "certificati")
     if cert_key:

@@ -24,7 +24,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
-        run: pip install "rendercv[full]==2.7" pyyaml==6.0.3 --quiet
+        run: pip install -r requirements.txt --quiet
 
       - name: Render all CV YAMLs (sanitized)
         run: |
