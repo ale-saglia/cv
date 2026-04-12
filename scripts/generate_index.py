@@ -1038,9 +1038,10 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
             totalWidth += link.scrollWidth;
           });
 
-          // Add gaps between items
+          // Add gaps between items (read actual computed gap instead of assuming 1rem = 16px)
           const gapCount = (location ? 1 : 0) + links.length;
-          totalWidth += gapCount * 16; // 1rem gap
+          const containerGap = parseFloat(getComputedStyle(linksGroup.parentElement).gap) || 16;
+          totalWidth += gapCount * containerGap;
 
           // Add padding buffer (container padding, margins, and overflow safety)
           totalWidth += 40;
