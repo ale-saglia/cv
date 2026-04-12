@@ -1,0 +1,21 @@
+<svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; stroke: #30363d; }
+      .fg { stroke: #e6edf3; }
+      .dot { fill: #e6edf3; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #ffffff; stroke: #e6e8eb; }
+      .fg { stroke: #1b1f23; }
+      .dot { fill: #1b1f23; }
+    }
+  </style>
+  <rect class="bg" x="4" y="4" width="56" height="56" rx="12" stroke-width="0.5"/>
+  <line class="fg" x1="14" y1="20" x2="50" y2="20" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+  <line class="fg" x1="14" y1="28" x2="50" y2="28" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+  <line class="fg" x1="14" y1="36" x2="50" y2="36" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+  <line class="fg" x1="14" y1="44" x2="50" y2="44" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+  <circle class="dot" cx="32" cy="32" r="4" opacity="0.9"/>
+  <circle class="fg" cx="32" cy="32" r="8" fill="none" stroke-width="0.7" opacity="0.3"/>
+</svg>

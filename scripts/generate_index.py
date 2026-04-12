@@ -1,6 +1,7 @@
 """Generate integrated site/index.html from YAML source files."""
 
 import re
+import shutil
 import yaml
 from pathlib import Path
 
@@ -948,6 +949,7 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
 
 
   </style>
+  <link rel="icon" href="assets/favicon-cv.svg" type="image/svg+xml" />
 </head>
 <body id="top">
   <div class="wrap">
@@ -1256,6 +1258,13 @@ def main():
         f.write(html)
     
     print(f"✓ Generated {output_path}")
+    
+    # Copy favicon
+    favicon_src = ROOT_DIR / "favicon.svg"
+    favicon_dst = SITE_DIR / "assets" / "favicon-cv.svg"
+    favicon_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(favicon_src, favicon_dst)
+    print(f"✓ Copied favicon to {favicon_dst}")
 
 
 if __name__ == "__main__":
