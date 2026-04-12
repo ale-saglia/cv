@@ -6,6 +6,10 @@ cv:
   photo:
   phone: ${SECRET_PHONE}
   website: https://ale-saglia.com
+  custom_connections:
+    - placeholder: "insight.ale-saglia.com"
+      url: https://insight.ale-saglia.com
+      fontawesome_icon: magnifying-glass-chart
   social_networks:
     - network: LinkedIn
       username: asaglia
