@@ -44,3 +44,4 @@ build/
 .claude/
 .instructions.md
 TODO.md
+.vscode/settings.json
