@@ -1,0 +1,138 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Generate Index (Local Debug)",
+      "type": "shell",
+      "command": "python",
+      "args": ["scripts/generate_index.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Inject Secrets & Render CV (Dry-run)",
+      "type": "shell",
+      "command": "python",
+      "args": ["scripts/injector.py", "--dry-run", "render", "src/en/master.yaml"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Full Site (Local)",
+      "type": "shell",
+      "command": "python",
+      "args": ["scripts/build_pages_site.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "View Generated Site",
+      "type": "shell",
+      "command": "open",
+      "args": ["site/index.html"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "dependsOn": ["Generate Index (Local Debug)"],
+      "runOptions": {
+        "runWhen": "folderOpen"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Simulate CI with act (render-preview)",
+      "type": "shell",
+      "command": "act",
+      "args": [
+        "--job", "render",
+        "--workflows", ".github/workflows/render-preview.yml",
+        "--container-architecture", "linux/amd64",
+        "-v"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Simulate CI with act (ci.yml)",
+      "type": "shell",
+      "command": "act",
+      "args": [
+        "--job", "lint-and-format",
+        "--workflows", ".github/workflows/ci.yml",
+        "--container-architecture", "linux/amd64",
+        "-v"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint & Format (Ruff)",
+      "type": "shell",
+      "command": "ruff",
+      "args": ["check", "--fix", "scripts/"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean Generated Files",
+      "type": "shell",
+      "command": "rm",
+      "args": ["-rf", "site/index.html", "src/*/rendercv_output"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

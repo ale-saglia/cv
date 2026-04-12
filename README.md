@@ -101,6 +101,36 @@ The `Render Preview` workflow runs `injector.py --dry-run`, renders all CV YAML 
 
 This workflow does not require local/remote secret files.
 
+### Debug & Development Tasks (VS Code)
+
+The repository includes pre-configured tasks in `.vscode/tasks.json` for local development and debugging.
+
+**Available tasks** (via `Cmd+Shift+B` or Command Palette → "Run Task"):
+
+- **Generate Index (Local Debug)** — Run `generate_index.py` to build the main website (`site/index.html`). Use this for rapid iteration on the integrated CV display.
+- **Inject Secrets & Render CV (Dry-run)** — Run `injector.py --dry-run` to test CV rendering without local secrets. Simulates CI behavior.
+- **Build Full Site (Local)** — Orchestrate all build steps: generate index, render all templates, place outputs in `site/<lang>/`. Default build task.
+- **View Generated Site** — Open the generated `site/index.html` in the browser (depends on "Generate Index").
+- **Simulate CI with act (render-preview)** — Run the GitHub Actions workflow locally using [act](https://github.com/nektos/act). Simulates the sanitized preview rendering.
+- **Simulate CI with act (ci.yml)** — Run the linting/format checks workflow locally. Requires `act` installed.
+- **Lint & Format (Ruff)** — Apply ruff fixes to Python scripts.
+- **Clean Generated Files** — Remove all generated artifacts (output directories and `site/index.html`).
+
+**Debug configurations** (`.vscode/launch.json`):
+
+- Press `F5` or use the Run & Debug panel to attach a debugger to:
+  - Debug: Generate Index
+  - Debug: Injector (Dry-run)
+  - Debug: Build Site
+
+**Prerequisites for CI simulation:**
+
+Install [act](https://github.com/nektos/act) to simulate GitHub Actions locally:
+
+```bash
+brew install act
+```
+
 ### One-click preview & website
 
 The repository publishes the CV through GitHub Pages on pushes to `main` at [cv.ale-saglia.com](https://cv.ale-saglia.com).

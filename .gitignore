@@ -41,8 +41,6 @@ build/
 # OS / editors
 # ---------------------------
 .DS_Store
-.vscode/
-.idea/
 .claude/
 .instructions.md
 TODO.md
