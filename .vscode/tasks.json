@@ -59,9 +59,6 @@
         "reveal": "silent"
       },
       "dependsOn": ["Generate Index (Local Debug)"],
-      "runOptions": {
-        "runWhen": "folderOpen"
-      },
       "problemMatcher": []
     },
     {
@@ -89,7 +86,7 @@
       "type": "shell",
       "command": "act",
       "args": [
-        "--job", "lint-and-format",
+        "--job", "lint-and-validate",
         "--workflows", ".github/workflows/ci.yml",
         "--container-architecture", "linux/amd64",
         "-v"
