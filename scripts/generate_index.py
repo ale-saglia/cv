@@ -201,12 +201,12 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     html = f'      <!-- {lang.upper()} CV -->\n'
     html += f'      <section id="{cv_id}" class="{cv_class}">\n'
     
-    # Links section
+    # Links section with responsive dropdown
     location = cv_data.get("location", "")
-    html += '        <div class="cv-links">\n'
-    html += f'          <span>📍 {escape_html(location)}</span>\n'
+    html += '        <div class="cv-header-links">\n'
+    html += f'          <span class="cv-location">📍 {escape_html(location)}</span>\n'
     
-    # Custom links from YAML
+    # Build links list
     website_url = cv_data.get("website", "")
     custom_links = []
     
@@ -223,12 +223,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     for custom in safe_list(cv_data.get("custom_links", [])):
         custom_links.append(custom)
     
-    for custom in custom_links:
-        label = custom["label_it"] if lang == "it" else custom["label_en"]
-        url = custom["url"]
-        emoji = custom["emoji"]
-        html += f'          <a href="{url}" target="_blank" rel="noopener">{emoji} {label}</a>\n'
-    
     # Load custom connections (e.g., insight notes with fontawesome icons)
     fontawesome_to_emoji = {
         "magnifying-glass-chart": "📊",
@@ -240,7 +234,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         "book": "📖",
     }
     
-    # Mappings for friendly labels on the website (separate from CV placeholder)
     placeholder_to_label = {
         "insight.ale-saglia.com": {
             "it": "Insight Notes",
@@ -253,10 +246,15 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         url = custom_conn.get("url", "")
         icon = custom_conn.get("fontawesome_icon", "")
         emoji = fontawesome_to_emoji.get(icon, "🔗")
-        # Use friendly label if available for this placeholder, otherwise use placeholder
         label = placeholder_to_label.get(placeholder, {}).get(lang, placeholder)
         if url and placeholder:
-            html += f'          <a href="{url}" target="_blank" rel="noopener">{emoji} {escape_html(label)}</a>\n'
+            custom_links.append({
+                "name": placeholder,
+                "url": url,
+                "label_it": label,
+                "label_en": label,
+                "emoji": emoji,
+            })
     
     # Social networks from YAML
     network_order = ["linkedin", "github"]
@@ -266,15 +264,48 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
         if net_name not in networks_dict:
             continue
         network = networks_dict[net_name]
+        username = network.get("username", "")
+        if not username:
+            continue
         
         if net_name == "linkedin":
-            username = network.get("username", "")
-            if username:
-                html += f'          <a href="https://linkedin.com/in/{username}" target="_blank" rel="noopener">🔗 LinkedIn</a>\n'
+            custom_links.append({
+                "name": "linkedin",
+                "url": f"https://linkedin.com/in/{username}",
+                "label_it": "LinkedIn",
+                "label_en": "LinkedIn",
+                "emoji": "🔗",
+            })
         elif net_name == "github":
-            username = network.get("username", "")
-            if username:
-                html += f'          <a href="https://github.com/{username}" target="_blank" rel="noopener">💻 GitHub</a>\n'
+            custom_links.append({
+                "name": "github",
+                "url": f"https://github.com/{username}",
+                "label_it": "GitHub",
+                "label_en": "GitHub",
+                "emoji": "💻",
+            })
+    
+    # Inline links group (shown on wide screens)
+    html += '          <div class="cv-links-group" id="cv-links-group-' + lang + '">\n'
+    for custom in custom_links:
+        label = custom["label_it"] if lang == "it" else custom["label_en"]
+        url = custom["url"]
+        emoji = custom["emoji"]
+        html += f'            <a href="{url}" target="_blank" rel="noopener">{emoji} {label}</a>\n'
+    html += '          </div>\n'
+    
+    # Dropdown menu (shown on narrow screens)
+    dropdown_label = "Link" if lang == "it" else "Links"
+    html += '          <div class="cv-links-dropdown" id="cv-links-dropdown-' + lang + '" aria-label="Links menu">\n'
+    html += f'            <button class="cv-links-dropdown-trigger" aria-expanded="false" aria-haspopup="true">{dropdown_label} <span class="cv-links-dropdown-arrow">▼</span></button>\n'
+    html += '            <div class="cv-links-dropdown-menu">\n'
+    for custom in custom_links:
+        label = custom["label_it"] if lang == "it" else custom["label_en"]
+        url = custom["url"]
+        emoji = custom["emoji"]
+        html += f'              <a href="{url}" target="_blank" rel="noopener" class="cv-links-dropdown-item">{emoji} {label}</a>\n'
+    html += '            </div>\n'
+    html += '          </div>\n'
     
     html += '        </div>\n\n'
     
@@ -682,7 +713,144 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       text-decoration: underline;
     }
 
-    /* CV Links */
+    /* CV Links Container */
+    .cv-header-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.2rem 0 1.5rem;
+      font-size: 0.95rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .cv-location {
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    /* Inline links group (shown on wider screens) */
+    .cv-links-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+
+    .cv-links-group.hidden {
+      display: none;
+    }
+
+    .cv-links-group a {
+      color: var(--link);
+      text-decoration: none;
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    .cv-links-group a:hover {
+      text-decoration: underline;
+    }
+
+    /* Dropdown menu (shown on narrow screens) */
+    .cv-links-dropdown {
+      display: none;
+      position: relative;
+      margin-left: auto;
+    }
+
+    .cv-links-dropdown.visible {
+      display: block;
+    }
+
+    .cv-links-dropdown-trigger {
+      background: none;
+      border: none;
+      color: var(--link);
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      text-decoration: none;
+      transition: text-decoration 0.15s ease;
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .cv-links-dropdown-arrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .cv-links-dropdown-trigger[aria-expanded="true"] .cv-links-dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .cv-links-dropdown-trigger:hover {
+      text-decoration: underline;
+    }
+
+    .cv-links-dropdown-trigger:focus {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .cv-links-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      min-width: 160px;
+      z-index: 100;
+      flex-direction: column;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .cv-links-dropdown-menu {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .cv-links-dropdown-menu.open {
+      display: flex;
+    }
+
+    .cv-links-dropdown-item {
+      display: block;
+      padding: 0.6rem 1rem;
+      color: var(--link);
+      text-decoration: none;
+      transition: background 0.1s ease;
+    }
+
+    .cv-links-dropdown-item:hover {
+      background: var(--line);
+      text-decoration: none;
+    }
+
+    .cv-links-dropdown-item:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    .cv-links-dropdown-item:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
+    /* CV Links (legacy) */
     .cv-links {
       display: flex;
       gap: 1rem;
@@ -875,6 +1043,135 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
   <a href="#top" class="back-to-top" id="back-to-top">↑ Top</a>
 
   <script>
+    // Responsive CV links dropdown logic
+    function setupCVLinksDropdown(linksGroup, linksDropdown) {
+      if (!linksGroup || !linksDropdown) return;
+
+      const trigger = linksDropdown.querySelector(".cv-links-dropdown-trigger");
+      const menu = linksDropdown.querySelector(".cv-links-dropdown-menu");
+      const items = menu ? Array.from(menu.querySelectorAll("a")) : [];
+
+      if (!trigger || !menu) return;
+
+      let lastExpanded = null;
+      let requiredWidth = null;
+      let isCalculatingWidth = false;
+
+      function calculateRequiredWidth() {
+        if (isCalculatingWidth) return;
+        isCalculatingWidth = true;
+
+        try {
+          const wasHidden = linksGroup.classList.contains("hidden");
+          linksGroup.classList.remove("hidden");
+
+          // Calculate total width needed
+          let totalWidth = 0;
+          
+          // Add location width
+          const location = linksGroup.parentElement.querySelector(".cv-location");
+          if (location) {
+            totalWidth += location.scrollWidth;
+          }
+
+          // Add links group + gaps
+          const links = linksGroup.querySelectorAll("a");
+          links.forEach(link => {
+            totalWidth += link.scrollWidth;
+          });
+
+          // Add gaps between items
+          const gapCount = (location ? 1 : 0) + links.length;
+          totalWidth += gapCount * 16; // 1rem gap
+
+          // Add padding buffer
+          totalWidth += 40;
+
+          requiredWidth = totalWidth;
+
+          if (wasHidden) {
+            linksGroup.classList.add("hidden");
+          }
+        } finally {
+          isCalculatingWidth = false;
+        }
+      }
+
+      function checkLayout() {
+        const containerWidth = linksGroup.parentElement.clientWidth;
+
+        if (requiredWidth === null) {
+          calculateRequiredWidth();
+        }
+
+        const shouldExpand = containerWidth >= requiredWidth;
+
+        if (lastExpanded === shouldExpand) return;
+        lastExpanded = shouldExpand;
+
+        if (shouldExpand) {
+          // Show inline, hide dropdown
+          linksGroup.classList.remove("hidden");
+          linksDropdown.classList.remove("visible");
+          menu.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        } else {
+          // Hide inline, show dropdown
+          linksGroup.classList.add("hidden");
+          linksDropdown.classList.add("visible");
+        }
+      }
+
+      // Dropdown toggle
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        menu.classList.toggle("open");
+        trigger.setAttribute("aria-expanded", menu.classList.contains("open") ? "true" : "false");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!linksDropdown.contains(e.target)) {
+          menu.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Close dropdown when item is selected
+      items.forEach((item) => {
+        item.addEventListener("click", () => {
+          menu.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // Initial layout check with delay to ensure fonts are loaded
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          checkLayout();
+        });
+      } else {
+        setTimeout(checkLayout, 100);
+      }
+
+      // Listen for window resize
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        requiredWidth = null;
+        resizeTimeout = setTimeout(checkLayout, 150);
+      });
+    }
+
+    // Initialize responsive links for both languages
+    const cvLinksGroupIt = document.getElementById("cv-links-group-it");
+    const cvLinksGroupEn = document.getElementById("cv-links-group-en");
+    const cvLinksDropdownIt = document.getElementById("cv-links-dropdown-it");
+    const cvLinksDropdownEn = document.getElementById("cv-links-dropdown-en");
+
+    setupCVLinksDropdown(cvLinksGroupIt, cvLinksDropdownIt);
+    setupCVLinksDropdown(cvLinksGroupEn, cvLinksDropdownEn);
+
     const langButtons = document.querySelectorAll(".lang-btn");
     const dropdownTrigger = document.querySelector(".dropdown-trigger");
     const dropdownMenu = document.getElementById("dropdown-menu");
