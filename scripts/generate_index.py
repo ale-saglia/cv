@@ -1136,8 +1136,18 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimeout);
         requiredWidth = null;
+        lastExpanded = null;
         resizeTimeout = setTimeout(checkLayout, 150);
       });
+
+      // Return interface for programmatic recalculation (language switching)
+      return {
+        recalculateLayout() {
+          requiredWidth = null;
+          lastExpanded = null;
+          checkLayout();
+        }
+      };
     }
 
     // Initialize responsive links for both languages
@@ -1146,8 +1156,8 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
     const cvLinksDropdownIt = document.getElementById("cv-links-dropdown-it");
     const cvLinksDropdownEn = document.getElementById("cv-links-dropdown-en");
 
-    setupCVLinksDropdown(cvLinksGroupIt, cvLinksDropdownIt);
-    setupCVLinksDropdown(cvLinksGroupEn, cvLinksDropdownEn);
+    const cvLayoutIt = setupCVLinksDropdown(cvLinksGroupIt, cvLinksDropdownIt);
+    const cvLayoutEn = setupCVLinksDropdown(cvLinksGroupEn, cvLinksDropdownEn);
 
     const langButtons = document.querySelectorAll(".lang-btn");
     const dropdownTrigger = document.querySelector(".dropdown-trigger");
@@ -1174,8 +1184,12 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       langButtons.forEach(btn => btn.classList.remove("active"));
       document.getElementById(`lang-${lang}`).classList.add("active");
       
-      // Update download links
-      updateDownloadLinks(lang);
+      // Immediately recalculate responsive layout for current language (no debounce)
+      if (lang === "it" && cvLayoutIt) {
+        cvLayoutIt.recalculateLayout();
+      } else if (lang === "en" && cvLayoutEn) {
+        cvLayoutEn.recalculateLayout();
+      }
       
       // Update dropdown aria-label
       dropdownTrigger.setAttribute("aria-label", `Download CV in ${lang.toUpperCase()}`);
