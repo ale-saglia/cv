@@ -40,7 +40,7 @@ def load_cv_as_code_philosophy() -> str:
         ]
         
         # Extract "In practice" section with bullet points
-        practice_match = re.search(r"\*\*In practice, this enables:\*\*\n(.*?)(?=\n##|\Z)", content, re.DOTALL)
+        practice_match = re.search(r"### In practice, this enables:\n(.*?)(?=\n##|\Z)", content, re.DOTALL)
         
         # Build HTML
         html = f"<p>{intro}</p>"
@@ -530,7 +530,7 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
 
     .nav-title {
       margin: 0;
-      font-size: 2.4rem;
+      font-size: 1.8rem;
       font-weight: 600;
       letter-spacing: -0.5px;
       flex: 1;

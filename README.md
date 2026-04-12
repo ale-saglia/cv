@@ -14,7 +14,7 @@ Repository note: all documentation, comments, and configuration are kept in Engl
 
 ## 🏛️ Rationale
 
-As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, I believe that even a resume should reflect *systems awareness*. This project evolved through three key principles:
+As a professional working at the intersection of **Digital Governance** and **Computer Engineering**, this project reflects a systems-oriented approach to professional data management. It is organized around three core principles:
 
 ### No Proprietary Lock-in
 The journey started with a simple goal: generate my CV without depending on proprietary tools. Every word, every date, every link should belong to me and be under my control - not trapped in someone else's platform.
@@ -25,7 +25,7 @@ With data in YAML and managed through Git, my professional history becomes versi
 ### Data Reusability
 Why store professional data in one place for one output? This CV source powers multiple formats - PDF, Markdown, HTML - and now also fuels an interactive web presence. A single, carefully structured dataset generates the resume you download *and* the site you're browsing.
 
-**In practice, this enables:**
+### In practice, this enables:
 *   **Technical Consistency:** Precise management of technical milestones and career evolution.
 *   **Career Versioning:** Tracking how my career evolved from **Legal Enforcement** in local government to **Healthcare Digital Governance** at a regional level.
 *   **Privacy by Design:** Sensitive personal data (e.g., phone, email, address) is managed through local placeholders and injected only at render time.
