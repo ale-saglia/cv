@@ -27,58 +27,7 @@ jobs:
         run: pip install -r requirements.txt --quiet
 
       - name: Render all CV YAMLs (sanitized)
-        run: |
-          set -euo pipefail
-
-          mapfile -t yaml_files < <(find src -mindepth 2 -maxdepth 2 -type f \( -name "*.yaml" -o -name "*.yml" \) \
-            ! -name "locale.yaml" \
-            ! -path "*/rendercv_output/*" | sort)
-
-          if [ ${#yaml_files[@]} -eq 0 ]; then
-            echo "No YAML files found under src/."
-            exit 1
-          fi
-
-          for yaml_file in "${yaml_files[@]}"; do
-            lang="$(basename "$(dirname "$yaml_file")")"
-            cv_type="$(basename "$yaml_file")"
-            cv_type="${cv_type%.yaml}"
-            cv_type="${cv_type%.yml}"
-
-            out_dir="$(dirname "$yaml_file")/rendercv_output"
-            mkdir -p "$out_dir"
-            rm -f "$out_dir"/*.pdf "$out_dir"/*.png "$out_dir"/*.md "$out_dir"/*.html "$out_dir"/*.typ || true
-
-            echo "Render sanitized preview: $yaml_file"
-            python scripts/injector.py --dry-run render "$yaml_file"
-
-            shopt -s nullglob
-            generated_pdfs=("$out_dir"/*.pdf)
-            generated_mds=("$out_dir"/*.md)
-            shopt -u nullglob
-
-            if [ ${#generated_pdfs[@]} -eq 0 ]; then
-              echo "Expected at least 1 PDF in $out_dir, found 0"
-              exit 1
-            fi
-
-            latest_pdf="$(ls -1t "${generated_pdfs[@]}" | head -n 1)"
-            if [ ${#generated_pdfs[@]} -gt 1 ]; then
-              echo "Multiple PDFs found in $out_dir (${#generated_pdfs[@]}). Using most recent: $latest_pdf"
-            fi
-
-            target_pdf="$out_dir/CV_${lang}_${cv_type}.pdf"
-            mv "$latest_pdf" "$target_pdf"
-            echo "Created: $target_pdf"
-
-            # Rename markdown if it exists
-            if [ ${#generated_mds[@]} -gt 0 ]; then
-              latest_md="$(ls -1t "${generated_mds[@]}" | head -n 1)"
-              target_md="$out_dir/CV_${lang}_${cv_type}.md"
-              mv "$latest_md" "$target_md"
-              echo "Created: $target_md"
-            fi
-          done
+        run: python scripts/build_pages_site.py --preview
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4

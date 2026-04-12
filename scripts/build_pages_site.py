@@ -56,12 +56,17 @@ def generate_main_site() -> None:
     )
 
 
-def build_template(template_path: Path) -> None:
-    """Build a single CV template (render to PDF/Markdown)."""
+def build_template(template_path: Path, preview_mode: bool = False) -> None:
+    """Build a single CV template (render to PDF/Markdown).
+
+    In normal mode, copies outputs to site/<lang>/<template>/ for GitHub Pages.
+    In preview mode (--preview), renames outputs in place inside rendercv_output/
+    so they can be picked up as CI artifacts without building the full site.
+    """
     language = template_path.parent.name
     template_name = template_path.stem
     output_dir = template_path.parent / "rendercv_output"
-    
+
     print(f"Building {language}/{template_name}...")
     clean_output_dir(output_dir)
 
@@ -74,35 +79,43 @@ def build_template(template_path: Path) -> None:
     # Find generated files
     pdf_files = sorted(output_dir.glob("*.pdf"))
     md_files = sorted(output_dir.glob("*.md"))
-    
+
     pdf_file = pick_latest_file(pdf_files, "PDF", output_dir)
     md_file = pick_latest_file(md_files, "Markdown", output_dir) if md_files else None
 
-    # Copy to site/<lang>/<template>/
-    target_dir = SITE_DIR / language / template_name
-    target_dir.mkdir(parents=True, exist_ok=True)
     target_pdf_name = f"CV_{language}_{template_name}.pdf"
     target_md_name = f"CV_{language}_{template_name}.md"
 
-    shutil.copy2(pdf_file, target_dir / target_pdf_name)
-    if md_file:
-        shutil.copy2(md_file, target_dir / target_md_name)
+    if preview_mode:
+        # Rename in place so CI can upload as artifact
+        pdf_file.rename(output_dir / target_pdf_name)
+        print(f"Created: {output_dir / target_pdf_name}")
+        if md_file:
+            md_file.rename(output_dir / target_md_name)
+            print(f"Created: {output_dir / target_md_name}")
+    else:
+        # Copy to site/<lang>/<template>/ for GitHub Pages
+        target_dir = SITE_DIR / language / template_name
+        target_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(pdf_file, target_dir / target_pdf_name)
+        if md_file:
+            shutil.copy2(md_file, target_dir / target_md_name)
 
 
 def main() -> None:
+    preview_mode = "--preview" in sys.argv
+
     templates = discover_templates()
     if not templates:
         raise RuntimeError("No CV templates found under src/<lang>/.")
 
-    # Ensure site dir exists
-    SITE_DIR.mkdir(parents=True, exist_ok=True)
+    if not preview_mode:
+        # Full build: generate integrated site + render templates for download links
+        SITE_DIR.mkdir(parents=True, exist_ok=True)
+        generate_main_site()
 
-    # Generate main integrated CV site
-    generate_main_site()
-
-    # Build individual templates for downloads
     for template_path in templates:
-        build_template(template_path)
+        build_template(template_path, preview_mode=preview_mode)
 
     print("✓ Build complete")
 
