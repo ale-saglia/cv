@@ -17,23 +17,12 @@ def load_locale(lang: str) -> dict:
 
 
 def load_cv_data(lang: str) -> dict:
-    """Load CV data from master.yaml.
-    
-    WORKAROUND: Temporarily inject location from hardcoded values if ${SECRET_ADDRESS}
-    is found. This is a temporary solution until a better approach is implemented.
-    TODO: Move location configuration to separate config or environment variables.
-    """
+    """Load CV data from master.yaml."""
     yaml_path = SRC_DIR / lang / "master.yaml"
     with open(yaml_path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
     
-    cv = data["cv"]
-    
-    # Workaround: Replace ${SECRET_ADDRESS} with language-specific location
-    if cv.get("location") == "${SECRET_ADDRESS}":
-        cv["location"] = "Torino, Italia" if lang == "it" else "Turin, Italy"
-    
-    return cv
+    return data["cv"]
 
 
 def format_date_range(start_date, end_date, lang="it", month_abbrs=None):
@@ -57,14 +46,6 @@ def format_date_range(start_date, end_date, lang="it", month_abbrs=None):
                 if 0 <= month_num < len(month_abbrs):
                     month = month_abbrs[month_num]
                     return f"{month} {year}"
-            except (ValueError, IndexError):
-                pass
-        elif len(parts) == 1:
-            # Only year provided, use first month as default
-            try:
-                year = parts[0]
-                if int(year) > 0 and len(month_abbrs) > 0:
-                    return f"{month_abbrs[0]} {year}"
             except (ValueError, IndexError):
                 pass
         return date_str
@@ -143,7 +124,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     html += '        <div class="cv-links">\n'
     html += f'          <span>📍 {escape_html(location)}</span>\n'
     
-    # Custom links - fetch website from YAML, insight is hardcoded
+    # Custom links from YAML
     website_url = cv_data.get("website", "")
     custom_links = []
     
@@ -156,13 +137,9 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
             "emoji": "🌐",
         })
     
-    custom_links.append({
-        "name": "insight",
-        "url": "https://insight.ale-saglia.com",
-        "label_it": "Insight",
-        "label_en": "Insight",
-        "emoji": "📝",
-    })
+    # Load additional custom links from YAML if present
+    for custom in safe_list(cv_data.get("custom_links", [])):
+        custom_links.append(custom)
     
     for custom in custom_links:
         label = custom["label_it"] if lang == "it" else custom["label_en"]
