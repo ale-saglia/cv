@@ -297,7 +297,7 @@ def strip_unknown_fields(yaml_path: Path) -> None:
     
     Specifically removes generated-only fields from custom_connections:
     - label_it, label_en: used by generate_index.py for HTML display
-    - emoji: used by generate_index.py for HTML display (legacy)
+    - emoji: used by generate_index.py for HTML display
     """
     content = yaml_path.read_text(encoding="utf-8")
     data = yaml.safe_load(content)

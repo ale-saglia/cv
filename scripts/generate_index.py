@@ -216,10 +216,6 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
             "emoji": "🌐",
         })
     
-    # Load additional custom links from YAML if present
-    for custom in safe_list(cv_data.get("custom_links", [])):
-        custom_links.append(custom)
-    
     # Load custom connections from YAML (with labels for HTML generation)
     for custom_conn in safe_list(cv_data.get("custom_connections", [])):
         placeholder = custom_conn.get("placeholder", "")
@@ -427,6 +423,9 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="color-scheme" content="light dark" />
+  <script>
+    (function(){var l=localStorage.getItem("cv-lang");if(l==="en"||l==="it")document.documentElement.lang=l;})();
+  </script>
   <title>Alessandro Saglia - CV</title>
   <meta name="description" content="Alessandro Saglia - Curriculum Vitae. Digital Governance, Healthcare Systems, Data Interoperability." />
   <style>
@@ -1183,8 +1182,6 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       footerIt.classList.toggle("hidden", lang !== "it");
       footerEn.classList.toggle("hidden", lang !== "en");
       
-      // Trigger resize to recalculate responsive dropdown layout
-      window.dispatchEvent(new Event("resize"));
     }
 
     function updateDownloadLinks(lang) {
