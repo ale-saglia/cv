@@ -220,37 +220,20 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     for custom in safe_list(cv_data.get("custom_links", [])):
         custom_links.append(custom)
     
-    # Load custom connections (e.g., insight notes with fontawesome icons)
-    fontawesome_to_emoji = {
-        "magnifying-glass-chart": "📊",
-        "chart": "📈",
-        "chart-line": "📉",
-        "graph": "📊",
-        "note": "📝",
-        "notes": "📝",
-        "book": "📖",
-    }
-    
-    placeholder_to_label = {
-        "insight.ale-saglia.com": {
-            "it": "Insight Notes",
-            "en": "Insight Notes",
-        }
-    }
-    
+    # Load custom connections from YAML (with labels for HTML generation)
     for custom_conn in safe_list(cv_data.get("custom_connections", [])):
         placeholder = custom_conn.get("placeholder", "")
         url = custom_conn.get("url", "")
-        icon = custom_conn.get("fontawesome_icon", "")
-        emoji = fontawesome_to_emoji.get(icon, "🔗")
-        label = placeholder_to_label.get(placeholder, {}).get(lang, placeholder)
+        label_it = custom_conn.get("label_it", placeholder)
+        label_en = custom_conn.get("label_en", placeholder)
+        
         if url and placeholder:
             custom_links.append({
                 "name": placeholder,
                 "url": url,
-                "label_it": label,
-                "label_en": label,
-                "emoji": emoji,
+                "label_it": label_it,
+                "label_en": label_en,
+                "emoji": "📊",  # Default insight emoji
             })
     
     # Social networks from YAML

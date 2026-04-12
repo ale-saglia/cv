@@ -292,6 +292,40 @@ def strip_placeholders(template_path: Path, announce: bool = True) -> Path:
     return temp_path
 
 
+def strip_unknown_fields(yaml_path: Path) -> None:
+    """Remove fields unknown to RenderCV that are only used for HTML generation.
+    
+    Specifically removes generated-only fields from custom_connections:
+    - label_it, label_en: used by generate_index.py for HTML display
+    - emoji: used by generate_index.py for HTML display (legacy)
+    """
+    content = yaml_path.read_text(encoding="utf-8")
+    data = yaml.safe_load(content)
+    
+    removed_fields: dict[str, int] = {"label_it": 0, "label_en": 0, "emoji": 0}
+    
+    # Remove generated-only fields from custom_connections
+    if isinstance(data, dict) and "cv" in data:
+        custom_connections = data["cv"].get("custom_connections")
+        if isinstance(custom_connections, list):
+            for conn in custom_connections:
+                if isinstance(conn, dict):
+                    for field in removed_fields:
+                        if field in conn:
+                            conn.pop(field)
+                            removed_fields[field] += 1
+    
+    # Write the cleaned YAML back
+    sanitized_yaml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True)
+    yaml_path.write_text(sanitized_yaml, encoding="utf-8")
+    
+    # Report what was removed
+    total_removed = sum(removed_fields.values())
+    if total_removed > 0:
+        details = ", ".join(f"{field}({count})" for field, count in removed_fields.items() if count > 0)
+        print(f"Removed {total_removed} generated-only field(s) from custom_connections: {details}")
+
+
 def main() -> None:
     """Entry point: load/inject -> render -> cleanup.
 
@@ -321,6 +355,9 @@ def main() -> None:
                 temp_template_path = inject_secrets_in_cv(template_path, secrets)
             else:
                 temp_template_path = strip_placeholders(template_path, announce=False)
+
+        # Remove fields that are generated-only (not recognized by RenderCV)
+        strip_unknown_fields(temp_template_path)
 
         exit_code = run_rendercv(render_args, template_arg_index, template_path, temp_template_path)
         if exit_code != 0:

@@ -9,7 +9,9 @@ cv:
   custom_connections:
     - placeholder: "insight.ale-saglia.com"
       url: https://insight.ale-saglia.com
-      fontawesome_icon: magnifying-glass-chart
+      fontawesome_icon: magnifying-glass
+      label_it: "Insight Notes"
+      label_en: "Insight Notes"
   social_networks:
     - network: LinkedIn
       username: asaglia
