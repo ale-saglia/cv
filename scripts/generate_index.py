@@ -233,7 +233,7 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 "url": url,
                 "label_it": label_it,
                 "label_en": label_en,
-                "emoji": "📊",  # Default insight emoji
+                "emoji": custom_conn.get("emoji", "🔗"),
             })
     
     # Social networks from YAML

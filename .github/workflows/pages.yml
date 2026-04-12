@@ -37,7 +37,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
-        run: pip install "rendercv[full]==2.7" pyyaml==6.0.3 --quiet
+        run: pip install -r requirements.txt --quiet
 
       - name: Build public Pages site from sanitized CV previews
         run: python scripts/build_pages_site.py

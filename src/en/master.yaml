@@ -12,6 +12,7 @@ cv:
       fontawesome_icon: magnifying-glass
       label_it: "Insight Notes"
       label_en: "Insight Notes"
+      emoji: "📊"
   social_networks:
     - network: LinkedIn
       username: asaglia
