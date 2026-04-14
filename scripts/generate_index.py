@@ -583,7 +583,7 @@ def generate_full_html(cv_it: dict, cv_en: dict, locale_it: dict | None = None, 
       align-items: center;
       flex-shrink: 1;
       min-width: 0;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .lang-switcher {
