@@ -21,11 +21,12 @@ cv:
       username: ale-saglia
   sections:
     In breve:
-      - Professionista del settore pubblico impegnato in iniziative di trasformazione digitale, 
-        governance dei dati e sviluppo dei sistemi informativi nel sistema sanitario regionale. 
-        Attualmente coinvolto in attività di coordinamento istituzionale, monitoraggio di progetti 
-        digitali complessi e analisi tecnico-normativa relative a sanità digitale, interoperabilità 
-        dei dati sanitari e sperimentazione di sistemi di intelligenza artificiale in ambito sanitario.
+      - Profilo ibrido giuridico-amministrativo e tecnico, attivo nel settore pubblico 
+        su governance dei dati, interoperabilità e conformità normativa. Attualmente impegnato 
+        nella sanità digitale regionale, con responsabilità di valutazione tecnica, coordinamento 
+        istituzionale e monitoraggio PNRR. Esperienza pregressa nella trasformazione digitale di 
+        un ente locale (PNRR–SEND) e nello sviluppo di strumenti open source per la compliance. 
+        Interesse per le politiche digitali europee e i framework di interoperabilità tra livelli di governo.
     Esperienza lavorativa:
       - company: Regione Piemonte
         position: Istruttore addetto ai servizi digitali - Sanità Digitale
@@ -49,29 +50,28 @@ cv:
           - "**Monitoraggio strategico e interoperabilità**: Coordinamento di
             iniziative inter-istituzionali per l'interoperabilità dei dati tra
             livello nazionale e regionale, con monitoraggio delle milestone
-            PNRR - Missione 6 relative agli investimenti in sanità digitale."
+            PNRR – Missione 6 relative agli investimenti in sanità digitale."
       - company: Comune di Santa Vittoria d'Alba
         position: Agente di Polizia Locale e Staff Transizione Digitale
         start_date: 2021-08
         end_date: 2025-11
         location: Santa Vittoria d'Alba
-        summary: Combinazione di iniziative di trasformazione digitale e
-          funzioni di polizia amministrativa e giudiziaria all'interno di un
-          ente locale di piccole dimensioni.
+        summary: Funzioni di polizia locale in ente di piccole dimensioni, con 
+          partecipazione parallela alle attività dell'ufficio Transizione Digitale.
         highlights:
-          - "**Operatività di prossimità e gestione del conflitto**: Esercizio
-            di funzioni sanzionatorie e di intervento sul campo anche in situazione 
-            di emergenza e gestione del conflitto interpersonale in contesti 
-            di sicurezza pubblica ad alta pressione."
           - "**Change management digitale e scaling dei processi (PNRR)**:
             Direzione dell'implementazione del sistema cloud per la gestione verbali 
             propedeutico a SEND nel quadro PNRR, con scaling del volume operativo da 
-            poche decine a oltre 200 atti annui a parità di organico."
+            poche decine a oltre 200 verbali annui a parità di organico."
           - "**Supporto IT e digitalizzazione degli uffici**: Erogazione di
             assistenza tecnica trasversale all'ente e modernizzazione delle
             attività di Polizia Locale tramite un workflow quasi paperless,
             con digitalizzazione di tutte le procedure interne e della
             modulistica."
+          - "**Funzioni di polizia locale e accountability amministrativa**: Esercizio
+            di funzioni sanzionatorie e di intervento sul campo anche in situazione 
+            di emergenza e gestione del conflitto interpersonale in contesti 
+            di sicurezza pubblica ad alta pressione."
       - company: Sicurtea s.r.l.
         position: Compliance e Sviluppo Digitale
         start_date: 2019-08
@@ -102,7 +102,7 @@ cv:
           organizzazione della pubblica amministrazione, governance dei processi e trasformazione digitale.
         highlights:
           - "Tesi: Il dato nella transizione digitale della pubblica
-            amministrazione"
+            amministrazione con focus su SPID, CIE, IT Wallet, PDND e App IO."
           - "Academic Minor: Diploma in Innovazione Digitale (DID) rilasciato
             dal Dipartimento di Giurisprudenza dell'Università di Torino.
             Percorso avanzato di formazione su innovazione digitale nella PA,
@@ -113,9 +113,10 @@ cv:
         start_date: 2026-03
         end_date: present
         location:
-        summary: Percorso di studi orientato ai fondamenti dell’informatica, dell’intelligenza artificiale 
-          e delle architetture dei sistemi digitali, con particolare interesse per l’applicazione delle 
-          tecnologie AI in contesti pubblici e regolati.
+        summary: Percorso orientato all'ingegneria informatica con curriculum AI, 
+          costruito su crediti riconosciuti da precedente esperienza al Politecnico di Torino. 
+          Esami superati in fondamenti di informatica, programmazione orientata agli oggetti, basi 
+          di dati, reti, fondamenti di machine learning ed economia.
     Certificati:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: Candidato (esame previsto maggio 2026)
@@ -142,21 +143,16 @@ cv:
         start_date:
         end_date:
         location:
-        summary: Ecosistema integrato che unisce diritto, governance e
-          ingegneria informatica attraverso il codice. Progettato per
-          applicare il principio di privacy-by-design ed l'efficienza operativa tramite
-          automazione custom e minimizzazione dei dati.
+        summary: Ecosistema personale, costruito senza dipendenze esterne, 
+          che integra presenza professionale, scrittura su governance digitale 
+          e automazione del CV.
         highlights:
-          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): Punto di
-            accesso professionale in HTML vanilla, senza dipendenze esterne,
-            resiliente e leggero."
+          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): pagina di 
+            presentazione professionale (HTML vanilla, senza dipendenze)."
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            Journal su governance digitale basato su Jekyll, progettato senza
-            dipendenze esterne come Proof of Concept sul campo di resilienza di sistema
-            e privacy-by-default."
-          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): Versione
-            CV-as-code del percorso professionale, automatizzata in Python e
-            CI/CD (quello che stai leggendo ora)."
+            blog su governance digitale basato su Jekyll."
+          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
+            rendering automatizzato via Python e GitHub Actions (questo CV)."
     Competenze:
       - label: Governance e diritto pubblico
         details: Pubblica amministrazione, diritto amministrativo, policy digitali, attuazione politiche pubbliche, coordinamento istituzionale
