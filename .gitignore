@@ -42,6 +42,7 @@ build/
 # ---------------------------
 .DS_Store
 .claude/
+repomix-output.xml
 .instructions.md
 TODO.md
 .vscode/settings.json
