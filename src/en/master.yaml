@@ -1,6 +1,6 @@
 cv:
   name: Alessandro Saglia
-  headline:
+  headline: Digital Governance | Public sector systems | Data interoperability | Digital health
   location: Turin, Italy
   email: ${SECRET_EMAIL}
   photo:
@@ -13,6 +13,7 @@ cv:
       label_it: "Insight Notes"
       label_en: "Insight Notes"
       emoji: "📊"
+      show_on_cv: false
   social_networks:
     - network: LinkedIn
       username: asaglia
@@ -32,21 +33,42 @@ cv:
         start_date: 2025-12
         end_date: present
         location: Turin, Italy
-        summary: Advancing regional digital health transformation by integrating strategic policy, regulatory compliance, and emerging technology implementation.
+        summary: Advancing regional digital health transformation by integrating
+          strategic policy, regulatory compliance, and emerging technology
+          implementation.
         highlights:
-          - "**Digital Infrastructure Governance**: Evaluated technical deliverables for remote health systems, identifying cybersecurity and GDPR gaps to propose mitigation frameworks and draft regional technical-administrative acts."
-          - "**Healthcare Innovation & Support**: Facilitate technical design tables for new digital solutions (e.g., digitized therapeutic plans) and manage AI pilot programs for physicians, overseeing training and user adoption."
-          - "**Strategic Monitoring & Interoperability**: Coordinate inter-institutional initiatives for national-regional data interoperability while monitoring Next Generation EU (NGEU) milestones for digital health investments."
+          - "**Digital Infrastructure Governance**: Evaluated technical
+            deliverables for remote health systems, identifying cybersecurity
+            and GDPR gaps to propose mitigation frameworks and draft regional
+            technical-administrative acts."
+          - "**Healthcare Innovation & Support**: Facilitate technical design
+            tables for new digital solutions (e.g., digitized therapeutic plans)
+            and manage AI pilot programs for physicians, overseeing training and
+            user adoption."
+          - "**Strategic Monitoring & Interoperability**: Coordinate
+            inter-institutional initiatives for national-regional data
+            interoperability while monitoring Next Generation EU (NGEU)
+            milestones for digital health investments."
       - company: Municipality of Santa Vittoria d'Alba
         position: Digital Transformation & Legal Enforcement Officer
         start_date: 2021-08
         end_date: 2025-11
         location: Italy
-        summary: Managed the convergence of digital transformation initiatives and legal-administrative enforcement within a municipal framework.
+        summary: Managed the convergence of digital transformation initiatives and
+          legal-administrative enforcement within a municipal framework.
         highlights:
-          - "**Street-Level Bureaucracy & Conflict Management**: Leveraged administrative enforcement and field operations as a testing ground for accountability and interpersonal conflict resolution in high-pressure public safety environments."
-          - "**Digital Change Management & Process Scaling (NGEU)**: Directed the implementation of cloud-based notification systems (SEND) under the NGEU framework, scaling operational output from dozens to 200+ reports annually with zero headcount growth."
-          - "**IT Support & Office Digitalization**: Provided entity-wide technical assistance and modernized police department operations by engineering a near-paperless workflow through the digitalization of all internal procedures and templates."
+          - "**Street-Level Bureaucracy & Conflict Management**: Leveraged
+            administrative enforcement and field operations as a testing ground
+            for accountability and interpersonal conflict resolution in
+            high-pressure public safety environments."
+          - "**Digital Change Management & Process Scaling (NGEU)**: Directed
+            the implementation of cloud-based notification systems (SEND) under
+            the NGEU framework, scaling operational output from dozens to 200+
+            traffic violations annually with zero headcount growth."
+          - "**IT Support & Office Digitalization**: Provided entity-wide
+            technical assistance and modernized police department operations by
+            engineering a near-paperless workflow through the digitalization of
+            all internal procedures and templates."
       - company: Sicurtea s.r.l.
         position: Compliance & Digital Transformation Development
         start_date: 2019-08
@@ -56,12 +78,13 @@ cv:
           regulatory audits for public and private clients.
         date:
         highlights:
-          - "**Process digitalisation**: Built DESU, an open-source tool to track 
-            regulatory deadlines and support audit readiness; 
+          - "**Process digitalisation**: Built
+            [DESU](https://github.com/ale-saglia/desu), an open-source
+            tool to track regulatory deadlines and support audit readiness;
             integrated a PostgreSQL-backed data model and a desktop UI."
           - "**Regulatory Compliance**: Conducted technical inspections and
             measurements to support risk assessments and workplace safety audits
-            in **highly regulated sectors**."
+            in highly regulated sectors."
     education:
       - institution: University of Turin
         area: Digital Public Administration and Law
@@ -73,13 +96,14 @@ cv:
         summary: Focusing on administrative law, public sector digitalization, and the
           legal framework of data governance.
         highlights:
-          - "Thesis: Data in the Digital Transformation of Public Administration​"
+          - "Thesis: Data in the Digital Transformation of Public
+            Administration​"
           - "Academic Minor: Diploma in Digital Innovation (DID) awarded by the
             Department of Law, University of Turin. Advanced training focused on
             digital innovation in public administration, data governance and
             emerging technologies."
       - institution: Guglielmo Marconi University
-        area: Computer Engineering – Artificial Intelligence curriculum
+        area: Computer Engineering - Artificial Intelligence curriculum
         degree: Bachelor’s degree
         start_date: 2026-03
         end_date: present
@@ -89,54 +113,46 @@ cv:
         highlights:
           - Current studies centered on machine learning, neural networks, and
             the architectural requirements for scalable AI systems.
-    volunteering:
+    certification:
+      - label: ISC2 Certified in Cybersecurity (CC)
+        details: Candidate (Exam expected May 2026)
+    volunteering_and_personal_projects:
       - company: Google Developer Group Torino
         position: Community Team Leader
         start_date: 2016-09
         end_date: 2019-10
         location: Turin, Italy
-        summary: Led the communication team of a developer community, coordinating a group 
-          of 5–10 volunteers across content strategy, social channels, and technical event organisation.
+        summary: Led the communication team of a developer community, coordinating a
+          group of volunteers across content strategy and technical event organisation.
         highlights:
-          - "**Team coordination**: Directed volunteers in planning and executing technical workshops and community events, 
-            including large-scale events with 200+ attendees (e.g., Sognando la Realtà)."
-          - "**Strategic input**: Participated actively in direction meetings to define 
-            event focus, speaker selection, and community priorities."
-          - "**Cross-community collaboration**: Coordinated with other associations 
-            and GDG teams to co-organise Dev Fest Torino and joint initiatives."
-          - "**Partnership management**: Served as liaison between the community, Google, 
-            and technology partners for co-branded events and content."
+          - "**Volunteer Team Leadership**: Led and coordinated a team of 5-10 volunteers, managing workflows and resource allocation for communication strategies and technical events (200+ attendees)."
+          - "**Collaborative Stakeholder Engagement**: Partnered with the core team to manage relations between developers, Google, and public institutions, co-organizing large-scale initiatives like DevFest Torino."
       - company: ""
-        position: Open Source / Technical Contributions
+        position: Professional Digital Infrastructure
         start_date:
         end_date:
         location:
+        summary: An integrated ecosystem bridging Law, Governance, and IT Engineering
+          through code. Built to enforce privacy-by-design and operational
+          efficiency via custom automation and data minimization.
         highlights:
-          - "**Void Linux packaging**: Contribute to package maintenance and
-            development within the Void Linux open-source distribution."
-          - "**Open source localisation**: Provide translation and localisation
-            contributions to open-source software projects."
-          - "**Technical community participation**: Engage with open-source
-            communities, contributing to documentation and collaborative
-            development processes."
-    certification:
-      - label: ISC2 Certified in Cybersecurity (CC)
-        details: Candidate (Exam expected May 2026)
-      - label: ICDL Profile (Standard Certificate)
-        details: "Modules completed: Online & Computer Essentials, Word Processing,
-          Spreadsheets, Presentations, Using Databases"
-      - label: "English: Level B2 (CEFR)"
-        details: Certified by University Language Centre (CLA-UniTO)
-    selected_honors:
+          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): Dependency-free
+            vanilla HTML hub serving as a resilient and lightweight professional
+            root."
+          - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
+            Jekyll-powered journal on digital governance, engineered with zero
+            external dependencies to practically demonstrate system resilience
+            and privacy-by-default."
+          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): A CV-as-code
+            record of my professional path, automated via Python and secure
+            CI/CD (the one reading now)."
+    selected_awards:
       - bullet: "**Winner - B-Innovative Challenge (2019)**: Developed a digitalization
           strategy for traditional Piedmontese industrial players (e.g., Guido
           Gobino, Galup)."
       - bullet: '**Winner - E.B.E.C. Torino Case Study (2017)**: Designed a
           biometric-based cardless payment system, presented at the "Salone dei
           Pagamenti".'
-      - bullet: '**Winner - Serious Game Design (2016)**: Co-designed "Poleaf", an
-          augmented reality serious game to promote circular economy on
-          university campuses.'
     skills:
       - label: Legal & Governance
         details: Public Administration, Policy Implementation, Regulatory Analysis,
@@ -146,6 +162,8 @@ cv:
         details: Digital Systems & Infrastructure Governance, Data Governance, Data
           Interoperability, AI Governance, Cybersecurity Fundamentals, Digital
           Infrastructure Concepts
+      - label: Languages
+        details: Italiano (Native), English (Level B2 CEFR - Certified by CLA-UniTO).
       - label: Soft Skills
         details: Policy Analysis, Stakeholder Coordination, Strategic Thinking,
           Cross-disciplinary Communication, Systems Thinking

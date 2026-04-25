@@ -85,7 +85,7 @@
 {%- endfor %}
 
 {%- endif %}
-{%- set toc_keys = ['experience', 'education', 'volunteering', 'certification', 'selected_honors', 'skills'] %}
+{%- set toc_keys = ['experience', 'education', 'certification', 'volunteering_and_personal_projects', 'selected_awards', 'skills'] %}
 {%- set ns = namespace(toc_items=[]) %}
 {%- for key in toc_keys %}
 {%- if key in sections and section_labels[key] is defined %}
@@ -116,14 +116,6 @@
 {{ render_entry(entry, 'degree', 'area', 'institution', false, lang, month_abbrs) }}
 {%- endfor %}
 {%- endif %}
-{%- if 'volunteering' in sections %}
-{%- set title = section_labels.volunteering %}
-        <h2 id="{{ title | slug }}">{{ title }}</h2>
-
-{%- for entry in sections.volunteering %}
-{{ render_entry(entry, 'position', none, 'company', true, lang, month_abbrs) }}
-{%- endfor %}
-{%- endif %}
 {%- if 'certification' in sections %}
 {%- set title = section_labels.certification %}
         <h2 id="{{ title | slug }}">{{ title }}</h2>
@@ -137,11 +129,19 @@
 {%- endfor %}
 
 {%- endif %}
-{%- if 'selected_honors' in sections %}
-{%- set title = section_labels.selected_honors %}
+{%- if 'volunteering_and_personal_projects' in sections %}
+{%- set title = section_labels.volunteering_and_personal_projects %}
         <h2 id="{{ title | slug }}">{{ title }}</h2>
 
-{%- for award in sections.selected_honors %}
+{%- for entry in sections.volunteering_and_personal_projects %}
+{{ render_entry(entry, 'position', none, 'company', true, lang, month_abbrs) }}
+{%- endfor %}
+{%- endif %}
+{%- if 'selected_awards' in sections %}
+{%- set title = section_labels.selected_awards %}
+        <h2 id="{{ title | slug }}">{{ title }}</h2>
+
+{%- for award in sections.selected_awards %}
 {%- if award.bullet %}
         <div class="cv-entry cv-entry-minimal">
           <p>{{ award.bullet | md }}</p>
