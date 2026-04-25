@@ -34,3 +34,12 @@ locale:
     - Ottobre
     - Novembre
     - Dicembre
+
+section_labels:
+  summary: "In breve"
+  experience: "Esperienza lavorativa"
+  education: "Formazione"
+  volunteering: "Volontariato"
+  certification: "Certificati"
+  selected_honors: "Riconoscimenti"
+  skills: "Competenze"

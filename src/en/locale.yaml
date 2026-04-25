@@ -34,3 +34,12 @@ locale:
     - October
     - November
     - December
+
+section_labels:
+  summary: "Summary"
+  experience: "Experience"
+  education: "Education"
+  volunteering: "Volunteering"
+  certification: "Certifications"
+  selected_honors: "Awards & Recognition"
+  skills: "Skills"
