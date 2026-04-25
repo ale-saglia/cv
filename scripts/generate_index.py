@@ -200,7 +200,7 @@ def find_section_key(sections: dict, *possible_keys) -> str | None:
 
 def render_text(text: str) -> str:
     """Render text with HTML escaping and markdown conversion."""
-    return md_to_html(escape_html(text))
+    return md_to_html(text)
 
 
 def slugify(text: str) -> str:
