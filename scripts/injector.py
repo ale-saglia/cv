@@ -316,7 +316,7 @@ def strip_unknown_fields(yaml_path: Path) -> None:
                             removed_fields[field] += 1
     
     # Write the cleaned YAML back
-    sanitized_yaml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True)
+    sanitized_yaml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
     yaml_path.write_text(sanitized_yaml, encoding="utf-8")
     
     # Report what was removed
