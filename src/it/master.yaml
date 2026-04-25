@@ -1,6 +1,6 @@
 cv:
   name: Alessandro Saglia
-  headline: Governance digitale | Infrastrutture Digitali della PA | Interoperabilità dei dati | Sanità digitale
+  headline: Governance digitale | Sistemi della pubblica amministrazione | Interoperabilità dei dati | Sanità digitale
   location: Torino, Italia
   email: ${SECRET_EMAIL}
   photo:
