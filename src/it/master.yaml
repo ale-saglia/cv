@@ -20,13 +20,13 @@ cv:
     - network: GitHub
       username: ale-saglia
   sections:
-    summary:
+    In breve:
       - Professionista del settore pubblico impegnato in iniziative di trasformazione digitale, 
         governance dei dati e sviluppo dei sistemi informativi nel sistema sanitario regionale. 
         Attualmente coinvolto in attività di coordinamento istituzionale, monitoraggio di progetti 
         digitali complessi e analisi tecnico-normativa relative a sanità digitale, interoperabilità 
         dei dati sanitari e sperimentazione di sistemi di intelligenza artificiale in ambito sanitario.
-    experience:
+    Esperienza lavorativa:
       - company: Regione Piemonte
         position: Istruttore addetto ai servizi digitali - Sanità Digitale
         date:
@@ -90,7 +90,7 @@ cv:
             misurazioni tecniche a supporto della valutazione dei rischi e
             degli audit in materia di sicurezza sul lavoro in settori
             altamente regolati."
-    education:
+    Formazione:
       - institution: Università degli Studi di Torino
         area: Scienze dell'Amministrazione Digitale
         degree: Laurea Triennale
@@ -100,8 +100,6 @@ cv:
         location:
         summary: Percorso di studi incentrato su diritto pubblico e amministrativo, 
           organizzazione della pubblica amministrazione, governance dei processi e trasformazione digitale.
-          Approfondimento delle tematiche legate a digitalizzazione dei procedimenti, gestione dei dati pubblici, 
-          innovazione amministrativa e regolazione dei sistemi digitali, con particolare attenzione ai contesti pubblici e regolati.
         highlights:
           - "Tesi: Il dato nella transizione digitale della pubblica
             amministrazione"
@@ -118,13 +116,10 @@ cv:
         summary: Percorso di studi orientato ai fondamenti dell’informatica, dell’intelligenza artificiale 
           e delle architetture dei sistemi digitali, con particolare interesse per l’applicazione delle 
           tecnologie AI in contesti pubblici e regolati.
-        highlights:
-          - Studi attualmente focalizzati su machine learning, reti neurali e
-            requisiti architetturali per sistemi AI scalabili.
-    certification:
+    Certificati:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: Candidato (esame previsto maggio 2026)
-    volunteering_and_personal_projects:
+    Volontariato e Progetti:
       - company: Google Developer Group Torino
         position: Community Team Leader
         start_date: 2016-09
@@ -162,14 +157,7 @@ cv:
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): Versione
             CV-as-code del percorso professionale, automatizzata in Python e
             CI/CD (quello che stai leggendo ora)."
-    selected_awards:
-      - bullet: "**Vincitore - B-Innovative Challenge (2019)**: Competezione correlata allo sviluppo di
-          una strategia di digitalizzazione per realtà industriali
-          tradizionali piemontesi (es. Guido Gobino, Galup)."
-      - bullet: '**Vincitore - E.B.E.C. Torino Case Study (2017)**:
-          Progettazione di un sistema di pagamento cardless basato su
-          biometria, presentato al "Salone dei Pagamenti".'
-    skills:
+    Competenze:
       - label: Governance e diritto pubblico
         details: Pubblica amministrazione, diritto amministrativo, policy digitali, attuazione politiche pubbliche, coordinamento istituzionale
       - label: Tecnologie e Dati
