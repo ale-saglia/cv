@@ -14,13 +14,15 @@
 {%- endif %}
 {%- set org = entry[org_field] if entry[org_field] is defined and entry[org_field] else '' %}
 {%- set location = entry.get('location', '') %}
-{%- set start = entry.get('start_date', '') %}
-{%- set end = entry.get('end_date', '') %}
-{%- set date_field = entry.get('date', '') %}
-{%- if date_field and not start and not end %}
-{%- set date_str = date_field %}
+{%- set start_raw = entry.get('start_date') %}
+{%- set end_raw = entry.get('end_date') %}
+{%- set date_raw = entry.get('date') %}
+{%- if date_raw and not start_raw and not end_raw %}
+{%- set date_str = date_raw %}
+{%- elif start_raw or end_raw %}
+{%- set date_str = format_date_range(start_raw, end_raw, lang, month_abbrs) %}
 {%- else %}
-{%- set date_str = format_date_range(start or none, end or none, lang, month_abbrs) %}
+{%- set date_str = '' %}
 {%- endif %}
 {%- if org or date_str %}
           <div class="cv-meta">
