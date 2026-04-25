@@ -36,12 +36,29 @@ def load_cv_as_code_philosophy() -> str:
     return "<p>This curriculum is built with code, not proprietary tools.</p>"
 
 
+_SECTION_ALIASES = {
+    "In breve": "summary",
+    "Esperienza lavorativa": "experience",
+    "formazione": "education",
+    "volontariato": "volunteering",
+    "certificati": "certification",
+    "riconoscimenti": "selected_honors",
+    "competenze": "skills",
+}
+
+
+def normalize_sections(sections: dict) -> dict:
+    return {_SECTION_ALIASES.get(k, k): v for k, v in sections.items()}
+
+
 def load_locale(lang: str) -> dict:
-    """Load locale data for month names."""
+    """Load locale data (RenderCV locale block + section_labels)."""
     locale_path = SRC_DIR / lang / "locale.yaml"
     with open(locale_path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
-    return data.get("locale", {})
+    result = data.get("locale", {})
+    result["sections"] = data.get("section_labels", {})
+    return result
 
 
 def load_cv_data(lang: str) -> dict:
@@ -189,13 +206,6 @@ def safe_list(value, filter_empty=True):
         return [item for item in value if item]
     return value
 
-
-def find_section_key(sections: dict, *possible_keys) -> str | None:
-    """Find which key exists in sections dict from list of possibilities."""
-    for key in possible_keys:
-        if key in sections:
-            return key
-    return None
 
 
 def render_text(text: str) -> str:
@@ -379,48 +389,39 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
     html += '        </div>\n\n'
     
     # Sections
-    sections = cv_data.get("sections", {})
-    
-    # Summary / In breve
-    summary_key = find_section_key(sections, "summary", "In breve")
-    if summary_key:
-        section_title = "Summary" if lang == "en" else "In breve"
-        html += f'        <p class="cv-summary-title"><strong>{section_title}</strong></p>\n'
-        for item in safe_list(sections[summary_key]):
+    sections = normalize_sections(cv_data.get("sections", {}))
+    section_labels = locale.get("sections", {})
+
+    def section_title(key):
+        return section_labels.get(key, key)
+
+    # Summary
+    if "summary" in sections:
+        html += f'        <p class="cv-summary-title"><strong>{section_title("summary")}</strong></p>\n'
+        for item in safe_list(sections["summary"]):
             if isinstance(item, str):
                 html += f'        <p>{render_text(item)}</p>\n'
         html += '\n'
-    
-    # Generate table of contents with auto-generated slugs from titles
+
+    # Table of contents
+    toc_keys = ["experience", "education", "volunteering", "certification", "selected_honors", "skills"]
     toc_items = []
-    section_checks = [
-        ("experience", "Esperienza lavorativa", "Experience", "Esperienza lavorativa"),
-        ("education", "formazione", "Education", "Formazione"),
-        ("volunteering", "volontariato", "Volunteering", "Volontariato"),
-        ("certification", "certificati", "Certifications", "Certificati"),
-        ("selected_honors", "riconoscimenti", "Awards & Recognition", "Riconoscimenti"),
-        ("skills", "competenze", "Skills", "Competenze"),
-    ]
-    
-    for section_key, section_key_it, title_en, title_it in section_checks:
-        if find_section_key(sections, section_key, section_key_it):
-            title = title_en if lang == "en" else title_it
-            anchor_id = slugify(title)
-            toc_items.append((title, anchor_id))
-    
+    for key in toc_keys:
+        if key in sections:
+            title = section_title(key)
+            toc_items.append((title, slugify(title)))
+
     if toc_items:
         html += '        <nav class="cv-toc">\n'
         for title, anchor_id in toc_items:
             html += f'          <a href="#{anchor_id}">{title}</a>\n'
         html += '        </nav>\n\n'
-    
+
     # Experience
-    exp_key = find_section_key(sections, "experience", "Esperienza lavorativa")
-    if exp_key:
-        section_title = "Experience" if lang == "en" else "Esperienza lavorativa"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for exp in sections[exp_key]:
+    if "experience" in sections:
+        title = section_title("experience")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for exp in sections["experience"]:
             html += render_entry_block(
                 exp,
                 {'title_main': 'position', 'title_secondary': None, 'org': 'company', 'include_location': True},
@@ -429,12 +430,10 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
             )
 
     # Education
-    edu_key = find_section_key(sections, "education", "formazione")
-    if edu_key:
-        section_title = "Education" if lang == "en" else "Formazione"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for edu in sections[edu_key]:
+    if "education" in sections:
+        title = section_title("education")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for edu in sections["education"]:
             html += render_entry_block(
                 edu,
                 {'title_main': 'degree', 'title_secondary': 'area', 'org': 'institution'},
@@ -443,12 +442,10 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
             )
 
     # Volunteering
-    vol_key = find_section_key(sections, "volunteering", "volontariato")
-    if vol_key:
-        section_title = "Volunteering" if lang == "en" else "Volontariato"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for vol in sections[vol_key]:
+    if "volunteering" in sections:
+        title = section_title("volunteering")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for vol in sections["volunteering"]:
             html += render_entry_block(
                 vol,
                 {'title_main': 'position', 'title_secondary': None, 'org': 'company', 'include_location': True},
@@ -457,12 +454,10 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
             )
 
     # Certifications
-    cert_key = find_section_key(sections, "certification", "certificati")
-    if cert_key:
-        section_title = "Certifications" if lang == "en" else "Certificati"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for cert in sections[cert_key]:
+    if "certification" in sections:
+        title = section_title("certification")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for cert in sections["certification"]:
             label = cert.get("label", "")
             details = cert.get("details", "")
             if label:
@@ -470,28 +465,24 @@ def generate_cv_html(lang: str, cv_data: dict, locale: dict | None = None) -> st
                 html += f'        <p><strong>{escape_html(label)}:</strong> {escape_html(details)}</p>\n'
                 html += '        </div>\n'
         html += '\n'
-    
+
     # Awards
-    awards_key = find_section_key(sections, "selected_honors", "riconoscimenti")
-    if awards_key:
-        section_title = "Awards & Recognition" if lang == "en" else "Riconoscimenti"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for award in sections[awards_key]:
+    if "selected_honors" in sections:
+        title = section_title("selected_honors")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for award in sections["selected_honors"]:
             bullet = award.get("bullet", "")
             if bullet:
                 html += '        <div class="cv-entry cv-entry-minimal">\n'
                 html += f'          <p>{render_text(bullet)}</p>\n'
                 html += '        </div>\n'
         html += '\n'
-    
+
     # Skills
-    skills_key = find_section_key(sections, "skills", "competenze")
-    if skills_key:
-        section_title = "Skills" if lang == "en" else "Competenze"
-        section_id = slugify(section_title)
-        html += f'        <h2 id="{section_id}">{section_title}</h2>\n\n'
-        for skill in sections[skills_key]:
+    if "skills" in sections:
+        title = section_title("skills")
+        html += f'        <h2 id="{slugify(title)}">{title}</h2>\n\n'
+        for skill in sections["skills"]:
             label = skill.get("label", "")
             details = skill.get("details", "")
             if label:
