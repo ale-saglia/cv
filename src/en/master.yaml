@@ -21,11 +21,13 @@ cv:
       username: ale-saglia
   sections:
     summary:
-      - Public sector professional working on digital governance initiatives in
-        regional healthcare systems, including AI experimentation in primary
-        care, telemedicine infrastructure and healthcare data interoperability.
-        Interested in digital public services, data governance and European
-        digital policy.
+      - Public sector professional with a hybrid legal-administrative and technical profile, 
+        working on data governance, interoperability, and regulatory compliance. Currently 
+        engaged in regional digital health, with responsibilities spanning technical 
+        assessment of e-Health deliverables, inter-institutional coordination, and 
+        monitoring of NGEU investments. Previous experience in local government 
+        digital transformation (NGEU – SEND) and open-source compliance tooling. 
+        Interested in European digital policy and cross-level interoperability frameworks.
     experience:
       - company: Regional Government of Piedmont
         position: Digital Health Governance Specialist
@@ -50,17 +52,13 @@ cv:
             interoperability while monitoring Next Generation EU (NGEU)
             milestones for digital health investments."
       - company: Municipality of Santa Vittoria d'Alba
-        position: Digital Transformation & Legal Enforcement Officer
+        position: Police Officer and Digital Transformation Staff
         start_date: 2021-08
         end_date: 2025-11
         location: Italy
-        summary: Managed the convergence of digital transformation initiatives and
-          legal-administrative enforcement within a municipal framework.
+        summary: Municipal police duties in a small local authority, with concurrent 
+          participation in the Digital Transformation office.
         highlights:
-          - "**Street-Level Bureaucracy & Conflict Management**: Leveraged
-            administrative enforcement and field operations as a testing ground
-            for accountability and interpersonal conflict resolution in
-            high-pressure public safety environments."
           - "**Digital Change Management & Process Scaling (NGEU)**: Directed
             the implementation of cloud-based notification systems (SEND) under
             the NGEU framework, scaling operational output from dozens to 200+
@@ -69,6 +67,9 @@ cv:
             technical assistance and modernized police department operations by
             engineering a near-paperless workflow through the digitalization of
             all internal procedures and templates."
+          - "**Municipal policing and administrative accountability**: Direct 
+            exercise of enforcement and field intervention duties, with hands-on 
+            exposure to the principle of administrative accountability toward citizens."
       - company: Sicurtea s.r.l.
         position: Compliance & Digital Transformation Development
         start_date: 2019-08
@@ -97,7 +98,9 @@ cv:
           legal framework of data governance.
         highlights:
           - "Thesis: Data in the Digital Transformation of Public
-            Administration​"
+            Administration with focus on Italian digital identity (SPID, CIE, 
+            IT Wallet), public data interoperability platform (PDND), and citizen 
+            services (IO app).​"
           - "Academic Minor: Diploma in Digital Innovation (DID) awarded by the
             Department of Law, University of Turin. Advanced training focused on
             digital innovation in public administration, data governance and
@@ -108,11 +111,11 @@ cv:
         start_date: 2026-03
         end_date: present
         location:
-        summary: Focusing on AI systems, data architecture, and technical implementation
-          of intelligent solutions.
-        highlights:
-          - Current studies centered on machine learning, neural networks, and
-            the architectural requirements for scalable AI systems.
+        summary: Computer Engineering programme with AI curriculum, building 
+          on credits recognised from prior coursework at Politecnico di Torino. 
+          Coursework completed in computer science fundamentals, object-oriented 
+          programming, databases, networks, machine learning fundamentals, 
+          and business organisation.
     certification:
       - label: ISC2 Certified in Cybersecurity (CC)
         details: Candidate (Exam expected May 2026)
@@ -132,20 +135,15 @@ cv:
         start_date:
         end_date:
         location:
-        summary: An integrated ecosystem bridging Law, Governance, and IT Engineering
-          through code. Built to enforce privacy-by-design and operational
-          efficiency via custom automation and data minimization.
+        summary: Personal ecosystem built without external dependencies, combining 
+          professional presence, writing on digital governance, and CV automation.
         highlights:
-          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): Dependency-free
-            vanilla HTML hub serving as a resilient and lightweight professional
-            root."
+          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): professional 
+            landing page (vanilla HTML, no dependencies)"
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            Jekyll-powered journal on digital governance, engineered with zero
-            external dependencies to practically demonstrate system resilience
-            and privacy-by-default."
-          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): A CV-as-code
-            record of my professional path, automated via Python and secure
-            CI/CD (the one reading now)."
+            Jekyll-based blog on digital governance topics"
+          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
+            automated rendering via Python and GitHub Actions (this CV)"
     selected_awards:
       - bullet: "**Winner - B-Innovative Challenge (2019)**: Developed a digitalization
           strategy for traditional Piedmontese industrial players (e.g., Guido
