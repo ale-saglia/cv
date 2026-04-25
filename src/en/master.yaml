@@ -46,29 +46,9 @@ cv:
         summary: Led PNRR-funded digital projects and API integrations while exercising
           judicial and administrative legal authority.
         highlights:
-          - "**Administrative enforcement**: Conduct regulatory inspections and
-            administrative enforcement activities related to municipal
-            regulations and public safety provisions."
-          - "**Legal & Institutional Accountability**: Represented the
-            municipality in court (Justice of the Peace) and at formal events;
-            drafted and interpreted municipal acts and local regulatory
-            frameworks"
-          - "**Emergency & Public Safety Management**: Coordinated police
-            operations and Civil Protection responses during local emergencies,
-            ensuring public safety and strict procedural compliance"
-          - "**Conflict Mediation & Public Relations**: Managed complex
-            interactions with citizens and stakeholders in high-pressure or
-            conflictual scenarios, ensuring regulatory compliance through
-            effective communication."
-          - "**Digital Transformation (PNRR)**: Directed PNRR-funded projects
-            (SEND, PDND/SUE API), serving as the primary technical liaison
-            between the administration and external technology vendors"
-          - "**Process Scaling & Automation**: Digitized the traffic fine
-            workflow via SEND and Cloud integration, successfully scaling volume
-            to 200+ units/year with zero headcount growth"
-          - "**Cross-Departmental ICT Support**: Provided internal technical
-            support and spearheaded the digitalization of administrative
-            workflows and internal processes across various municipal offices"
+          - "**Street-Level Bureaucracy & Conflict Management**: Leveraged administrative enforcement and field operations as a testing ground for accountability and interpersonal conflict resolution in high-pressure public safety environments."
+          - "**Digital Change Management & Process Scaling (NGEU)**: Directed the implementation of cloud-based notification systems (SEND) under the NGEU framework, scaling operational output from dozens to 200+ reports annually with zero headcount growth."
+          - "**IT Support & Office Digitalization**: Provided entity-wide technical assistance and modernized police department operations by engineering a near-paperless workflow through the digitalization of all internal procedures and templates."
       - company: Sicurtea s.r.l.
         position: Compliance & Digital Transformation Development
         start_date: 2019-08
