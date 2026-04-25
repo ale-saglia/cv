@@ -62,36 +62,6 @@ cv:
           - "**Regulatory Compliance**: Conducted technical inspections and
             measurements to support risk assessments and workplace safety audits
             in **highly regulated sectors**."
-      - company: Lentalanga
-        position: Operations & Digital Management
-        start_date: 2012-01
-        end_date: 2019-11
-        location: Diano d'Alba
-        summary: Managed administrative operations and digital adoption for a
-          hospitality business, focusing on process sustainability.
-        highlights:
-          - "**Business Administration**: Oversaw organizational processes,
-            budgeting, and financial planning in a non-structured environment."
-          - "**Digital Adoption**: Implemented digital communication and
-            promotion initiatives to drive business growth and stakeholder
-            engagement."
-          - "**Stakeholder Management**: Coordinated relationships with national
-            and international stakeholders and managed facility maintenance
-            workflows."
-      - company: Sicurtea s.r.l.
-        position: Safety Compliance Intern
-        start_date:
-        end_date:
-        location: Piobesi d'Alba, Italy
-        date: Summer 2011
-        summary: Supported regulatory compliance and technical documentation for
-          occupational health and safety.
-        highlights:
-          - "**Audit Support**: Assisted in the drafting of Risk Assessment
-            Documents (DVR) and participated in regulatory safety audits."
-          - "**Data Management**: Performed structured data collection and
-            prepared technical documentation for compliance processes in
-            regulated environments."
     education:
       - institution: University of Turin
         area: Digital Public Administration and Law
@@ -119,16 +89,6 @@ cv:
         highlights:
           - Current studies centered on machine learning, neural networks, and
             the architectural requirements for scalable AI systems.
-      - institution: I.I.S. G. Vallauri
-        area: STEM
-        degree: High School Diploma
-        start_date: 2009-09
-        end_date: 2014-07
-        summary: Early exposure to STEM disciplines and computer programming.
-        highlights:
-          - Coursework included Visual Basic, SQL, and foundations of software
-            logic.
-        location: Fossano, Italy
     volunteering:
       - company: Google Developer Group Torino
         position: Community Team Leader
@@ -146,20 +106,6 @@ cv:
             and GDG teams to co-organise Dev Fest Torino and joint initiatives."
           - "**Partnership management**: Served as liaison between the community, Google, 
             and technology partners for co-branded events and content."
-      - company: Reply S.p.A.
-        position: Student Brand Ambassador
-        start_date: 2016-01
-        end_date: 2019-12
-        location: Italy
-        summary: Facilitated digital education initiatives and supported technical
-          communication activities.
-        highlights:
-          - '**Digital Education**: Delivered "Code for Kids" workshops to
-            schools, promoting digital literacy and early exposure to
-            programming'
-          - "**Technical Content**: Created technical articles and provided
-            social media coverage and organizational support for major corporate
-            tech events."
       - company: ""
         position: Open Source / Technical Contributions
         start_date:
