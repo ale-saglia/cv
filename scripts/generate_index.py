@@ -14,10 +14,15 @@ TEMPLATES_DIR = Path(__file__).parent / "templates"
 _SECTION_ALIASES = {
     "In breve": "summary",
     "Esperienza lavorativa": "experience",
+    "Formazione": "education",
     "formazione": "education",
-    "volontariato": "volunteering_and_personal_projects",
+    "Certificati": "certification",
     "certificati": "certification",
+    "Volontariato e Progetti": "volunteering_and_personal_projects",
+    "volontariato": "volunteering_and_personal_projects",
+    "Riconoscimenti": "selected_awards",
     "riconoscimenti": "selected_awards",
+    "Competenze": "skills",
     "competenze": "skills",
 }
 
