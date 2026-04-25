@@ -15,9 +15,9 @@ _SECTION_ALIASES = {
     "In breve": "summary",
     "Esperienza lavorativa": "experience",
     "formazione": "education",
-    "volontariato": "volunteering",
+    "volontariato": "volunteering_and_personal_projects",
     "certificati": "certification",
-    "riconoscimenti": "selected_honors",
+    "riconoscimenti": "selected_awards",
     "competenze": "skills",
 }
 
@@ -113,12 +113,23 @@ def escape_html(text):
 
 
 def md_to_html_inline(text):
-    """Convert inline markdown (bold, italic) to HTML, with HTML escaping."""
+    """Convert inline markdown (links, bold, italic) to HTML, with HTML escaping."""
     if not isinstance(text, str):
         return str(text)
+    # Extract links before escaping to preserve URL characters
+    links = []
+    def stash_link(m):
+        links.append((m.group(1), m.group(2)))
+        return f"\x00LINK{len(links) - 1}\x00"
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", stash_link, text)
     text = escape_html(text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
+    for i, (label, url) in enumerate(links):
+        text = text.replace(
+            f"\x00LINK{i}\x00",
+            f'<a href="{url}" target="_blank" rel="noopener">{escape_html(label)}</a>',
+        )
     return text
 
 

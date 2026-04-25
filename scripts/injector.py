@@ -294,36 +294,40 @@ def strip_placeholders(template_path: Path, announce: bool = True) -> Path:
 
 def strip_unknown_fields(yaml_path: Path) -> None:
     """Remove fields unknown to RenderCV that are only used for HTML generation.
-    
-    Specifically removes generated-only fields from custom_connections:
-    - label_it, label_en: used by generate_index.py for HTML display
-    - emoji: used by generate_index.py for HTML display
+
+    From custom_connections:
+    - Removes entries without show_on_cv: true (default is web-only)
+    - Strips per-entry fields: label_it, label_en, emoji, show_on_cv
     """
     content = yaml_path.read_text(encoding="utf-8")
     data = yaml.safe_load(content)
-    
-    removed_fields: dict[str, int] = {"label_it": 0, "label_en": 0, "emoji": 0}
-    
-    # Remove generated-only fields from custom_connections
+
+    removed_entries = 0
+    removed_fields: dict[str, int] = {"label_it": 0, "label_en": 0, "emoji": 0, "show_on_cv": 0}
+
     if isinstance(data, dict) and "cv" in data:
         custom_connections = data["cv"].get("custom_connections")
         if isinstance(custom_connections, list):
-            for conn in custom_connections:
-                if isinstance(conn, dict):
-                    for field in removed_fields:
-                        if field in conn:
-                            conn.pop(field)
-                            removed_fields[field] += 1
-    
-    # Write the cleaned YAML back
+            filtered = [c for c in custom_connections if isinstance(c, dict) and c.get("show_on_cv")]
+            removed_entries = len(custom_connections) - len(filtered)
+            data["cv"]["custom_connections"] = filtered
+            for conn in filtered:
+                for field in removed_fields:
+                    if field in conn:
+                        conn.pop(field)
+                        removed_fields[field] += 1
+
     sanitized_yaml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
     yaml_path.write_text(sanitized_yaml, encoding="utf-8")
-    
-    # Report what was removed
-    total_removed = sum(removed_fields.values())
-    if total_removed > 0:
-        details = ", ".join(f"{field}({count})" for field, count in removed_fields.items() if count > 0)
-        print(f"Removed {total_removed} generated-only field(s) from custom_connections: {details}")
+
+    parts = []
+    if removed_entries:
+        parts.append(f"{removed_entries} web-only entr{'y' if removed_entries == 1 else 'ies'} removed")
+    field_details = ", ".join(f"{f}({n})" for f, n in removed_fields.items() if n > 0)
+    if field_details:
+        parts.append(field_details)
+    if parts:
+        print(f"Stripped from custom_connections: {', '.join(parts)}")
 
 
 def main() -> None:
