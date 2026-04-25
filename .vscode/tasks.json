@@ -4,7 +4,7 @@
     {
       "label": "Generate Index (Local Debug)",
       "type": "shell",
-      "command": "python",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["scripts/generate_index.py"],
       "group": {
         "kind": "build",
@@ -19,7 +19,7 @@
     {
       "label": "Inject Secrets & Render CV (Dry-run)",
       "type": "shell",
-      "command": "python",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["scripts/injector.py", "--dry-run", "render", "src/en/master.yaml"],
       "group": {
         "kind": "build",
@@ -34,7 +34,7 @@
     {
       "label": "Build Full Site (Local)",
       "type": "shell",
-      "command": "python",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["scripts/build_pages_site.py"],
       "group": {
         "kind": "build",
@@ -108,6 +108,33 @@
       "args": ["check", "--fix", "scripts/"],
       "group": {
         "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "_serve-and-open",
+      "type": "shell",
+      "command": "(sleep 1 && open http://localhost:8080) & python -m http.server 8080 --directory site",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true,
+        "group": "preview"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Debug: Build & Preview",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Build Full Site (Local)", "_serve-and-open"],
+      "group": {
+        "kind": "build",
         "isDefault": false
       },
       "presentation": {

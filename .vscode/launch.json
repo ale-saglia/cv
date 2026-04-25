@@ -5,6 +5,7 @@
       "name": "Debug: Generate Index",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
       "program": "${workspaceFolder}/scripts/generate_index.py",
       "console": "integratedTerminal",
       "justMyCode": true
@@ -13,6 +14,7 @@
       "name": "Debug: Injector (Dry-run)",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
       "program": "${workspaceFolder}/scripts/injector.py",
       "args": ["--dry-run", "render", "src/en/master.yaml"],
       "console": "integratedTerminal",
@@ -22,9 +24,20 @@
       "name": "Debug: Build Site",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
       "program": "${workspaceFolder}/scripts/build_pages_site.py",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug: Build & Preview",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "program": "${workspaceFolder}/scripts/serve_site.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "preLaunchTask": "Build Full Site (Local)"
     }
   ]
 }
