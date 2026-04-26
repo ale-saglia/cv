@@ -34,7 +34,8 @@
       "type": "debugpy",
       "request": "launch",
       "python": "${workspaceFolder}/.venv/bin/python",
-      "program": "${workspaceFolder}/scripts/serve_site.py",
+      "module": "http.server",
+      "args": ["8080", "--directory", "${workspaceFolder}/site"],
       "console": "integratedTerminal",
       "justMyCode": true,
       "preLaunchTask": "Build Full Site (Local)"
