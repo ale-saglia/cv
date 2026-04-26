@@ -144,13 +144,6 @@ cv:
             Jekyll-based blog on digital governance topics"
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
             automated rendering via Python and GitHub Actions (this CV)"
-    selected_awards:
-      - bullet: "**Winner - B-Innovative Challenge (2019)**: Developed a digitalization
-          strategy for traditional Piedmontese industrial players (e.g., Guido
-          Gobino, Galup)."
-      - bullet: '**Winner - E.B.E.C. Torino Case Study (2017)**: Designed a
-          biometric-based cardless payment system, presented at the "Salone dei
-          Pagamenti".'
     skills:
       - label: Legal & Governance
         details: Public Administration, Policy Implementation, Regulatory Analysis,
