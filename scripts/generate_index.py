@@ -2,6 +2,7 @@
 
 import re
 import shutil
+import mistune
 import yaml
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
@@ -105,81 +106,29 @@ def slugify(text: str) -> str:
     return re.sub(r"-+", "-", text).strip("-")
 
 
-def escape_html(text):
-    if not isinstance(text, str):
-        return str(text)
-    return (
-        text.replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace('"', "&quot;")
-            .replace("'", "&#39;")
-    )
+class _CVRenderer(mistune.HTMLRenderer):
+    def link(self, text, url, title=None):
+        return f'<a href="{url}" target="_blank" rel="noopener">{text}</a>'
+
+
+_md = mistune.create_markdown(renderer=_CVRenderer())
 
 
 def md_to_html_inline(text):
-    """Convert inline markdown (links, bold, italic) to HTML, with HTML escaping."""
+    """Render inline markdown to HTML, stripping the outer <p> for single paragraphs."""
     if not isinstance(text, str):
         return str(text)
-    # Extract links before escaping to preserve URL characters
-    links = []
-    def stash_link(m):
-        links.append((m.group(1), m.group(2)))
-        return f"\x00LINK{len(links) - 1}\x00"
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", stash_link, text)
-    text = escape_html(text)
-    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
-    text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
-    for i, (label, url) in enumerate(links):
-        text = text.replace(
-            f"\x00LINK{i}\x00",
-            f'<a href="{url}" target="_blank" rel="noopener">{escape_html(label)}</a>',
-        )
-    return text
+    html = _md(text).strip()
+    if html.startswith("<p>") and html.endswith("</p>") and html.count("<p>") == 1:
+        html = html[3:-4]
+    return html
 
 
 def md_to_html(text):
-    """Convert markdown (headings, lists, paragraphs, inline) to HTML."""
+    """Render block markdown to HTML."""
     if not isinstance(text, str):
         return str(text)
-    lines = text.split("\n")
-    html_lines = []
-    in_list = False
-
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("###"):
-            if in_list:
-                html_lines.append("</ul>")
-                in_list = False
-            html_lines.append(f"<h3>{md_to_html_inline(stripped.lstrip('#').strip())}</h3>")
-        elif stripped.startswith("##"):
-            if in_list:
-                html_lines.append("</ul>")
-                in_list = False
-            html_lines.append(f"<h2>{md_to_html_inline(stripped.lstrip('#').strip())}</h2>")
-        elif stripped.startswith("#"):
-            if in_list:
-                html_lines.append("</ul>")
-                in_list = False
-            html_lines.append(f"<h1>{md_to_html_inline(stripped.lstrip('#').strip())}</h1>")
-        elif stripped.startswith("-"):
-            if not in_list:
-                html_lines.append("<ul>")
-                in_list = True
-            html_lines.append(f"<li>{md_to_html_inline(stripped.lstrip('-').strip())}</li>")
-        elif stripped:
-            if in_list:
-                html_lines.append("</ul>")
-                in_list = False
-            html_lines.append(f"<p>{md_to_html_inline(stripped)}</p>")
-        elif in_list:
-            html_lines.append("</ul>")
-            in_list = False
-
-    if in_list:
-        html_lines.append("</ul>")
-    return "\n".join(html_lines)
+    return _md(text).strip()
 
 
 def build_cv_links(cv_data: dict) -> list:
@@ -237,6 +186,7 @@ def render_html(cv_it, cv_en, locale_it, locale_en, philosophy):
         keep_trailing_newline=True,
     )
     env.filters["md"] = md_to_html
+    env.filters["mdi"] = md_to_html_inline
     env.filters["slug"] = slugify
     env.globals["format_date_range"] = format_date_range
     template = env.get_template("index.html.j2")
