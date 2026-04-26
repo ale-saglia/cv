@@ -169,7 +169,7 @@ See [site/README.md](site/README.md) for website structure details.
 
 ## 🧪 Compatibility
 
-The repository is tested in CI with Python 3.13. Newer local versions may work, but 3.13 is the reference runtime for reproducible checks. Dependency versions are pinned in [`requirements.txt`](requirements.txt) and kept up to date by Renovate.
+The repository is tested in CI with Python 3.14. Newer local versions may work, but 3.14 is the reference runtime for reproducible checks. Dependency versions are pinned in [`requirements.txt`](requirements.txt) and kept up to date by Renovate.
 
 ## 📄 License
 
