@@ -1,4 +1,6 @@
-PYTHON := .venv/bin/python
+PYTHON ?= .venv/bin/python
+PYTEST ?= .venv/bin/pytest
+RUFF   ?= .venv/bin/ruff
 OUT    := $(abspath cv_generated)
 
 .PHONY: all dry site index preview act test lint clean help
@@ -35,7 +37,7 @@ index:
 
 preview: site
 	-lsof -ti:8080 | xargs kill -9 2>/dev/null || true
-	(sleep 1 && open http://localhost:8080) & \
+	@echo "Preview at http://localhost:8080"
 	python -m http.server 8080 --directory site
 
 # ── CI ───────────────────────────────────────────────────────────────────────
@@ -48,10 +50,10 @@ act:
 # ── Dev ──────────────────────────────────────────────────────────────────────
 
 test:
-	.venv/bin/pytest tests/ -v
+	$(PYTEST) tests/ -v
 
 lint:
-	.venv/bin/ruff check scripts/
+	$(RUFF) check scripts/
 
 clean:
 	rm -rf cv_generated src/*/rendercv_output
