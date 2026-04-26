@@ -2,21 +2,31 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Render CV — with secrets",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "program": "${workspaceFolder}/scripts/injector.py",
+      "args": ["render", "${input:cvFile}"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Render CV — dry-run",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "program": "${workspaceFolder}/scripts/injector.py",
+      "args": ["--dry-run", "render", "${input:cvFile}"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
       "name": "Debug: Generate Index",
       "type": "debugpy",
       "request": "launch",
       "python": "${workspaceFolder}/.venv/bin/python",
       "program": "${workspaceFolder}/scripts/generate_index.py",
-      "console": "integratedTerminal",
-      "justMyCode": true
-    },
-    {
-      "name": "Debug: Injector (Dry-run)",
-      "type": "debugpy",
-      "request": "launch",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "program": "${workspaceFolder}/scripts/injector.py",
-      "args": ["--dry-run", "render", "src/en/master.yaml"],
       "console": "integratedTerminal",
       "justMyCode": true
     },
@@ -39,6 +49,19 @@
       "console": "integratedTerminal",
       "justMyCode": true,
       "preLaunchTask": "Build Full Site (Local)"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "cvFile",
+      "type": "pickString",
+      "description": "CV da renderizzare",
+      "options": [
+        { "label": "IT — master",      "value": "src/it/master.yaml" },
+        { "label": "EN — master",      "value": "src/en/master.yaml" },
+        { "label": "EN — anon",        "value": "src/en/master-anon.yaml" }
+      ],
+      "default": "src/it/master.yaml"
     }
   ]
 }
