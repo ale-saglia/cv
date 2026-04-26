@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["every week on monday"],
+  "packageRules": [
+    {
+      "description": "Group all pip dependency updates into one PR",
+      "matchManagers": ["pip_requirements"],
+      "groupName": "pip dependencies",
+      "automerge": false
+    },
+    {
+      "description": "Group GitHub Actions updates into one PR",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "automerge": false
+    },
+    {
+      "description": "Automerge patch updates for dev tools (ruff, pytest)",
+      "matchPackageNames": ["ruff", "pytest"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    }
+  ]
+}
