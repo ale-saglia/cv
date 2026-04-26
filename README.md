@@ -169,14 +169,7 @@ See [site/README.md](site/README.md) for website structure details.
 
 ## 🧪 Compatibility
 
-| Component | Version |
-|-----------|--------|
-| Python | 3.13 (CI baseline) |
-| rendercv | 2.8 |
-| PyYAML | 6.0.3 |
-| ruff | 0.13.2 |
-
-The repository is tested in CI with Python 3.13. Newer local versions may work, but 3.13 is the reference runtime for reproducible checks.
+The repository is tested in CI with Python 3.13. Newer local versions may work, but 3.13 is the reference runtime for reproducible checks. Dependency versions are pinned in [`requirements.txt`](requirements.txt) and kept up to date by Renovate.
 
 ## 📄 License
 
