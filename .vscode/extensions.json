@@ -6,6 +6,6 @@
     "redhat.vscode-yaml",
     "eamodio.gitlens",
     "bierner.markdown-preview-github-styles",
-    "ms-vscode.makefile-tools"
+    "charliermarsh.ruff"
   ]
 }
