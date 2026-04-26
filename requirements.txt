@@ -8,4 +8,4 @@ pyyaml==6.0.3
 ruff==0.13.2
 
 # Test runner
-pytest==8.3.5
+pytest==9.0.3
