@@ -34,6 +34,7 @@ index:
 	$(PYTHON) scripts/generate_index.py
 
 preview: site
+	-lsof -ti:8080 | xargs kill -9 2>/dev/null || true
 	(sleep 1 && open http://localhost:8080) & \
 	python -m http.server 8080 --directory site
 
