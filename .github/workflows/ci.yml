@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14"
+          python-version-file: ".python-version"
 
       - name: Install dependencies
         run: pip install -r requirements.txt --quiet
@@ -32,3 +32,6 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v
+
+      - name: Check Dockerfile Python version in sync
+        run: python scripts/sync_python_version.py

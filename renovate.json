@@ -4,6 +4,12 @@
   "schedule": ["on monday"],
   "packageRules": [
     {
+      "description": "Group Python version bump (.python-version + Dockerfile) into one PR",
+      "matchManagers": ["pyenv", "dockerfile"],
+      "matchPackageNames": ["python"],
+      "groupName": "Python version"
+    },
+    {
       "description": "Group all pip dependency updates into one PR",
       "matchManagers": ["pip_requirements"],
       "groupName": "pip dependencies",
