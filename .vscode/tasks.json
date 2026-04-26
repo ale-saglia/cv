@@ -2,160 +2,68 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Generate Index (Local Debug)",
+      "label": "Render (with secrets)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["scripts/generate_index.py"],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
+      "command": "make all",
+      "group": { "kind": "build", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
     {
-      "label": "Inject Secrets & Render CV (Dry-run)",
+      "label": "Render (dry-run)",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["scripts/injector.py", "--dry-run", "render", "src/en/master.yaml"],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
+      "command": "make dry",
+      "group": { "kind": "build", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
     {
-      "label": "Build Full Site (Local)",
+      "label": "Build Site",
       "type": "shell",
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["scripts/build_pages_site.py"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
+      "command": "make site",
+      "group": { "kind": "build", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
     {
-      "label": "View Generated Site",
+      "label": "Preview Site",
       "type": "shell",
-      "command": "open",
-      "args": ["site/index.html"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "silent"
-      },
-      "dependsOn": ["Generate Index (Local Debug)"],
-      "problemMatcher": []
-    },
-    {
-      "label": "Simulate CI with act (render-preview)",
-      "type": "shell",
-      "command": "act",
-      "args": [
-        "--job", "render",
-        "--workflows", ".github/workflows/render-preview.yml",
-        "--container-architecture", "linux/amd64",
-        "-v"
-      ],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Simulate CI with act (ci.yml)",
-      "type": "shell",
-      "command": "act",
-      "args": [
-        "--job", "lint-and-validate",
-        "--workflows", ".github/workflows/ci.yml",
-        "--container-architecture", "linux/amd64",
-        "-v"
-      ],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Lint & Format (Ruff)",
-      "type": "shell",
-      "command": "ruff",
-      "args": ["check", "--fix", "scripts/"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "_serve-and-open",
-      "type": "shell",
-      "command": "(sleep 1 && open http://localhost:8080) & python -m http.server 8080 --directory site",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true,
-        "group": "preview"
-      },
+      "command": "make preview",
       "isBackground": true,
+      "group": { "kind": "build", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
       "problemMatcher": []
     },
     {
-      "label": "Debug: Build & Preview",
-      "dependsOrder": "sequence",
-      "dependsOn": ["Build Full Site (Local)", "_serve-and-open"],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Clean Generated Files",
+      "label": "Test (pytest)",
       "type": "shell",
-      "command": "rm",
-      "args": ["-rf", "site/index.html", "src/*/rendercv_output"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
+      "command": "make test",
+      "group": { "kind": "test", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint (ruff)",
+      "type": "shell",
+      "command": "make lint",
+      "group": { "kind": "test", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "make clean",
+      "group": { "kind": "test", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Simulate CI (act)",
+      "type": "shell",
+      "command": "make act",
+      "group": { "kind": "test", "isDefault": false },
+      "presentation": { "reveal": "always", "panel": "new" },
       "problemMatcher": []
     }
   ]

@@ -46,3 +46,6 @@ repomix-output.xml
 .instructions.md
 TODO.md
 .vscode/settings.json
+
+# Generated CV output
+cv_generated/
