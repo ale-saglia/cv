@@ -33,14 +33,14 @@
           </div>
 {%- endif %}
 {%- if entry.get('summary') %}
-          <p>{{ entry.summary | md }}</p>
+          <p>{{ entry.summary | mdi }}</p>
 {%- endif %}
 {%- set highlights = entry.get('highlights') %}
 {%- if highlights %}
           <ul>
 {%- for h in highlights %}
 {%- if h %}
-            <li>{{ h | md }}</li>
+            <li>{{ h | mdi }}</li>
 {%- endif %}
 {%- endfor %}
           </ul>
@@ -80,7 +80,7 @@
         <p class="cv-summary-title"><strong>{{ section_labels.summary }}</strong></p>
 {%- for item in sections.summary %}
 {%- if item is string %}
-        <p>{{ item | md }}</p>
+        <p>{{ item | mdi }}</p>
 {%- endif %}
 {%- endfor %}
 
@@ -144,7 +144,7 @@
 {%- for award in sections.selected_awards %}
 {%- if award.bullet %}
         <div class="cv-entry cv-entry-minimal">
-          <p>{{ award.bullet | md }}</p>
+          <p>{{ award.bullet | mdi }}</p>
         </div>
 {%- endif %}
 {%- endfor %}

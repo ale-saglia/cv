@@ -4,6 +4,9 @@ rendercv[full]==2.8
 # YAML handling for injector.py
 pyyaml==6.0.3
 
+# Markdown parser used by generate_index.py
+mistune==3.2.0
+
 # Linting tool used by CI and local checks
 ruff==0.15.12
 
