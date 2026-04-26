@@ -117,7 +117,7 @@ def _write_temp_injected_yaml(content: str, template_path: Path) -> Path:
 
 
 def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
-    """Inject secrets into the YAML template while preserving formatting as much as possible.
+    """Inject secrets into a YAML template.
 
     - Replaces `${SECRET_*}` placeholders found in raw YAML text using yaml_scalar() to safely quote values.
     - Fills empty top-level fields under `cv:` when a matching secret key exists.
@@ -128,7 +128,9 @@ def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
 
     replacement_count = 0
     missing_keys: list[str] = []
+    fallback_injected_keys: list[str] = []
 
+    # Step 1: replace ${SECRET_*} placeholders in raw text.
     for placeholder in found_placeholders:
         secret_key = placeholder.replace("SECRET_", "").lower()
         if secret_key in secrets:
@@ -140,53 +142,19 @@ def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
         else:
             missing_keys.append(secret_key)
 
-    lines = template_content.splitlines()
-    in_cv_section = False
-    fallback_injected_keys: list[str] = []
+    # Step 2: fill empty top-level cv: fields via load/modify/dump.
+    data = yaml.safe_load(template_content) or {}
+    cv = data.get("cv") if isinstance(data, dict) else None
+    if isinstance(cv, dict):
+        for field_name, secret_value in secrets.items():
+            if field_name not in cv:
+                continue
+            current = cv[field_name]
+            if current is None or (isinstance(current, str) and not current.strip()):
+                cv[field_name] = secret_value
+                fallback_injected_keys.append(field_name)
 
-    # Match simple `  field: value` entries at the first level inside `cv:`.
-    # NOTE: This parser handles only simple key: value patterns with two-space indentation.
-    # Inline comments, tab indentation, and multi-line values (| or >) are not supported.
-    cv_line_pattern = re.compile(r"^(\s{2})([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$")
-
-    for idx, line in enumerate(lines):
-        stripped = line.strip()
-
-        if stripped.startswith("#") or not stripped:
-            continue
-
-        if line.startswith("cv:"):
-            in_cv_section = True
-            continue
-
-        # If we leave the indented block and see a new top-level key, exit `cv:` section.
-        if in_cv_section and not line.startswith(" ") and ":" in line:
-            in_cv_section = False
-
-        if not in_cv_section:
-            continue
-
-        match = cv_line_pattern.match(line)
-        if not match:
-            continue
-
-        indent, field_name, raw_value = match.groups()
-        normalized_value = raw_value.strip().lower()
-        is_empty_field = raw_value.strip() in {"", "''", '""'} or normalized_value in {"null", "~"}
-
-        if not is_empty_field:
-            continue
-
-        if field_name not in secrets:
-            continue
-
-        lines[idx] = f"{indent}{field_name}: {yaml_scalar(secrets[field_name])}"
-        fallback_injected_keys.append(field_name)
-
-    final_content = "\n".join(lines)
-    if template_content.endswith("\n"):
-        final_content += "\n"
-
+    final_content = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
     temp_path = _write_temp_injected_yaml(final_content, template_path)
 
     if replacement_count:
