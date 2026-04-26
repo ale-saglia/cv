@@ -58,7 +58,7 @@
 {%- set sections = cv.sections %}
 {%- set section_labels = locale.sections if locale.sections else {} %}
       <!-- {{ lang | upper }} CV -->
-      <section id="cv-{{ lang }}" class="cv-content{% if lang == 'it' %} active{% endif %}">
+      <section id="cv-{{ lang }}" class="cv-content{% if lang == 'it' %} active{% endif %}"{% if lang != 'it' %} aria-hidden="true"{% endif %}>
         <div class="cv-header-links">
           <span class="cv-location">📍 {{ cv.location | e }}</span>
           <div class="cv-links-group hidden" id="cv-links-group-{{ lang }}">
@@ -1109,8 +1109,13 @@
       document.documentElement.lang = lang;
 
       // Update CV display
-      cvSections.forEach(section => section.classList.remove("active"));
-      document.getElementById(`cv-${lang}`).classList.add("active");
+      cvSections.forEach(section => {
+        section.classList.remove("active");
+        section.setAttribute("aria-hidden", "true");
+      });
+      const activeSection = document.getElementById(`cv-${lang}`);
+      activeSection.classList.add("active");
+      activeSection.removeAttribute("aria-hidden");
 
       // Update language buttons
       langButtons.forEach(btn => btn.classList.remove("active"));
