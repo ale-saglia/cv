@@ -184,6 +184,9 @@
   <meta property="og:url" content="https://cv.ale-saglia.com" />
   <meta property="og:title" content="Alessandro Saglia — CV" />
   <meta property="og:description" content="Digital Governance specialist in the Italian public sector. Regional digital health, data governance, and interoperability." />
+  <link rel="alternate" hreflang="it" href="https://cv.ale-saglia.com/#it" />
+  <link rel="alternate" hreflang="en" href="https://cv.ale-saglia.com/#en" />
+  <link rel="alternate" hreflang="x-default" href="https://cv.ale-saglia.com/" />
   <style>
     :root {
       --bg: #ffffff;
@@ -928,10 +931,10 @@
   <!-- Full-width footer -->
   <div class="site-footer-wrapper">
     <footer id="footer-it" class="site-footer">
-      <p>Realizzato con HTML, principi e dedizione • Nessun tracciamento. Nessun cookie. <a href="https://github.com/ale-saglia/cv" target="_blank" rel="noopener">Aperto per trasparenza — sorgente su GitHub</a></p>
+      <p>Sviluppato con HTML, principi e rigore • Zero tracciamento. Zero cookie. <a href="https://github.com/ale-saglia/cv" target="_blank" rel="noopener">Sorgente su GitHub</a>.</p>
     </footer>
     <footer id="footer-en" class="site-footer hidden">
-      <p>Built with HTML, principles, and care • No tracking. No cookies. <a href="https://github.com/ale-saglia/cv" target="_blank" rel="noopener">Open for transparency — source on GitHub</a></p>
+      <p>Built with HTML, principles, and care • No tracking. No cookies. <a href="https://github.com/ale-saglia/cv" target="_blank" rel="noopener">Source on GitHub</a>.</p>
     </footer>
   </div>
 
@@ -1107,6 +1110,7 @@
     function setLanguage(lang) {
       localStorage.setItem("cv-lang", lang);
       document.documentElement.lang = lang;
+      history.replaceState(null, "", `#${lang}`);
 
       // Update CV display
       cvSections.forEach(section => {
@@ -1167,6 +1171,9 @@
 
     // Initialize with browser language detection
     function getInitialLanguage() {
+      const hash = location.hash.replace("#", "");
+      if (hash === "it" || hash === "en") return hash;
+
       const saved = localStorage.getItem("cv-lang");
       if (saved) return saved;
 
