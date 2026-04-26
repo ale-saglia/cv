@@ -1,10 +1,17 @@
 Copyright (c) 2026 Alessandro Saglia
-All rights reserved.
 
-This repository is provided for viewing, evaluation, and personal reference.
-You may not copy, redistribute, publish, modify, or create derivative versions
-of the CV content, personal branding, or generated documents without prior
-written permission from the author.
 
-The build automation and configuration files are included to document the
-CV-as-code workflow, but no license is granted to reuse the CV content itself.
+CV Content — All Rights Reserved
+---------------------------------
+The CV content in this repository (src/*/master.yaml, src/*/locale.yaml,
+generated PDF, HTML, and Markdown documents, personal branding) is provided
+for viewing and evaluation only. You may not copy, redistribute, publish,
+modify, or create derivative works without prior written permission from the
+author.
+
+
+Build Automation — MIT License
+--------------------------------
+The build automation scripts and configuration files (scripts/, .github/,
+templates, and project configuration files) are licensed under the MIT
+License. See scripts/LICENSE.
