@@ -50,7 +50,6 @@ The same source powers both the downloadable CV and the web representation.
 │   ├── design.yaml             # Global RenderCV design shared by all CVs
 │   ├── en/
 │   │   ├── master.yaml         # English CV (uses ${SECRET_*} placeholders)
-│   │   ├── master-anon.yaml    # Anonymised English CV
 │   │   └── locale.yaml         # English locale (labels, date abbreviations)
 │   ├── it/
 │   │   ├── master.yaml         # Italian CV
@@ -87,11 +86,7 @@ cp src/secret.example.yaml src/secret.yaml
 ### Render
 
 ```bash
-make it       # Italian CV  → cv_generated/Alessandro_Saglia_CV_IT.pdf
-make en       # English CV  → cv_generated/Alessandro_Saglia_CV_EN.pdf
-make anon     # Anon EN CV  → cv_generated/Alessandro_Saglia_CV_EN_anon.pdf
-make all      # All three
-
+make all      # Render all CVs → cv_generated/
 make dry      # Dry-run (no secrets injected, _preview suffix)
 ```
 

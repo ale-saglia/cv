@@ -1,29 +1,20 @@
 PYTHON := .venv/bin/python
 OUT    := $(abspath cv_generated)
 
-.PHONY: it en anon all dry site index preview act test lint clean help
+.PHONY: all dry site index preview act test lint clean help
 
 # ── CV generation ────────────────────────────────────────────────────────────
 
 $(OUT):
 	mkdir -p $(OUT)
 
-it: | $(OUT)
+all: | $(OUT)
 	$(PYTHON) scripts/injector.py render src/it/master.yaml \
 		--pdf-path $(OUT)/Alessandro_Saglia_CV_IT.pdf \
 		-nomd -nohtml -nopng
-
-en: | $(OUT)
 	$(PYTHON) scripts/injector.py render src/en/master.yaml \
 		--pdf-path $(OUT)/Alessandro_Saglia_CV_EN.pdf \
 		-nomd -nohtml -nopng
-
-anon: | $(OUT)
-	$(PYTHON) scripts/injector.py render src/en/master-anon.yaml \
-		--pdf-path $(OUT)/Alessandro_Saglia_CV_EN_anon.pdf \
-		-nomd -nohtml -nopng
-
-all: it en anon
 
 dry: | $(OUT)
 	$(PYTHON) scripts/injector.py --dry-run render src/it/master.yaml \
@@ -31,9 +22,6 @@ dry: | $(OUT)
 		-nomd -nohtml -nopng
 	$(PYTHON) scripts/injector.py --dry-run render src/en/master.yaml \
 		--pdf-path $(OUT)/Alessandro_Saglia_CV_EN_preview.pdf \
-		-nomd -nohtml -nopng
-	$(PYTHON) scripts/injector.py --dry-run render src/en/master-anon.yaml \
-		--pdf-path $(OUT)/Alessandro_Saglia_CV_EN_anon_preview.pdf \
 		-nomd -nohtml -nopng
 
 # ── Site ─────────────────────────────────────────────────────────────────────
@@ -71,21 +59,18 @@ clean:
 
 help:
 	@echo "CV generation (with secrets):"
-	@echo "  make it      — IT"
-	@echo "  make en      — EN"
-	@echo "  make anon    — EN anon"
-	@echo "  make all     — tutti e tre"
-	@echo "  make dry     — tutti e tre, dry-run (senza segreti)"
+	@echo "  make all     — IT + EN"
+	@echo "  make dry     — IT + EN, dry-run (no secrets injected)"
 	@echo ""
 	@echo "Site:"
-	@echo "  make site    — genera site/index.html + copia output"
-	@echo "  make index   — solo site/index.html"
-	@echo "  make preview — build site + serve su :8080 + apre browser"
+	@echo "  make site    — generate site/index.html + copy outputs"
+	@echo "  make index   — generate site/index.html only"
+	@echo "  make preview — build site + serve on :8080 + open browser"
 	@echo ""
 	@echo "CI:"
-	@echo "  make act     — simula ci.yml in locale con act"
+	@echo "  make act     — simulate ci.yml locally with act"
 	@echo ""
 	@echo "Dev:"
 	@echo "  make test    — pytest"
 	@echo "  make lint    — ruff"
-	@echo "  make clean   — rimuove cv_generated/ e rendercv_output/"
+	@echo "  make clean   — remove cv_generated/ and rendercv_output/"
