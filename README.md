@@ -142,7 +142,7 @@ The site includes:
 
 ## 🧪 Compatibility
 
-Tested in CI with Python 3.14. Dependency versions are pinned in [`requirements.txt`](requirements.txt) and kept up to date by Renovate.
+Tested in CI with the Python version in [`.python-version`](.python-version). Dependency versions are pinned in [`requirements.txt`](requirements.txt).
 
 ## 📄 License
 
