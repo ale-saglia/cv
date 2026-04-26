@@ -10,7 +10,7 @@
 {%- set title = entry[title_field] if entry[title_field] is defined and entry[title_field] else '' %}
 {%- set subtitle = entry[subtitle_field] if subtitle_field and entry[subtitle_field] is defined and entry[subtitle_field] else '' %}
 {%- if title %}
-          <h2><strong>{{ title | e }}{% if subtitle %} in {{ subtitle | e }}{% endif %}</strong></h2>
+          <h3><strong>{{ title | e }}{% if subtitle %} in {{ subtitle | e }}{% endif %}</strong></h3>
 {%- endif %}
 {%- set org = entry[org_field] if entry[org_field] is defined and entry[org_field] else '' %}
 {%- set location = entry.get('location', '') %}
@@ -180,6 +180,10 @@
   </script>
   <title>Alessandro Saglia - CV</title>
   <meta name="description" content="Alessandro Saglia - Curriculum Vitae. Digital Governance, Healthcare Systems, Data Interoperability." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://cv.ale-saglia.com" />
+  <meta property="og:title" content="Alessandro Saglia — CV" />
+  <meta property="og:description" content="Digital Governance specialist in the Italian public sector. Regional digital health, data governance, and interoperability." />
   <style>
     :root {
       --bg: #ffffff;
@@ -370,20 +374,20 @@
     }
 
     .cv-content h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .cv-content h2[id] {
       margin: 2.5rem 0 1.5rem;
       border-bottom: 1px solid var(--line);
       padding-bottom: 0.5rem;
       font-size: 1.2rem;
     }
 
-    .cv-content h2[id]:first-of-type {
+    .cv-content h2:first-of-type {
       margin-top: 1.5rem;
+    }
+
+    .cv-content h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
     }
 
     .cv-entry {
