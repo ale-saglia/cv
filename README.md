@@ -19,7 +19,7 @@ See [philosophy.md](philosophy.md).
 
 ## 📂 Repository Structure
 
-```
+```text
 .
 ├── scripts/
 │   ├── injector.py             # Secret injection + render orchestration
@@ -97,7 +97,7 @@ make act      # Simulate CI locally with act (requires brew install act)
 All tasks are available via `Cmd+Shift+B` → Run Task:
 
 | Task | Command |
-|---|---|
+| --- | --- |
 | Render (with secrets) | `make all` |
 | Render (dry-run) | `make dry` |
 | Build Site | `make site` |
@@ -108,6 +108,7 @@ All tasks are available via `Cmd+Shift+B` → Run Task:
 | Simulate CI (act) | `make act` |
 
 Debug configurations (F5 / Run & Debug panel):
+
 - **Debug: Generate Index** — attach debugger to `generate_index.py`
 - **Debug: Build Site** — attach debugger to `build_pages_site.py`
 
@@ -116,6 +117,7 @@ Debug configurations (F5 / Run & Debug panel):
 The CV is published to [cv.ale-saglia.com](https://cv.ale-saglia.com) via GitHub Pages on every push to `main`.
 
 The site includes:
+
 - Full CV in Italian and English with language switcher (LocalStorage persistence)
 - PDF download links
 - Dark mode (system preference)
