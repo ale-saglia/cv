@@ -9,6 +9,7 @@ This repository contains the source files for my professional curriculum vitae, 
 - **Templating:** Jinja2 + [mistune](https://github.com/lepture/mistune) for the site generator
 - **Code Quality:** [ruff](https://github.com/astral-sh/ruff) for Python linting (local + CI)
 - **Secrets Management:** gitignore + placeholder injection
+- **Dependency Management:** [uv](https://github.com/astral-sh/uv) with hash-locked `requirements*.txt`
 - **Dependency Updates:** [Renovate](https://github.com/renovatebot/renovate) (weekly grouped PRs, automerge on patches)
 
 Repository note: all documentation, comments, and configuration are kept in English for consistency.
@@ -22,12 +23,20 @@ See [philosophy.md](philosophy.md).
 ```text
 .
 ├── scripts/
-│   ├── injector.py             # Secret injection + render orchestration
-│   ├── generate_index.py       # Generates _site/index.html from YAML source
-│   ├── build_pages_site.py     # Copies rendered outputs into _site/
+│   ├── config.py               # Shared paths and constants
+│   ├── injector.py             # Secret injection + rendercv orchestration
+│   ├── render.py               # Discovers templates, renders via injector, copies to _site/
+│   ├── generate_index.py       # Generates _site/index.html + 404.html from YAML source
+│   ├── generate_sitemap.py     # Generates _site/sitemap.xml + robots.txt
+│   ├── copy_assets.py          # Copies favicon and OG image to _site/assets/
+│   ├── preview_server.py       # Dev server on :8080 (used by make serve)
+│   ├── sync_python_version.py  # Keeps .devcontainer/Dockerfile in sync with .python-version
 │   ├── validate_yaml.py        # YAML validation (used by CI)
 │   └── templates/
-│       └── index.html.j2       # Jinja2 template for the public site
+│       ├── index.html.j2       # Jinja2 template for the public site
+│       ├── 404.html.j2         # Jinja2 template for the 404 page
+│       ├── favicon.svg         # Site favicon
+│       └── og-image.png        # Open Graph image
 ├── src/
 │   ├── design.yaml             # Global RenderCV design shared by all CVs
 │   ├── en/
@@ -38,11 +47,15 @@ See [philosophy.md](philosophy.md).
 │   │   └── locale.yaml         # Italian locale
 │   └── secret.example.yaml     # Example secret schema (committed)
 ├── tests/                      # pytest unit tests
+├── .devcontainer/              # DevContainer for GitHub Codespaces / VS Code Remote
 ├── _cv/                        # Rendered PDFs (gitignored)
 ├── _site/                      # GitHub Pages output
 ├── Makefile                    # Primary task runner
 ├── renovate.json               # Automated dependency updates config
-└── requirements.txt
+├── requirements.in             # Runtime deps (source)
+├── requirements.txt            # Runtime deps, hash-locked by uv
+├── requirements-dev.in         # Dev deps (source)
+└── requirements-dev.txt        # Dev deps, hash-locked by uv
 ```
 
 Secret fields in the YAML templates use `${SECRET_<KEY>}` placeholders, or are left empty and filled automatically by the injector when a matching key exists in `src/secret.yaml`.
@@ -54,9 +67,12 @@ Secret fields in the YAML templates use `${SECRET_<KEY>}` placeholders, or are l
 ### Prerequisites
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+make setup      # create .venv + install runtime deps
+# or
+make setup-dev  # create .venv + install runtime + dev deps (tests, linting)
 ```
+
+Requires [uv](https://github.com/astral-sh/uv) (`brew install uv` or `pip install uv`).
 
 ### Local secrets setup
 
@@ -65,11 +81,11 @@ cp src/secret.example.yaml src/secret.yaml
 # fill in values — do not commit
 ```
 
-### Render
+### Render PDFs
 
 ```bash
-make all      # Render all CVs → _cv/
-make dry      # Dry-run (no secrets injected, _preview suffix)
+make all      # Render final PDFs (with secrets) → _cv/
+make dry      # Render preview PDFs (no secrets) → _cv/
 ```
 
 Output goes to `_cv/` (gitignored).
@@ -79,8 +95,9 @@ If `src/secret.yaml` is missing, the injector strips `${SECRET_*}` placeholders 
 ### Site
 
 ```bash
-make site     # Generate _site/index.html + copy rendered outputs
-make preview  # Build site + serve on :8080 + open browser
+make build    # Generate _site/ (HTML, PDFs, sitemap, assets)
+make serve    # Build + serve on :8080   (alias: make preview)
+make rebuild  # clean + build
 ```
 
 ### Dev
@@ -88,7 +105,8 @@ make preview  # Build site + serve on :8080 + open browser
 ```bash
 make test     # pytest
 make lint     # ruff
-make clean    # Remove _cv/ and rendercv_output/ directories
+make clean    # Remove _site/, _cv/, rendercv_output/
+make lock     # Recompile requirements*.txt from *.in (update hashes)
 make act      # Simulate CI locally with act (requires brew install act)
 ```
 
@@ -100,8 +118,8 @@ All tasks are available via `Cmd+Shift+B` → Run Task:
 | --- | --- |
 | Render (with secrets) | `make all` |
 | Render (dry-run) | `make dry` |
-| Build Site | `make site` |
-| Preview Site | `make preview` |
+| Build Site | `make build` |
+| Preview Site | `make serve` |
 | Test (pytest) | `make test` |
 | Lint (ruff) | `make lint` |
 | Clean | `make clean` |
@@ -110,7 +128,7 @@ All tasks are available via `Cmd+Shift+B` → Run Task:
 Debug configurations (F5 / Run & Debug panel):
 
 - **Debug: Generate Index** — attach debugger to `generate_index.py`
-- **Debug: Build Site** — attach debugger to `build_pages_site.py`
+- **Debug: Copy Assets** — attach debugger to `copy_assets.py`
 
 ## 🌐 Published site
 
