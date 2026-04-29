@@ -6,14 +6,15 @@ OUT        := $(abspath _cv)
 PORT       ?= 8080
 
 .DEFAULT_GOAL := help
-.PHONY: help setup build serve preview all dry rebuild clean test lint act
+.PHONY: help setup lock build serve preview all dry rebuild clean test lint act
 
 # ── Help ─────────────────────────────────────────────────────────────
 
 help:
 	@echo "Usage: make <target>"
 	@echo ""
-	@echo "  setup    Create .venv and install dependencies"
+	@echo "  setup    Create .venv and install from requirements-dev.txt"
+	@echo "  lock     Recompile requirements*.txt from *.in (update hashes)"
 	@echo "  build    Build full public site → _site/"
 	@echo "  serve    Build + preview on port $(PORT)"
 	@echo "  rebuild  Clean + build"
@@ -29,9 +30,13 @@ help:
 # ── Setup ────────────────────────────────────────────────────────────
 
 setup:
-	python3 -m venv .venv
-	$(VENV_BIN)/pip install -r requirements.txt --quiet
+	uv venv .venv
+	uv pip sync requirements-dev.txt
 	@echo "Setup complete. Run 'make build' or 'make serve'."
+
+lock:
+	uv pip compile requirements.in --generate-hashes -o requirements.txt --python-version 3.14
+	uv pip compile requirements-dev.in --generate-hashes -o requirements-dev.txt --python-version 3.14
 
 # ── Site build ───────────────────────────────────────────────────────
 
