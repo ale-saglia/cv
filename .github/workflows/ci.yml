@@ -21,8 +21,16 @@ jobs:
         with:
           python-version-file: ".python-version"
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: pip install -r requirements.txt --quiet
+        run: |
+          uv venv .venv
+          uv pip sync requirements-dev.txt
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> $GITHUB_PATH
 
       - name: Lint Python (ruff)
         run: ruff check scripts/
