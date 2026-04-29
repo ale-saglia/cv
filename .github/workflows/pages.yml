@@ -39,8 +39,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt --quiet
 
-      - name: Build public Pages site from sanitized CV previews
-        run: python scripts/build_pages_site.py
+      - name: Build public Pages site
+        run: make build PYTHON=python
 
       - name: Configure Pages
         uses: actions/configure-pages@v6

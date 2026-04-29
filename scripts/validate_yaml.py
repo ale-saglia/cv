@@ -1,14 +1,15 @@
 """Validate YAML syntax for all source and workflow files."""
 
 import sys
-from pathlib import Path
 
 import yaml
 
+from config import ROOT_DIR
+
 files = []
-files.extend(Path("src").rglob("*.yaml"))
-files.extend(Path("src").rglob("*.yml"))
-files.extend(Path(".github/workflows").glob("*.yml"))
+files.extend((ROOT_DIR / "src").rglob("*.yaml"))
+files.extend((ROOT_DIR / "src").rglob("*.yml"))
+files.extend((ROOT_DIR / ".github/workflows").glob("*.yml"))
 
 # Exclude encrypted files (not valid plain YAML)
 files = sorted({f for f in files if ".enc." not in f.name})
@@ -18,9 +19,9 @@ for path in files:
     try:
         with path.open(encoding="utf-8") as fh:
             yaml.safe_load(fh)
-        print(f"  OK  {path}")
+        print(f"  OK  {path.relative_to(ROOT_DIR)}")
     except yaml.YAMLError as exc:
-        print(f"  FAIL {path}: {exc}")
+        print(f"  FAIL {path.relative_to(ROOT_DIR)}: {exc}")
         errors.append(path)
 
 if errors:

@@ -27,7 +27,7 @@ jobs:
         run: pip install -r requirements.txt --quiet
 
       - name: Render all CV YAMLs (sanitized)
-        run: python scripts/build_pages_site.py --preview
+        run: python scripts/render.py --preview
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v7
