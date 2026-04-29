@@ -53,16 +53,12 @@ def load_cv_data(lang: str) -> dict:
 
 
 def load_cv_as_code_philosophy() -> str:
-    """Extract CV-as-Code philosophy from README.md and format as HTML."""
-    readme_path = ROOT_DIR / "README.md"
+    """Load CV-as-Code philosophy from philosophy.md and format as HTML."""
+    philosophy_path = ROOT_DIR / "philosophy.md"
     try:
-        with open(readme_path, "r", encoding="utf-8") as f:
+        with open(philosophy_path, "r", encoding="utf-8") as f:
             content = f.read()
-        rationale_match = re.search(
-            r"##\s+.*?Rationale.*?\n\n(.*?)(?=\n##\s|\Z)", content, re.DOTALL
-        )
-        if rationale_match:
-            return md_to_html(rationale_match.group(1).strip())
+        return md_to_html(content.strip())
     except Exception:
         pass
     return "<p>This curriculum is built with code, not proprietary tools.</p>"
