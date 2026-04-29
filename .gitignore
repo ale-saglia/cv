@@ -15,7 +15,7 @@ src/secret.yml
 # RenderCV output (generated)
 # ---------------------------
 **/rendercv_output/
-site/
+_site/
 
 # ---------------------------
 # Build / generated files
@@ -48,4 +48,4 @@ TODO.md
 .vscode/settings.json
 
 # Generated CV output
-cv_generated/
+_cv/

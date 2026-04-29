@@ -1,4 +1,4 @@
-"""Generate integrated site/index.html from YAML source files."""
+"""Generate integrated _site/index.html from YAML source files."""
 
 import re
 import shutil
@@ -9,7 +9,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT_DIR / "src"
-SITE_DIR = ROOT_DIR / "site"
+SITE_DIR = ROOT_DIR / "_site"
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
 _SECTION_ALIASES = {

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-SITE_DIR = ROOT_DIR / "site"
+SITE_DIR = ROOT_DIR / "_site"
 
 
 class GitHubPagesHandler(http.server.SimpleHTTPRequestHandler):
