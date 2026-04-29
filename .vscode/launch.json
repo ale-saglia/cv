@@ -11,11 +11,11 @@
       "justMyCode": true
     },
     {
-      "name": "Debug: Build Site",
+      "name": "Debug: Copy Assets",
       "type": "debugpy",
       "request": "launch",
       "python": "${workspaceFolder}/.venv/bin/python",
-      "program": "${workspaceFolder}/scripts/build_pages_site.py",
+      "program": "${workspaceFolder}/scripts/copy_assets.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }
