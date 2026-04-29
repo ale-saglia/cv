@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-SITE_DIR = ROOT_DIR / "site"
+SITE_DIR = ROOT_DIR / "_site"
 BASE_URL = "https://cv.ale-saglia.com"
 
 

@@ -23,8 +23,8 @@ See [philosophy.md](philosophy.md).
 .
 ├── scripts/
 │   ├── injector.py             # Secret injection + render orchestration
-│   ├── generate_index.py       # Generates site/index.html from YAML source
-│   ├── build_pages_site.py     # Copies rendered outputs into site/
+│   ├── generate_index.py       # Generates _site/index.html from YAML source
+│   ├── build_pages_site.py     # Copies rendered outputs into _site/
 │   ├── validate_yaml.py        # YAML validation (used by CI)
 │   └── templates/
 │       └── index.html.j2       # Jinja2 template for the public site
@@ -38,8 +38,8 @@ See [philosophy.md](philosophy.md).
 │   │   └── locale.yaml         # Italian locale
 │   └── secret.example.yaml     # Example secret schema (committed)
 ├── tests/                      # pytest unit tests
-├── cv_generated/               # Rendered PDFs (gitignored)
-├── site/                       # GitHub Pages output
+├── _cv/                        # Rendered PDFs (gitignored)
+├── _site/                      # GitHub Pages output
 ├── Makefile                    # Primary task runner
 ├── renovate.json               # Automated dependency updates config
 └── requirements.txt
@@ -68,18 +68,18 @@ cp src/secret.example.yaml src/secret.yaml
 ### Render
 
 ```bash
-make all      # Render all CVs → cv_generated/
+make all      # Render all CVs → _cv/
 make dry      # Dry-run (no secrets injected, _preview suffix)
 ```
 
-Output goes to `cv_generated/` (gitignored).
+Output goes to `_cv/` (gitignored).
 
 If `src/secret.yaml` is missing, the injector strips `${SECRET_*}` placeholders automatically (same behaviour as `--dry-run`).
 
 ### Site
 
 ```bash
-make site     # Generate site/index.html + copy rendered outputs
+make site     # Generate _site/index.html + copy rendered outputs
 make preview  # Build site + serve on :8080 + open browser
 ```
 
@@ -88,7 +88,7 @@ make preview  # Build site + serve on :8080 + open browser
 ```bash
 make test     # pytest
 make lint     # ruff
-make clean    # Remove cv_generated/ and rendercv_output/ directories
+make clean    # Remove _cv/ and rendercv_output/ directories
 make act      # Simulate CI locally with act (requires brew install act)
 ```
 

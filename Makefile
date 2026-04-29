@@ -1,7 +1,7 @@
 PYTHON ?= .venv/bin/python
 PYTEST ?= .venv/bin/pytest
 RUFF   ?= .venv/bin/ruff
-OUT    := $(abspath cv_generated)
+OUT    := $(abspath _cv)
 
 .PHONY: all dry site index preview act test lint clean help
 
@@ -56,7 +56,7 @@ lint:
 	$(RUFF) check scripts/
 
 clean:
-	rm -rf cv_generated src/*/rendercv_output
+	rm -rf _cv src/*/rendercv_output
 
 # ── Help ─────────────────────────────────────────────────────────────────────
 
@@ -76,4 +76,4 @@ help:
 	@echo "Dev:"
 	@echo "  make test    — pytest"
 	@echo "  make lint    — ruff"
-	@echo "  make clean   — remove cv_generated/ and rendercv_output/"
+	@echo "  make clean   — remove _cv/ and rendercv_output/"
