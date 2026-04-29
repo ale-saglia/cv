@@ -150,7 +150,6 @@ Tested in CI with the Python version in [`.python-version`](.python-version). De
 
 This repository is distributed under the terms described in [LICENSE](LICENSE).  
 The CV content and generated documents remain proprietary to the author.  
-The build automation scripts under `scripts/` are released under the MIT License — see [`scripts/LICENSE`](scripts/LICENSE).
 
 ## ⚖️ Privacy & Data Protection
 
