@@ -117,6 +117,14 @@ def main() -> None:
     for template_path in templates:
         build_template(template_path, preview_mode=preview_mode)
 
+    if not preview_mode:
+        print("Generating sitemap.xml and robots.txt...")
+        subprocess.run(
+            [sys.executable, str(ROOT_DIR / "scripts" / "generate_sitemap.py")],
+            cwd=ROOT_DIR,
+            check=True,
+        )
+
     print("✓ Build complete")
 
 
