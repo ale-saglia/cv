@@ -1,11 +1,9 @@
 {
   "name": "CV Dev",
   "build": { "dockerfile": "Dockerfile" },
-  "postCreateCommand": "pip install -r requirements.txt --root-user-action=ignore",
+  "postCreateCommand": "uv venv --clear .venv && uv pip sync requirements-dev.txt",
   "remoteEnv": {
-    "PYTHON": "python3",
-    "PYTEST": "pytest",
-    "RUFF": "ruff"
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}"
   },
   "forwardPorts": [8080],
   "portsAttributes": {
@@ -18,7 +16,7 @@
     "vscode": {
       "extensions": ["ms-python.python", "ms-python.ruff"],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python3"
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
       }
     }
   }
