@@ -38,7 +38,7 @@ index:
 preview: site
 	-lsof -ti:8080 | xargs kill -9 2>/dev/null || true
 	@echo "Preview at http://localhost:8080"
-	python -m http.server 8080 --directory site
+	$(PYTHON) scripts/preview_server.py 8080
 
 # ── CI ───────────────────────────────────────────────────────────────────────
 
