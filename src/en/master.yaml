@@ -141,7 +141,7 @@ cv:
           - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): professional 
             landing page (vanilla HTML, no dependencies)"
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            Jekyll-based blog on digital governance topics"
+            Pelican-based blog on digital governance topics"
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
             automated rendering via Python and GitHub Actions (this CV)"
     skills:

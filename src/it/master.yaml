@@ -150,7 +150,7 @@ cv:
           - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): pagina di 
             presentazione professionale (HTML vanilla, senza dipendenze)."
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            blog su governance digitale basato su Jekyll."
+            blog su governance digitale basato su Pelican."
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
             rendering automatizzato via Python e GitHub Actions (questo CV)."
     Competenze:
