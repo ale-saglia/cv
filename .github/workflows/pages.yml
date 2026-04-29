@@ -48,7 +48,7 @@ jobs:
           echo "$GITHUB_WORKSPACE/.venv/bin" >> $GITHUB_PATH
 
       - name: Build public Pages site
-        run: make build PYTHON=python
+        run: make build
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
