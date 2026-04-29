@@ -1,16 +1,11 @@
 """Generate integrated _site/index.html from YAML source files."""
 
 import re
-import shutil
 import mistune
 import yaml
-from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-SRC_DIR = ROOT_DIR / "src"
-SITE_DIR = ROOT_DIR / "_site"
-TEMPLATES_DIR = Path(__file__).parent / "templates"
+from config import ROOT_DIR, SRC_DIR, SITE_DIR, TEMPLATES_DIR
 
 _SECTION_ALIASES = {
     "In breve": "summary",
@@ -225,12 +220,6 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✓ Generated {output_path}")
-
-    favicon_src = ROOT_DIR / "favicon.svg"
-    favicon_dst = SITE_DIR / "assets" / "favicon-cv.svg"
-    favicon_dst.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(favicon_src, favicon_dst)
-    print(f"✓ Copied favicon to {favicon_dst}")
 
     print("Generating 404 HTML...")
     html_404 = render_404()

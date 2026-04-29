@@ -3,10 +3,8 @@
 import http.server
 import socketserver
 import sys
-from pathlib import Path
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-SITE_DIR = ROOT_DIR / "_site"
+from config import SITE_DIR
 
 
 class GitHubPagesHandler(http.server.SimpleHTTPRequestHandler):

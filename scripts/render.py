@@ -1,9 +1,12 @@
-"""Build static GitHub Pages site.
+"""Render CV templates via injector.py and copy outputs to _site/.
 
-Flow:
-1) Generate the main integrated CV site (_site/index.html) via generate_index.py
-2) Render all CV templates via injector.py --dry-run to generate PDFs/Markdown for downloads
-3) Place generated files in _site/<lang>/<template>/ for download links
+This script handles the "render + copy" step of the site build:
+1) Discover master.yaml templates under src/<lang>/
+2) Run injector.py --dry-run for each template
+3) Copy generated PDFs and Markdown to _site/<lang>/<template>/
+
+Orchestration (calling generate_index, copy_assets, generate_sitemap)
+is handled by the Makefile, not by this script.
 """
 
 import shutil
@@ -11,23 +14,22 @@ import subprocess
 import sys
 from pathlib import Path
 
-
-ROOT_DIR = Path(__file__).resolve().parents[1]
-SRC_DIR = ROOT_DIR / "src"
-SITE_DIR = ROOT_DIR / "_site"
+from config import ROOT_DIR, SRC_DIR, SITE_DIR
 
 
 def discover_templates() -> list[Path]:
-    """Find all CV template YAML files (excluding locale/config)."""
+    """Find master.yaml CV templates (one per language directory).
+
+    Only files named 'master.yaml' are rendered for the site.
+    Other YAML files (e.g. master-anon.yaml) are for PDF-only rendering.
+    """
     templates = []
-    for path in sorted(SRC_DIR.glob("*/*")):
-        if path.suffix not in {".yaml", ".yml"}:
+    for lang_dir in sorted(SRC_DIR.iterdir()):
+        if not lang_dir.is_dir():
             continue
-        if path.name == "locale.yaml":
-            continue
-        if "rendercv_output" in path.parts:
-            continue
-        templates.append(path)
+        master = lang_dir / "master.yaml"
+        if master.exists():
+            templates.append(master)
     return templates
 
 
@@ -44,16 +46,6 @@ def pick_latest_file(files: list[Path], file_type: str, output_dir: Path) -> Pat
     if not files:
         raise RuntimeError(f"Expected at least 1 {file_type} in {output_dir}, found 0")
     return max(files, key=lambda file_path: (file_path.stat().st_mtime, file_path.name))
-
-
-def generate_main_site() -> None:
-    """Generate the main integrated CV _site/index.html via generate_index.py"""
-    print("Generating main CV site (_site/index.html)...")
-    subprocess.run(
-        [sys.executable, str(ROOT_DIR / "scripts" / "generate_index.py")],
-        cwd=ROOT_DIR,
-        check=True,
-    )
 
 
 def build_template(template_path: Path, preview_mode: bool = False) -> None:
@@ -107,25 +99,15 @@ def main() -> None:
 
     templates = discover_templates()
     if not templates:
-        raise RuntimeError("No CV templates found under src/<lang>/.")
+        raise RuntimeError("No master.yaml templates found under src/<lang>/.")
 
     if not preview_mode:
-        # Full build: generate integrated site + render templates for download links
         SITE_DIR.mkdir(parents=True, exist_ok=True)
-        generate_main_site()
 
     for template_path in templates:
         build_template(template_path, preview_mode=preview_mode)
 
-    if not preview_mode:
-        print("Generating sitemap.xml and robots.txt...")
-        subprocess.run(
-            [sys.executable, str(ROOT_DIR / "scripts" / "generate_sitemap.py")],
-            cwd=ROOT_DIR,
-            check=True,
-        )
-
-    print("✓ Build complete")
+    print("✓ Render complete")
 
 
 if __name__ == "__main__":

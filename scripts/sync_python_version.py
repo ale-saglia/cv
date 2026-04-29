@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Update .devcontainer/Dockerfile Python base image to match .python-version."""
+
 import re
 import sys
-from pathlib import Path
 
-root = Path(__file__).parent.parent
-version = (root / ".python-version").read_text().strip()
-dockerfile = root / ".devcontainer" / "Dockerfile"
+from config import ROOT_DIR
+
+version = (ROOT_DIR / ".python-version").read_text().strip()
+dockerfile = ROOT_DIR / ".devcontainer" / "Dockerfile"
 original = dockerfile.read_text()
 updated = re.sub(r"FROM python:\S+-slim", f"FROM python:{version}-slim", original)
 

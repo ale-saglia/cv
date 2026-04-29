@@ -27,14 +27,12 @@ from typing import Any
 
 import yaml
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-SRC_DIR = ROOT_DIR / "src"
-
-PLAINTEXT_SECRETS_PATH = SRC_DIR / "secret.yaml"
-
-GLOBAL_DESIGN_PATH = SRC_DIR / "design.yaml"
-GLOBAL_SETTINGS_PATH = SRC_DIR / "settings.yaml"
-LOCALE_FILE_NAME = "locale.yaml"
+from config import (
+    GLOBAL_DESIGN_PATH,
+    LOCALE_FILE_NAME,
+    PLAINTEXT_SECRETS_PATH,
+    ROOT_DIR,
+)
 
 def yaml_scalar(value: Any) -> str:
     """Serialize a Python value as an inline YAML scalar.
@@ -200,9 +198,6 @@ def run_rendercv(
 
     if not has_cli_option(command_args, "--design", "-d") and GLOBAL_DESIGN_PATH.exists():
         command_args.extend(["--design", str(GLOBAL_DESIGN_PATH)])
-
-    if not has_cli_option(command_args, "--settings", "-s") and GLOBAL_SETTINGS_PATH.exists():
-        command_args.extend(["--settings", str(GLOBAL_SETTINGS_PATH)])
 
     locale_path = template_path.parent / LOCALE_FILE_NAME
     if not has_cli_option(command_args, "--locale-catalog", "-lc") and locale_path.exists():
