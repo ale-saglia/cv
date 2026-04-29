@@ -196,6 +196,18 @@ def render_html(cv_it, cv_en, locale_it, locale_en, philosophy):
     )
 
 
+def render_404():
+    env = Environment(
+        loader=FileSystemLoader(TEMPLATES_DIR),
+        autoescape=False,
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
+    template = env.get_template("404.html.j2")
+    return template.render()
+
+
 def main():
     """Generate index.html from YAML source files."""
     print("Loading CV data from YAML...")
@@ -219,6 +231,13 @@ def main():
     favicon_dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(favicon_src, favicon_dst)
     print(f"✓ Copied favicon to {favicon_dst}")
+
+    print("Generating 404 HTML...")
+    html_404 = render_404()
+    output_404_path = SITE_DIR / "404.html"
+    with open(output_404_path, "w", encoding="utf-8") as f:
+        f.write(html_404)
+    print(f"✓ Generated {output_404_path}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Redirecting...</title>
+    <!-- Fallback senza JS -->
+    <meta http-equiv="refresh" content="3;url=/">
+    <!-- Redirect immediato con JS attivo -->
+    <script>
+        window.location.replace('/');
+    </script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: #f3f4f6;
+            text-align: center;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Page Not Found</h1>
+        <p>This CV is a single page. Any unexpected URL is likely a typo.</p>
+        <p>Redirecting to the <a href="/">home page</a>...</p>
+    </div>
+</body>
+</html>
