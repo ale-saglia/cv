@@ -1,3 +1,4 @@
+PYTHON_VERSION := $(shell cat .python-version)
 VENV_BIN   ?= .venv/bin
 PYTHON     ?= $(VENV_BIN)/python
 PYTEST     ?= $(VENV_BIN)/pytest
@@ -6,14 +7,15 @@ OUT        := $(abspath _cv)
 PORT       ?= 8080
 
 .DEFAULT_GOAL := help
-.PHONY: help setup lock build serve preview all dry rebuild clean test lint act
+.PHONY: help setup setup-dev lock build serve preview all dry rebuild clean test lint act
 
 # ── Help ─────────────────────────────────────────────────────────────
 
 help:
 	@echo "Usage: make <target>"
 	@echo ""
-	@echo "  setup    Create .venv and install from requirements-dev.txt"
+	@echo "  setup      Create .venv and install runtime deps (requirements.txt)"
+	@echo "  setup-dev  Create .venv and install all deps incl. dev (requirements-dev.txt)"
 	@echo "  lock     Recompile requirements*.txt from *.in (update hashes)"
 	@echo "  build    Build full public site → _site/"
 	@echo "  serve    Build + preview on port $(PORT)"
@@ -30,13 +32,18 @@ help:
 # ── Setup ────────────────────────────────────────────────────────────
 
 setup:
-	uv venv .venv
+	uv venv --clear .venv
+	uv pip sync requirements.txt
+	@echo "Setup complete (runtime). Run 'make build' or 'make serve'."
+
+setup-dev:
+	uv venv --clear .venv
 	uv pip sync requirements-dev.txt
-	@echo "Setup complete. Run 'make build' or 'make serve'."
+	@echo "Setup complete (dev). Run 'make build', 'make test', or 'make serve'."
 
 lock:
-	uv pip compile requirements.in --generate-hashes -o requirements.txt --python-version 3.14
-	uv pip compile requirements-dev.in --generate-hashes -o requirements-dev.txt --python-version 3.14
+	uv pip compile requirements.in --generate-hashes -o requirements.txt --python-version $(PYTHON_VERSION)
+	uv pip compile requirements-dev.in --generate-hashes -o requirements-dev.txt --python-version $(PYTHON_VERSION)
 
 # ── Site build ───────────────────────────────────────────────────────
 
