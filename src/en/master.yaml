@@ -25,8 +25,8 @@ cv:
         working on data governance, interoperability, and regulatory compliance. Currently 
         engaged in regional digital health, with responsibilities spanning technical 
         assessment of e-Health deliverables, inter-institutional coordination, and 
-        monitoring of NGEU investments. Previous experience in local government 
-        digital transformation (NGEU – SEND) and open-source compliance tooling. 
+        monitoring of NRRP investments. Previous experience in local government 
+        digital transformation (NRRP – SEND) and open-source compliance tooling. 
         Interested in European digital policy and cross-level interoperability frameworks.
     experience:
       - company: Regional Government of Piedmont
@@ -39,18 +39,21 @@ cv:
           strategic policy, regulatory compliance, and emerging technology
           implementation.
         highlights:
-          - "**Digital Infrastructure Governance**: Evaluated technical
-            deliverables for remote health systems, identifying cybersecurity
-            and GDPR gaps to propose mitigation frameworks and draft regional
-            technical-administrative acts."
-          - "**Healthcare Innovation & Support**: Facilitate technical design
-            tables for new digital solutions (e.g., digitized therapeutic plans)
-            and manage AI pilot programs for physicians, overseeing training and
-            user adoption."
-          - "**Strategic Monitoring & Interoperability**: Coordinate
-            inter-institutional initiatives for national-regional data
-            interoperability while monitoring Next Generation EU (NGEU)
-            milestones for digital health investments."
+          - "**Digital Health Project Coordination**: Coordinate and monitor a
+            diverse portfolio of digital health initiatives (data
+            interoperability, telemedicine, AI in healthcare), liaising with key
+            actors (CSI Piemonte, AGENAS, regional health authorities)."
+          - "**NRRP Governance & Oversight**: Participate in governance bodies
+            for the Italian Recovery and Resilience Plan (NRRP – Health Mission),
+            including steering committees and verification activities, with
+            attention to regulatory alignment and milestone objectives."
+          - "**Decision Support & Analysis**: Produce analyses, reports and
+            briefing documents supporting management decisions, including for
+            inter-institutional and national working tables."
+          - "**Technical-Regulatory Drafting**: Contribute to regional acts and
+            documents (resolutions, technical notes, guidelines) integrating
+            regulatory, data governance, data protection and systems
+            architecture perspectives."
       - company: Municipality of Santa Vittoria d'Alba
         position: Police Officer and Digital Transformation Staff
         start_date: 2021-08
@@ -59,9 +62,9 @@ cv:
         summary: Municipal police duties in a small local authority, with concurrent 
           participation in the Digital Transformation office.
         highlights:
-          - "**Digital Change Management & Process Scaling (NGEU)**: Directed
+          - "**Digital Change Management & Process Scaling (NRRP)**: Directed
             the implementation of cloud-based notification systems (SEND) under
-            the NGEU framework, scaling operational output from dozens to 200+
+            the NRRP framework, scaling operational output from dozens to 200+
             traffic violations annually with zero headcount growth."
           - "**IT Support & Office Digitalization**: Provided entity-wide
             technical assistance and modernized police department operations by

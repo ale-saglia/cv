@@ -34,23 +34,26 @@ cv:
         start_date: 2025-12
         end_date: present
         location: Torino
-        summary: Partecipo all'evoluzione della sanità digitale regionale
-          integrando indirizzi strategici, conformità normativa e 
-          implementazione di tecnologie emergenti.
+        summary: Presidio trasversale, a supporto della dirigenza, di progetti di sanità
+          digitale, dati e interoperabilità nel quadro del PNRR (Missione 6 - Salute).
+          Attività a cavallo tra dimensione tecnica e normativa.
         highlights:
-          - "**Governance delle infrastrutture digitali**: Valutazione su
-            deliverable tecnici in ambito di e-Health, con individuazione di 
-            criticità in materia di cybersecurity e GDPR, proponendo poi un 
-            framework di mitigazione. Contributo alla redazione di atti 
-            tecnico-amministrativi regionali."
-          - "**Innovazione e supporto in ambito sanitario**: Facilitazione dei
-            tavoli tecnici per la progettazione di nuove soluzioni digitali
-            e gestione di programmi pilota di AI per i medici, con coordinamento 
-            di formazione e adozione."
-          - "**Monitoraggio strategico e interoperabilità**: Coordinamento di
-            iniziative inter-istituzionali per l'interoperabilità dei dati tra
-            livello nazionale e regionale, con monitoraggio delle milestone
-            PNRR – Missione 6 relative agli investimenti in sanità digitale."
+          - "**Coordinamento progetti di sanità digitale**: Coordinamento e
+            monitoraggio di un portafoglio eterogeneo di iniziative di sanità
+            digitale (interoperabilità dei dati, telemedicina, intelligenza
+            artificiale in sanità), con raccordo tra i soggetti chiave (CSI
+            Piemonte, AGENAS, Aziende Sanitarie Regionali)."
+          - "**Governance e controllo PNRR**: Partecipazione agli organismi di
+            governance del PNRR – Missione 6 (Salute), tra cui cabine di regia e
+            attività di verifica, con attenzione all'allineamento normativo e
+            agli obiettivi di milestone."
+          - "**Analisi e supporto decisionale**: Produzione di analisi, relazioni
+            e documenti di sintesi a supporto delle decisioni della dirigenza,
+            anche per tavoli di confronto inter-istituzionali e nazionali."
+          - "**Redazione tecnico-normativa**: Contributo alla stesura di atti e
+            documenti regionali (DGR, note tecniche, linee guida) che integrano
+            profili normativi, di data governance, protezione dei dati e
+            architettura dei sistemi."
       - company: Comune di Santa Vittoria d'Alba
         position: Agente di Polizia Locale e Staff Transizione Digitale
         start_date: 2021-08
