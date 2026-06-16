@@ -119,9 +119,6 @@ cv:
           Coursework completed in computer science fundamentals, object-oriented 
           programming, databases, networks, machine learning fundamentals, 
           and business organisation.
-    certification:
-      - label: ISC2 Certified in Cybersecurity (CC)
-        details: Candidate (Exam expected May 2026)
     volunteering_and_personal_projects:
       - company: Google Developer Group Torino
         position: Community Team Leader
