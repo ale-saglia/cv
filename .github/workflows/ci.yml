@@ -9,6 +9,8 @@ jobs:
   lint-and-validate:
     name: Lint & Validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       NODE_OPTIONS: --no-deprecation
 
