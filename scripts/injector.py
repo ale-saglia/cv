@@ -161,12 +161,10 @@ def inject_secrets_in_cv(template_path: Path, secrets: dict[str, Any]) -> Path:
         print("No SECRET placeholders found in the template.")
 
     if fallback_injected_keys:
-        unique_keys = sorted(set(fallback_injected_keys))
-        print(f"Empty cv fields filled from secrets: {', '.join(unique_keys)}")
+        print(f"Empty cv fields filled from secrets: {len(set(fallback_injected_keys))}")
 
     if missing_keys:
-        unique_missing = sorted(set(missing_keys))
-        print(f"Missing secret keys: {', '.join(unique_missing)}")
+        print(f"Missing secret keys: {len(set(missing_keys))}")
 
     return temp_path
 
@@ -204,15 +202,9 @@ def run_rendercv(
         command_args.extend(["--locale-catalog", str(locale_path)])
 
     command = ["rendercv", *command_args]
-    print(f"Running: {' '.join(command)}")
+    print(f"Running: rendercv {' '.join(render_args)}")
 
-    result = subprocess.run(command, cwd=ROOT_DIR, text=True, capture_output=True)
-
-    # Print captured output for easier CI debugging.
-    if result.stdout:
-        print(result.stdout)
-    if result.stderr:
-        print(result.stderr, file=sys.stderr)
+    result = subprocess.run(command, cwd=ROOT_DIR)
 
     return result.returncode
 
@@ -222,8 +214,8 @@ def safe_remove(path: Path) -> None:
     try:
         if path.exists():
             path.unlink()
-    except Exception as error:
-        print(f"Could not remove temporary file: {error}", file=sys.stderr)
+    except OSError:
+        print("Could not remove temporary file.", file=sys.stderr)
 
 
 def strip_placeholders(template_path: Path, announce: bool = True) -> Path:
