@@ -49,14 +49,15 @@ cv:
             governance del PNRR – Missione 6 (Salute), tra cui cabine di regia e
             attività di verifica, con attenzione all'allineamento normativo e
             agli obiettivi di milestone."
-          - "**Analisi e supporto decisionale**: Produzione di analisi, relazioni
-            e documenti di sintesi a supporto delle decisioni della dirigenza,
-            anche per tavoli di confronto inter-istituzionali e nazionali."
-          - "**Redazione di atti amministrativi**: Redazione di atti
+          - "**Analisi, ricostruzione architetturale e redazione di atti**:
+            Produzione di analisi, relazioni e ricostruzioni architetturali
+            (mappatura dei processi as-is/to-be su sistemi complessi) a
+            supporto delle decisioni della dirigenza, anche per tavoli di
+            confronto inter-istituzionali e nazionali; redazione di atti
             amministrativi regionali (deliberazioni di Giunta, determinazioni
-            dirigenziali, note e allegati tecnici) in materia di sanità digitale
-            e interoperabilità, con integrazione di profili normativi, di data
-            governance, protezione dei dati e architettura dei sistemi."
+            dirigenziali, note e allegati tecnici) che integrano profili
+            normativi, di data governance, protezione dei dati e architettura
+            dei sistemi."
       - company: Comune di Santa Vittoria d'Alba
         position: Agente di Polizia Locale e Staff Transizione Digitale
         start_date: 2021-08
@@ -108,7 +109,8 @@ cv:
           organizzazione della pubblica amministrazione, governance dei processi e trasformazione digitale.
         highlights:
           - "Tesi: Il dato nella transizione digitale della pubblica
-            amministrazione con focus su SPID, CIE, IT Wallet, PDND e App IO."
+            amministrazione (DOI: [10.5281/zenodo.21102766](https://doi.org/10.5281/zenodo.21102766))
+            con focus su SPID, CIE, IT Wallet, PDND e App IO."
           - "Academic Minor: Diploma in Innovazione Digitale (DID) rilasciato
             dal Dipartimento di Giurisprudenza dell'Università di Torino.
             Percorso avanzato di formazione su innovazione digitale nella PA,
@@ -129,26 +131,20 @@ cv:
         start_date: 2016-09
         end_date: 2019-10
         location: Torino
-        summary: Responsabilità del team di comunicazione della community,
-          con coordinamento di un gruppo di volontari su content
-          strategy e organizzazione di eventi tecnici.
+        summary: Coordinamento del team di comunicazione della community.
         highlights:
-          - "**Leadership del team di volontari**: Direzione e coordinamento
-            di un team di 5-10 volontari, con gestione dei workflow e
-            allocazione delle risorse per le strategie di comunicazione e di
-            eventi tecnici (oltre 200 partecipanti)."
-          - "**Stakeholder engagement collaborativo**: Partecipazione come
-            lead team nella gestione delle relazioni tra sviluppatori, Google
-            e istituzioni pubbliche, con co-organizzazione di iniziative di
-            larga scala come DevFest Torino."
+          - "**Leadership e stakeholder engagement**: Direzione e coordinamento
+            di un team di 5-10 volontari (gestione workflow e risorse) per
+            eventi tecnici, tra cui DevFest Torino (oltre 200 partecipanti),
+            con gestione delle relazioni tra sviluppatori, Google e
+            istituzioni pubbliche."
       - company: ""
         position: Infrastruttura digitale personale
         start_date:
         end_date:
         location:
-        summary: Ecosistema personale, costruito senza dipendenze esterne, 
-          che integra presenza professionale, scrittura su governance digitale 
-          e automazione del CV.
+        summary: Ecosistema personale che integra presenza professionale,
+          scrittura su governance digitale e automazione del CV.
         highlights:
           - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): pagina di 
             presentazione professionale (HTML vanilla, senza dipendenze)."
@@ -156,6 +152,20 @@ cv:
             blog su governance digitale basato su Pelican."
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
             rendering automatizzato via Python e GitHub Actions (questo CV)."
+      - company: ""
+        position: cup-check
+        start_date:
+        end_date:
+        location:
+        summary: Strumento open source local-first per la validazione dei
+          Codici Unici di Progetto (CUP) prima della rendicontazione
+          amministrativa, esempio concreto di riuso operativo del dato
+          pubblico (OpenCUP).
+        highlights:
+          - "[Package Python](https://pypi.org/project/cup-check/) su PyPI e
+            web app statica, licenza EUPL-1.2; elaborazione interamente lato
+            client, con distinzione esplicita tra validità formale e verifica
+            autoritativa."
     Competenze:
       - label: Governance e diritto pubblico
         details: Pubblica amministrazione, diritto amministrativo, policy digitali, attuazione politiche pubbliche, coordinamento istituzionale
@@ -165,4 +175,4 @@ cv:
         details: Italiano (madrelingua), Inglese (livello B2 CEFR - certificato
           dal CLA-UniTO).
       - label: Competenze trasversali
-        details: Analisi di policy pubbliche, coordinamento di stakeholder, project tracking (stato avanzamento, rischi, dipendenze), comunicazione interdisciplinare, pensiero strategico, systems thinking
+        details: Analisi di policy pubbliche, coordinamento di stakeholder, project tracking (stato avanzamento, rischi, dipendenze), analisi dati su Excel e DB a supporto delle decisioni (elaborazioni strutturate), comunicazione interdisciplinare, pensiero strategico, systems thinking

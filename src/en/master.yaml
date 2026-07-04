@@ -49,13 +49,13 @@ cv:
             for the Italian Recovery and Resilience Plan (NRRP – Health Mission),
             including steering committees and verification activities, with
             attention to regulatory alignment and milestone objectives."
-          - "**Decision Support & Analysis**: Produce analyses, reports and
-            briefing documents supporting management decisions, including for
-            inter-institutional and national working tables."
-          - "**Drafting of Administrative Acts**: Draft regional
-            administrative acts (Regional Government resolutions, executive
-            decrees, technical notes and annexes) on digital health and
-            interoperability, integrating regulatory, data governance, data
+          - "**Architectural Analysis, Decision Support & Drafting**:
+            Produce analyses, reports and architectural reconstructions
+            (as-is/to-be process mapping on complex systems) supporting
+            management decisions, including for inter-institutional and
+            national working tables; draft regional administrative acts
+            (Regional Government resolutions, executive decrees, technical
+            notes and annexes) integrating regulatory, data governance, data
             protection and systems architecture perspectives."
       - company: Municipality of Santa Vittoria d'Alba
         position: Police Officer and Digital Transformation Staff
@@ -104,7 +104,8 @@ cv:
           legal framework of data governance.
         highlights:
           - "Thesis: Data in the Digital Transformation of Public
-            Administration with focus on Italian digital identity (SPID, CIE, 
+            Administration (DOI: [10.5281/zenodo.21102766](https://doi.org/10.5281/zenodo.21102766))
+            with focus on Italian digital identity (SPID, CIE, 
             IT Wallet), public data interoperability platform (PDND), and citizen 
             services (IO app).​"
           - "Academic Minor: Diploma in Digital Innovation (DID) awarded by the
@@ -131,8 +132,11 @@ cv:
         summary: Led the communication team of a developer community, coordinating a
           group of volunteers across content strategy and technical event organisation.
         highlights:
-          - "**Volunteer Team Leadership**: Led and coordinated a team of 5-10 volunteers, managing workflows and resource allocation for communication strategies and technical events (200+ attendees)."
-          - "**Collaborative Stakeholder Engagement**: Partnered with the core team to manage relations between developers, Google, and public institutions, co-organizing large-scale initiatives like DevFest Torino."
+          - "**Leadership & Stakeholder Engagement**: Led and coordinated a
+            team of 5-10 volunteers (workflow and resource management) for
+            technical events, including DevFest Torino (200+ attendees),
+            managing relations between developers, Google, and public
+            institutions."
       - company: ""
         position: Professional Digital Infrastructure
         start_date:
@@ -147,6 +151,19 @@ cv:
             Pelican-based blog on digital governance topics"
           - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
             automated rendering via Python and GitHub Actions (this CV)"
+      - company: ""
+        position: cup-check
+        start_date:
+        end_date:
+        location:
+        summary: Local-first open-source tool for validating Italian public
+          project codes (CUP) before administrative reporting, a concrete
+          example of operational reuse of public data (OpenCUP).
+        highlights:
+          - "[Python package](https://pypi.org/project/cup-check/) on PyPI
+            and static web app, EUPL-1.2 licence; fully client-side
+            processing, with an explicit distinction between formal validity
+            and authoritative verification."
     skills:
       - label: Legal & Governance
         details: Public Administration, Policy Implementation, Regulatory Analysis,
@@ -160,5 +177,6 @@ cv:
         details: Italiano (Native), English (Level B2 CEFR - Certified by CLA-UniTO).
       - label: Soft Skills
         details: Policy Analysis, Stakeholder Coordination, Project Tracking
-          (status, risks, dependencies), Strategic Thinking,
-          Cross-disciplinary Communication, Systems Thinking
+          (status, risks, dependencies), Data Analysis in Excel and databases
+          for decision support (structured data processing), Strategic
+          Thinking, Cross-disciplinary Communication, Systems Thinking

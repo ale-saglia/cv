@@ -69,7 +69,7 @@ design:
     space_below: 0.3cm
   sections:
     allow_page_break: true
-    space_between_regular_entries: 0.42cm
+    space_between_regular_entries: 0.32cm
     space_between_text_based_entries: 0.15cm
   entries:
     date_and_location_width: 4.15cm
