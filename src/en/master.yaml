@@ -52,10 +52,11 @@ cv:
           - "**Decision Support & Analysis**: Produce analyses, reports and
             briefing documents supporting management decisions, including for
             inter-institutional and national working tables."
-          - "**Technical-Regulatory Drafting**: Contribute to regional acts and
-            documents (resolutions, technical notes, guidelines) integrating
-            regulatory, data governance, data protection and systems
-            architecture perspectives."
+          - "**Drafting of Administrative Acts**: Draft regional
+            administrative acts (Regional Government resolutions, executive
+            decrees, technical notes and annexes) on digital health and
+            interoperability, integrating regulatory, data governance, data
+            protection and systems architecture perspectives."
       - company: Municipality of Santa Vittoria d'Alba
         position: Police Officer and Digital Transformation Staff
         start_date: 2021-08
@@ -158,5 +159,6 @@ cv:
       - label: Languages
         details: Italiano (Native), English (Level B2 CEFR - Certified by CLA-UniTO).
       - label: Soft Skills
-        details: Policy Analysis, Stakeholder Coordination, Strategic Thinking,
+        details: Policy Analysis, Stakeholder Coordination, Project Tracking
+          (status, risks, dependencies), Strategic Thinking,
           Cross-disciplinary Communication, Systems Thinking
