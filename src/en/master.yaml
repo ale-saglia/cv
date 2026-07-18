@@ -145,12 +145,10 @@ cv:
         summary: Personal ecosystem built without external dependencies, combining 
           professional presence, writing on digital governance, and CV automation.
         highlights:
-          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): professional 
-            landing page (vanilla HTML, no dependencies)"
+          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): coordinated entry point to profile, publications and résumé, built as a minimal static site with no runtime dependencies."
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            Pelican-based blog on digital governance topics"
-          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
-            automated rendering via Python and GitHub Actions (this CV)"
+            independent publishing project on digital governance, complex public systems and technology infrastructure, built as a version-controlled static platform with automated publishing."
+          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, built from structured, version-controlled data and automatically rendered through Python and GitHub Actions (this résumé)."
       - company: ""
         position: cup-check
         start_date:

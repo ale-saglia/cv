@@ -146,12 +146,10 @@ cv:
         summary: Ecosistema personale che integra presenza professionale,
           scrittura su governance digitale e automazione del CV.
         highlights:
-          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): pagina di 
-            presentazione professionale (HTML vanilla, senza dipendenze)."
+          - "**Landing** ([ale-saglia.com](https://ale-saglia.com)): punto di accesso coordinato a profilo, pubblicazioni e curriculum, sviluppato come sito statico minimale e privo di dipendenze runtime."
           - "**Insight** ([insight.ale-saglia.com](https://insight.ale-saglia.com)):
-            blog su governance digitale basato su Pelican."
-          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, 
-            rendering automatizzato via Python e GitHub Actions (questo CV)."
+            progetto editoriale e tecnico su governance digitale, sistemi pubblici e infrastrutture, con contenuti versionati e pipeline di pubblicazione automatizzata."
+          - "**CV** ([cv.ale-saglia.com](https://cv.ale-saglia.com)): CV-as-code, con fonte dati strutturata e versionata e rendering automatizzato via Python e GitHub Actions (questo CV)."
       - company: ""
         position: cup-check
         start_date:
