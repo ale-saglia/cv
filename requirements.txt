@@ -22,13 +22,13 @@ markupsafe==3.0.3
     # via jinja2
 mdurl==0.1.2
     # via markdown-it-py
-mistune==3.2.1
+mistune==3.3.0
     # via -r requirements.in
 packaging==26.2
     # via rendercv
 phonenumbers==9.0.29
     # via rendercv
-pydantic==2.13.3
+pydantic[email]==2.13.3
     # via
     #   pydantic-extra-types
     #   rendercv
@@ -40,7 +40,7 @@ pygments==2.20.0
     # via rich
 pyyaml==6.0.3
     # via -r requirements.in
-rendercv==2.8
+rendercv[full]==2.8
     # via -r requirements.in
 rendercv-fonts==0.5.1
     # via rendercv
