@@ -49,3 +49,7 @@ TODO.md
 
 # Generated CV output
 _cv/
+
+# Private LLM evidence inventory (canonical copy lives in Nextcloud)
+src/it/full.yaml
+src/en/full.yaml
